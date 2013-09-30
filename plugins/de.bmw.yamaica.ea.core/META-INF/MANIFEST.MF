@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: yamaica Enterprise Architect Core Components
+Bundle-SymbolicName: de.bmw.yamaica.ea.core
+Bundle-Version: 0.8.0.qualifier
+Bundle-Vendor: BMW AG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.8.0";visibility:=reexport,
+ org.eclipse.xtend2.lib;bundle-version="2.4.1";visibility:=reexport,
+ de.bmw.yamaica.franca.base.core;bundle-version="0.8.0";visibility:=reexport
+Export-Package: de.bmw.yamaica.ea.core,
+ de.bmw.yamaica.ea.core.containers,
+ de.bmw.yamaica.ea.core.franca,
+ de.bmw.yamaica.ea.core.internal.containers;x-internal:=true
+Bundle-ClassPath: .,
+ external:$java.home$/lib/ext/eaapi.jar
