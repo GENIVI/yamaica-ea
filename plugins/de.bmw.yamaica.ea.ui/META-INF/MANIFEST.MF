@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: yamaica Enterprise Architect UI Components
+Bundle-SymbolicName: de.bmw.yamaica.ea.ui;singleton:=true
+Bundle-Version: 0.8.0.qualifier
+Bundle-Activator: de.bmw.yamaica.ea.ui.internal.Activator
+Bundle-Vendor: BMW AG
+Require-Bundle: org.eclipse.core.resources;bundle-version="3.8.1",
+ org.eclipse.ui,
+ org.eclipse.ui.ide;bundle-version="3.8.2",
+ org.eclipse.xtext;bundle-version="2.4.1",
+ com.google.inject;bundle-version="3.0.0",
+ de.bmw.yamaica.ea.core;bundle-version="0.8.0",
+ de.bmw.yamaica.base.ui;bundle-version="0.8.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: de.bmw.yamaica.ea.ui,
+ de.bmw.yamaica.ea.ui.franca,
+ de.bmw.yamaica.ea.ui.internal;x-internal:=true,
+ de.bmw.yamaica.ea.ui.internal.franca;x-internal:=true
