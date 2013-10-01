@@ -4,7 +4,7 @@ Bundle-Name: yamaica Enterprise Architect UI Components
 Bundle-SymbolicName: de.bmw.yamaica.ea.ui;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Bundle-Activator: de.bmw.yamaica.ea.ui.internal.Activator
-Bundle-Vendor: BMW AG
+Bundle-Vendor: BMW Group
 Require-Bundle: org.eclipse.core.resources;bundle-version="3.8.1",
  org.eclipse.ui,
  org.eclipse.ui.ide;bundle-version="3.8.2",
