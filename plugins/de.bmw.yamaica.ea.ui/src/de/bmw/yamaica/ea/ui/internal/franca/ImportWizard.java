@@ -26,8 +26,7 @@ public class ImportWizard extends YamaicaImportWizard
     {
         super.init(workbench, structuredSelection);
 
-        // setDefaultPageImageDescriptor(Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "/icons/importdir_wiz.png"));
-        setDefaultPageImageDescriptor(Activator.imageDescriptorFromPlugin("org.eclipse.ui.ide", "icons/full/wizban/importdir_wiz.png"));
+        setDefaultPageImageDescriptor(Activator.getDefault().getImageRegistry().getDescriptor("IMPORT_WIZARD"));
     }
 
     @Override
