@@ -2,10 +2,11 @@ package de.bmw.yamaica.ea.core.resources;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashSet;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -30,28 +31,28 @@ public class Resources
 
     }
 
-    public static Set<Resource> getResources(Bundle bundle)
+    public static Collection<Resource> getResources(Bundle bundle)
     {
         if (null == bundle)
         {
             Assert.isNotNull(bundle);
         }
 
-        Set<Resource> resources = new HashSet<Resource>();
+        Map<String, Resource> resources = new HashMap<String, Resource>();
 
-        putResourcesInSet(resources, bundle, YamaicaEAConstants.PLUGIN_RESOURCE_PATHS);
-        putResourcesInSet(resources, bundle, YamaicaEAConstants.FRAGMENT_RESOURCE_PATHS);
+        putResourcesInMap(resources, bundle, YamaicaEAConstants.PLUGIN_RESOURCE_PATHS);
+        putResourcesInMap(resources, bundle, YamaicaEAConstants.FRAGMENT_RESOURCE_PATHS);
 
-        return resources;
+        return resources.values();
     }
 
-    protected static void putResourcesInSet(Set<Resource> set, Bundle bundle, String path)
+    protected static void putResourcesInMap(Map<String, Resource> map, Bundle bundle, String path)
     {
         Resources resources = getResources(bundle, path);
 
         for (Resource resource : resources.resources)
         {
-            set.add(resource);
+            map.put(resource.getName(), resource);
         }
     }
 
