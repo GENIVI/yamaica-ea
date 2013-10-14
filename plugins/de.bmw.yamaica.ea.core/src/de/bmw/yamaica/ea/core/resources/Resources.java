@@ -2,7 +2,6 @@ package de.bmw.yamaica.ea.core.resources;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,7 +30,7 @@ public class Resources
 
     }
 
-    public static Collection<Resource> getResources(Bundle bundle)
+    public static Map<String, Resource> getResources(Bundle bundle)
     {
         if (null == bundle)
         {
@@ -43,7 +42,7 @@ public class Resources
         putResourcesInMap(resources, bundle, YamaicaEAConstants.PLUGIN_RESOURCE_PATHS);
         putResourcesInMap(resources, bundle, YamaicaEAConstants.FRAGMENT_RESOURCE_PATHS);
 
-        return resources.values();
+        return resources;
     }
 
     protected static void putResourcesInMap(Map<String, Resource> map, Bundle bundle, String path)

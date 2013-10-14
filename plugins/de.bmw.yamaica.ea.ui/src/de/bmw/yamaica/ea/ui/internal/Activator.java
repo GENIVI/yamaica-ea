@@ -7,7 +7,7 @@
 package de.bmw.yamaica.ea.ui.internal;
 
 import java.net.URL;
-import java.util.Collection;
+import java.util.Map;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
@@ -75,9 +75,9 @@ public class Activator extends AbstractUIPlugin
     @Override
     protected void initializeImageRegistry(ImageRegistry imageRegistry)
     {
-        Collection<Resource> resources = Resources.getResources(getBundle());
+    	Map<String, Resource> resources = Resources.getResources(getBundle());
 
-        for (Resource resource : resources)
+        for (Resource resource : resources.values())
         {
             Bundle bundle = Platform.getBundle(resource.getBundleId());
             IPath path = new Path(resource.getPath());
