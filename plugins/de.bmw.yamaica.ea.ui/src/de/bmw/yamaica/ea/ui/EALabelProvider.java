@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.DecorationOverlayIcon;
 import org.eclipse.jface.viewers.IDecoration;
@@ -35,12 +36,12 @@ public class EALabelProvider extends ColumnLabelProvider
             return null;
         }
 
+        ImageRegistry imageRegistry = Activator.getDefault().getImageRegistry();
         EAPackageContainer p = (EAPackageContainer) element;
 
         if (p.isModel())
         {
-            // return Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/model.gif").createImage();
-            return Activator.imageDescriptorFromPlugin("org.eclipse.ui.ide", "icons/full/obj16/prj_obj.gif").createImage();
+            return imageRegistry.get("MODEL_PACKAGE");
         }
         else
         {
@@ -49,53 +50,49 @@ public class EALabelProvider extends ColumnLabelProvider
 
             if (flags.isModel())
             {
-                // String iconName;
-                //
-                // switch (flags.getPackageType())
-                // {
-                // case Flags.SIMPLE:
-                // iconName = "package_simple.gif";
-                // break;
-                //
-                // case Flags.USE_CASE:
-                // iconName = "package_use_case.gif";
-                // break;
-                //
-                // case Flags.DYNAMIC:
-                // iconName = "package_dynamic.gif";
-                // break;
-                //
-                // case Flags.CLASS_VIEW:
-                // iconName = "package_class_view.gif";
-                // break;
-                //
-                // case Flags.COMPONENT:
-                // iconName = "package_component.gif";
-                // break;
-                //
-                // case Flags.DEPLOYMENT:
-                // iconName = "package_deployment.gif";
-                // break;
-                //
-                // default:
-                // iconName = "package.gif";
-                // break;
-                // }
+                String iconName;
 
-                // image = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/" + iconName).createImage();
-                image = Activator.imageDescriptorFromPlugin("org.eclipse.ui.ide", "icons/full/obj16/folder.gif").createImage();
+                switch (flags.getPackageType())
+                {
+                    case Flags.SIMPLE:
+                        iconName = "SIMPLE_PACKAGE";
+                        break;
+
+                    case Flags.USE_CASE:
+                        iconName = "USE_CASE_PACKAGE";
+                        break;
+
+                    case Flags.DYNAMIC:
+                        iconName = "DYNAMIC_PACKAGE";
+                        break;
+
+                    case Flags.CLASS_VIEW:
+                        iconName = "CLASS_VIEW_PACKAGE";
+                        break;
+
+                    case Flags.COMPONENT:
+                        iconName = "COMPONENT_PACKAGE";
+                        break;
+
+                    case Flags.DEPLOYMENT:
+                        iconName = "DEPLOYMENT_PACKAGE";
+                        break;
+
+                    default:
+                        iconName = "PACKAGE";
+                        break;
+                }
+
+                image = imageRegistry.get(iconName);
             }
             else
             {
-                // image = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/package.gif").createImage();
-                image = Activator.imageDescriptorFromPlugin("org.eclipse.jdt.ui", "icons/full/obj16/package_obj.gif").createImage();
+                image = imageRegistry.get("PACKAGE");
             }
 
             if (p.isNamespaceRoot())
             {
-                // ImageDescriptor imageDescriptor = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/ns_root.gif");
-                ImageDescriptor imageDescriptor = Activator.imageDescriptorFromPlugin("org.eclipse.ui.ide",
-                        "icons/full/obj16/header_complete.gif");
+                ImageDescriptor imageDescriptor = imageRegistry.getDescriptor("NS_ROOT_OVERLAY");
 
                 image = new DecorationOverlayIcon(image, imageDescriptor, IDecoration.BOTTOM_RIGHT).createImage();
             }

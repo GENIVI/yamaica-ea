@@ -3,11 +3,15 @@
 <plugin>
    <extension
          point="org.eclipse.ui.importWizards">
+      <category
+            id="de.bmw.yamaica.ea.ui.importCategory"
+            name="Enterprise Architect">
+      </category>
       <wizard
-            category="de.bmw.yamaica.ea.ui.internal.franca.importCategory"
+            category="de.bmw.yamaica.ea.ui.importCategory"
             class="de.bmw.yamaica.ea.ui.internal.franca.ImportWizard"
             icon="icons/yamaica.png"
-            id="de.bmw.yamaica.ea.ui.internal.franca.importWizard"
+            id="de.bmw.yamaica.ea.ui.franca.importWizard"
             name="Franca Interface Definition Files from Enterprise Architect Project">
          <description>
             Converts Enterprise Architect packages to Franca interface definition files.
@@ -19,7 +23,7 @@
       <commonWizard
             menuGroupId="de.bmw.yamaica.ea.ui.internal.franca"
             type="import"
-            wizardId="de.bmw.yamaica.ea.ui.internal.franca.importWizard">
+            wizardId="de.bmw.yamaica.ea.ui.franca.importWizard">
          <enablement>
             <or>
                <adapt
@@ -36,7 +40,7 @@
    <extension
          point="de.bmw.yamaica.base.ui.yamaicaImportWizards">
       <wizard
-            importWizardId="de.bmw.yamaica.ea.ui.internal.franca.importWizard">
+            importWizardId="de.bmw.yamaica.ea.ui.franca.importWizard">
       </wizard>
    </extension>
 </plugin>
