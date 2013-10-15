@@ -6,25 +6,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package de.bmw.yamaica.ea.core;
 
-public class EAConstants
+public interface EAConstants
 {
     // EA API Names and default EA Stereotypes
-    public static final String TYPE_CLASS                                = "Class";
-    public static final String TYPE_INTERFACE                            = "Interface";
-    public static final String GENLINK_PARENT                            = "Parent";
-    public static final String PARAMETER_DIRECTION_OUT                   = "out";
-    public static final String PARAMETER_DIRECTION_IN                    = "in";
-    public static final String CONNECTOR_DIRECTION_BI_DIRECTIONAL        = "Bi-Directional";
-    public static final String CONNECTOR_DIRECTION_DESTINATION_TO_SOURCE = "Destination -> Source";
-    public static final String CONNECTOR_DIRECTION_SOURCE_TO_DESTINATION = "Source -> Destination";
-    public static final String CONNECTOR_DIRECTION_UNSPECIFIED           = "Unspecified";
-    public static final String CONNECTOR_SUBTYPE_STRONG                  = "Strong";
-    public static final String CONNECTOR_SUBTYPE_WEAK                    = "Weak";
-    public static final String CONNECTOR_TYPE_ASSOCIATION                = "Association";
-    public static final String CONNECTOR_TYPE_AGGREGATION                = "Aggregation";
-    public static final String CONNECTOR_TYPE_GENERALIZATION             = "Generalization";
-    public static final String CONNECTOR_TYPE_PACKAGE                    = "Package";
-    public static final String STEREOTYPE_IMPORT                         = "import";
-    public static final String FLAG_IS_MODEL                             = "isModel";
-    public static final String FLAG_VICON                                = "VICON";
+    String TYPE_CLASS                                = "Class";
+    String TYPE_INTERFACE                            = "Interface";
+    String GENLINK_PARENT                            = "Parent";
+    String PARAMETER_DIRECTION_OUT                   = "out";
+    String PARAMETER_DIRECTION_IN                    = "in";
+    String CONNECTOR_DIRECTION_BI_DIRECTIONAL        = "Bi-Directional";
+    String CONNECTOR_DIRECTION_DESTINATION_TO_SOURCE = "Destination -> Source";
+    String CONNECTOR_DIRECTION_SOURCE_TO_DESTINATION = "Source -> Destination";
+    String CONNECTOR_DIRECTION_UNSPECIFIED           = "Unspecified";
+    String CONNECTOR_SUBTYPE_STRONG                  = "Strong";
+    String CONNECTOR_SUBTYPE_WEAK                    = "Weak";
+    String CONNECTOR_TYPE_ASSOCIATION                = "Association";
+    String CONNECTOR_TYPE_AGGREGATION                = "Aggregation";
+    String CONNECTOR_TYPE_GENERALIZATION             = "Generalization";
+    String CONNECTOR_TYPE_PACKAGE                    = "Package";
+    String STEREOTYPE_IMPORT                         = "import";
+    String FLAG_IS_MODEL                             = "isModel";
+    String FLAG_VICON                                = "VICON";
 }

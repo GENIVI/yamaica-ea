@@ -6,40 +6,40 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package de.bmw.yamaica.ea.core.franca;
 
-public class EAFrancaConstants
+public interface EAFrancaConstants
 {
     // FIDL Tagged Value Names
-    public static final String TAGGED_VALUE_NAME                               = "FIDL-Name";
-    public static final String TAGGED_VALUE_NAMESPACE_PREFIX                   = "FIDL-Namespace-Prefix";
+    String TAGGED_VALUE_NAME                               = "FIDL-Name";
+    String TAGGED_VALUE_NAMESPACE_PREFIX                   = "FIDL-Namespace-Prefix";
 
     // FIDL Stereotypes
-    public static final String STEREOTYPE_ARRAY                                = "array";
-    public static final String STEREOTYPE_ARRAF_OF                             = "arrayOf";
-    public static final String STEREOTYPE_ATTRIBUTE                            = "attribute";
-    public static final String STEREOTYPE_ATTRIBUTE_READ_ONLY                  = "attribute readonly";
-    public static final String STEREOTYPE_ATTRIBUTE_NO_SUBSCRIPTIONS           = "attribute nosubscriptions";
-    public static final String STEREOTYPE_ATTRIBUTE_READ_ONLY_NO_SUBSCRIPTIONS = "attribute readonly nosubscriptions";
-    public static final String STEREOTYPE_BROADCAST                            = "broadcast";
-    public static final String STEREOTYPE_BROADCAST_SELECTIVE                  = "broadcast selective";
-    public static final String STEREOTYPE_ENUMERATION                          = "enumeration";
-    public static final String STEREOTYPE_ERROR                                = "error";
-    public static final String STEREOTYPE_FIDL                                 = "fidl";
-    public static final String STEREOTYPE_FIRE_AND_FORGET                      = "fireandforget";
-    public static final String STEREOTYPE_FRANCA_INTERFACE                     = "FrancaInterface";
-    public static final String STEREOTYPE_KEY                                  = "key";
-    public static final String STEREOTYPE_MAP                                  = "map";
-    public static final String STEREOTYPE_METHOD                               = "method";
-    public static final String STEREOTYPE_METHOD_FIRE_AND_FORGET               = "method fireandforget";
-    public static final String STEREOTYPE_NO_FIDL                              = "nofidl";
-    public static final String STEREOTYPE_NO_SUBSCRIPTIONS                     = "nosubscriptions";
-    public static final String STEREOTYPE_READ_ONLY                            = "readonly";
-    public static final String STEREOTYPE_ROOT                                 = "root";
-    public static final String STEREOTYPE_SELECTIVE                            = "selective";
-    public static final String STEREOTYPE_STRUCT                               = "struct";
-    public static final String STEREOTYPE_TYPEDEF                              = "typedef";
-    public static final String STEREOTYPE_UNION                                = "union";
-    public static final String STEREOTYPE_VALUE                                = "value";
+    String STEREOTYPE_ARRAY                                = "array";
+    String STEREOTYPE_ARRAF_OF                             = "arrayOf";
+    String STEREOTYPE_ATTRIBUTE                            = "attribute";
+    String STEREOTYPE_ATTRIBUTE_READ_ONLY                  = "attribute readonly";
+    String STEREOTYPE_ATTRIBUTE_NO_SUBSCRIPTIONS           = "attribute nosubscriptions";
+    String STEREOTYPE_ATTRIBUTE_READ_ONLY_NO_SUBSCRIPTIONS = "attribute readonly nosubscriptions";
+    String STEREOTYPE_BROADCAST                            = "broadcast";
+    String STEREOTYPE_BROADCAST_SELECTIVE                  = "broadcast selective";
+    String STEREOTYPE_ENUMERATION                          = "enumeration";
+    String STEREOTYPE_ERROR                                = "error";
+    String STEREOTYPE_FIDL                                 = "fidl";
+    String STEREOTYPE_FIRE_AND_FORGET                      = "fireandforget";
+    String STEREOTYPE_FRANCA_INTERFACE                     = "FrancaInterface";
+    String STEREOTYPE_KEY                                  = "key";
+    String STEREOTYPE_MAP                                  = "map";
+    String STEREOTYPE_METHOD                               = "method";
+    String STEREOTYPE_METHOD_FIRE_AND_FORGET               = "method fireandforget";
+    String STEREOTYPE_NO_FIDL                              = "nofidl";
+    String STEREOTYPE_NO_SUBSCRIPTIONS                     = "nosubscriptions";
+    String STEREOTYPE_READ_ONLY                            = "readonly";
+    String STEREOTYPE_ROOT                                 = "root";
+    String STEREOTYPE_SELECTIVE                            = "selective";
+    String STEREOTYPE_STRUCT                               = "struct";
+    String STEREOTYPE_TYPEDEF                              = "typedef";
+    String STEREOTYPE_UNION                                = "union";
+    String STEREOTYPE_VALUE                                = "value";
 
     // Other constants used in EA for Franca
-    public static final String CLIENT_INTERFACE_NAME_SUFFIX                    = "Client";
+    String CLIENT_INTERFACE_NAME_SUFFIX                    = "Client";
 }
