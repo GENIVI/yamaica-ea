@@ -11,6 +11,8 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.8.0";visibility:=reex
 Export-Package: de.bmw.yamaica.ea.core,
  de.bmw.yamaica.ea.core.containers,
  de.bmw.yamaica.ea.core.franca,
- de.bmw.yamaica.ea.core.internal.containers;x-internal:=true
+ de.bmw.yamaica.ea.core.internal.containers;x-internal:=true,
+ de.bmw.yamaica.ea.core.resources
 Bundle-ClassPath: .,
  external:$java.home$/lib/ext/eaapi.jar
+Import-Package: org.sparx;resolution:=optional

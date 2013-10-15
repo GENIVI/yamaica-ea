@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <resource name="IMPORT_WIZARD" bundle="org.eclipse.ui.ide" path="icons/full/wizban/importdir_wiz.png"/>
+    <resource name="MODEL_PACKAGE" bundle="org.eclipse.ui.ide" path="icons/full/obj16/prj_obj.gif"/>
+    <resource name="PACKAGE" bundle="org.eclipse.jdt.ui" path="icons/full/obj16/package_obj.gif"/>
+    <resource name="SIMPLE_PACKAGE" bundle="org.eclipse.ui.ide" path="icons/full/obj16/folder.gif"/>
+    <resource name="USE_CASE_PACKAGE" bundle="org.eclipse.ui.ide" path="icons/full/obj16/folder.gif"/>
+    <resource name="DYNAMIC_PACKAGE" bundle="org.eclipse.ui.ide" path="icons/full/obj16/folder.gif"/>
+    <resource name="CLASS_VIEW_PACKAGE" bundle="org.eclipse.ui.ide" path="icons/full/obj16/folder.gif"/>
+    <resource name="COMPONENT_PACKAGE" bundle="org.eclipse.ui.ide" path="icons/full/obj16/folder.gif"/>
+    <resource name="DEPLOYMENT_PACKAGE" bundle="org.eclipse.ui.ide" path="icons/full/obj16/folder.gif"/>
+    <resource name="NS_ROOT_OVERLAY" bundle="org.eclipse.ui.ide" path="icons/full/obj16/header_complete.gif"/>
+</resources>
