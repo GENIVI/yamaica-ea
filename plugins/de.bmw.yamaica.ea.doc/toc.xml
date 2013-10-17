@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="yamaica EA User Guide">
+   <topic label="Tutorials">
+      <topic href="help/importing_ea_projects.html" label="Importing EA Projects">
+      </topic>
+   </topic>
+</toc>
