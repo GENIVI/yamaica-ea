@@ -10,7 +10,7 @@
       <wizard
             category="de.bmw.yamaica.ea.ui.importCategory"
             class="de.bmw.yamaica.ea.ui.internal.franca.ImportWizard"
-            icon="icons/yamaica.png"
+            icon="platform:/plugin/org.eclipse.ui/icons/full/obj16/elements_obj.gif"
             id="de.bmw.yamaica.ea.ui.franca.importWizard"
             name="Franca Interface Definition Files from Enterprise Architect Project">
          <description>
