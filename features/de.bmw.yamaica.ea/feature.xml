@@ -4,6 +4,7 @@
       label="yamaica Enterprise Architect Components"
       version="0.8.0.qualifier"
       provider-name="BMW Group"
+      plugin="de.bmw.yamaica.base.ui"
       license-feature="de.bmw.yamaica.base"
       license-feature-version="0.8.0.qualifier">
 

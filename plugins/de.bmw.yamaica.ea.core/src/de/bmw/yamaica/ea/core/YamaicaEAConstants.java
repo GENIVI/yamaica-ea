@@ -1,7 +1,8 @@
 package de.bmw.yamaica.ea.core;
 
-// TODO extend from Base Constants
-public interface YamaicaEAConstants
+import de.bmw.yamaica.base.core.YamaicaConstants;
+
+public interface YamaicaEAConstants extends YamaicaConstants
 {
     String XML_RESOURCE_ELEMENT    = "resource";
     String XML_RESOURCES_ELEMENT   = "resources";
