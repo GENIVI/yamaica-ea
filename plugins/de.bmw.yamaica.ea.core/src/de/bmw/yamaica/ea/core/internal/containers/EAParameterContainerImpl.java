@@ -243,4 +243,15 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
 
         return false;
     }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 37;
+        int hashCode = 1;
+        hashCode = prime * hashCode + getParent().hashCode();
+        hashCode = prime * hashCode + getName().hashCode();
+
+        return hashCode;
+    }
 }
