@@ -6,39 +6,34 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package de.bmw.yamaica.ea.tests.positive;
 
-import static org.junit.Assert.fail;
-
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.bmw.yamaica.ea.tests.utils.EA2FrancaTransformationAdapter;
+import de.bmw.yamaica.ea.tests.utils.EATestConstants;
+
 public class PerformanceTest
 {
+    private static String   eaInputFile    = EATestConstants.EA_INPUT_PATH + "minimal.eap";
+    private static String[] eaPackagePaths = { "model.root.minimal" };
+    private static String   genPath        = EATestConstants.GEN_PATH + "minimal/";
+
     @BeforeClass
     public static void setUpBeforeClass() throws Exception
     {
+        EA2FrancaTransformationAdapter.setUpAdapter(eaInputFile);
     }
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception
     {
-    }
-
-    @Before
-    public void setUp() throws Exception
-    {
-    }
-
-    @After
-    public void tearDown() throws Exception
-    {
+        EA2FrancaTransformationAdapter.tearDownAdapter();
     }
 
     @Test
-    public void test()
+    public void testEA2FrancaTransformation() throws Exception
     {
-        fail("Not yet implemented");
+        EA2FrancaTransformationAdapter.transformEAPackages(eaPackagePaths, genPath);
     }
 }

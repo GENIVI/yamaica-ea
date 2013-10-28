@@ -57,13 +57,13 @@ import de.bmw.yamaica.base.ui.dialogs.YamaicaCheckedTreeViewer;
 import de.bmw.yamaica.base.ui.dialogs.YamaicaWizardImportPage;
 import de.bmw.yamaica.base.ui.utils.ActionRunEvent;
 import de.bmw.yamaica.base.ui.utils.ViewerToolBar;
+import de.bmw.yamaica.ea.core.EAProjectLoader;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.franca.EAContainerExtensions;
 import de.bmw.yamaica.ea.core.franca.EAFrancaConstants;
 import de.bmw.yamaica.ea.ui.EAComparer;
 import de.bmw.yamaica.ea.ui.EAContentProvider;
 import de.bmw.yamaica.ea.ui.EALabelProvider;
-import de.bmw.yamaica.ea.ui.EAProjectLoader;
 import de.bmw.yamaica.ea.ui.franca.EA2FrancaImportOperation;
 import de.bmw.yamaica.franca.base.core.FrancaUtils;
 

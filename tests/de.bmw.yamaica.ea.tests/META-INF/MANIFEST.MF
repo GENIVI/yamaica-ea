@@ -4,9 +4,12 @@ Bundle-Name: yamaica EA Tests
 Bundle-SymbolicName: de.bmw.yamaica.ea.tests;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: BMW Group
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.xtext,
  org.junit,
- de.bmw.yamaica.ea.core;bundle-version="0.8.0",
- de.bmw.yamaica.franca.base.core;bundle-version="0.8.0"
+ org.franca.core.dsl.ui,
+ org.franca.deploymodel.dsl.ui,
+ de.bmw.yamaica.franca.base.core,
+ de.bmw.yamaica.ea.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

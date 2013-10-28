@@ -4,7 +4,7 @@
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-package de.bmw.yamaica.ea.ui;
+package de.bmw.yamaica.ea.core;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 
-import de.bmw.yamaica.ea.core.EAInstance;
 import de.bmw.yamaica.ea.core.EAInstance.State;
 import de.bmw.yamaica.ea.core.containers.EARepositoryContainer;
 
