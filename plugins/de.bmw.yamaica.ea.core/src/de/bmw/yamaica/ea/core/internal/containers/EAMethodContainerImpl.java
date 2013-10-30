@@ -48,7 +48,7 @@ public class EAMethodContainerImpl extends EAContainerImpl implements EAMethodCo
     @Override
     public String getName()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NAME, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -61,7 +61,7 @@ public class EAMethodContainerImpl extends EAContainerImpl implements EAMethodCo
     @Override
     public String getNotes()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NOTES, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -74,6 +74,8 @@ public class EAMethodContainerImpl extends EAContainerImpl implements EAMethodCo
     @Override
     public boolean update()
     {
+        clearCache();
+
         return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
         {
             @Override
@@ -91,7 +93,7 @@ public class EAMethodContainerImpl extends EAContainerImpl implements EAMethodCo
     @Override
     public List<String> getStereotypes()
     {
-        String stereotype = (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        String stereotype = (String) getOrCreateCachedValue(CACHED_STEREOTYPE, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -122,7 +124,7 @@ public class EAMethodContainerImpl extends EAContainerImpl implements EAMethodCo
     @Override
     public EAElementContainer getElement()
     {
-        int parentId = (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        int parentId = (Integer) getOrCreateCachedValue(CACHED_PARENT_ID, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -157,7 +159,7 @@ public class EAMethodContainerImpl extends EAContainerImpl implements EAMethodCo
     @Override
     public int getPosition()
     {
-        return (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (Integer) getOrCreateCachedValue(CACHED_POSITION, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -175,14 +177,15 @@ public class EAMethodContainerImpl extends EAContainerImpl implements EAMethodCo
     public List<EATagContainer> getTaggedValues()
     {
         @SuppressWarnings("unchecked")
-        Collection<AttributeTag> taggedValues = (Collection<AttributeTag>) eaInstance.syncExecution(new IRunnableWithArguments()
-        {
-            @Override
-            public Object run(Object... arguments)
-            {
-                return eaMethod.GetTaggedValues();
-            }
-        });
+        Collection<AttributeTag> taggedValues = (Collection<AttributeTag>) getOrCreateCachedValue(CACHED_TAGGED_VALUES,
+                new IRunnableWithArguments()
+                {
+                    @Override
+                    public Object run(Object... arguments)
+                    {
+                        return eaMethod.GetTaggedValues();
+                    }
+                });
 
         return getRepository().getOrCreateEAObjectContainers(taggedValues, EATagContainer.class);
     }
@@ -200,7 +203,7 @@ public class EAMethodContainerImpl extends EAContainerImpl implements EAMethodCo
     @Override
     public String getReturnType()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_RETURN_TYPE, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -213,7 +216,7 @@ public class EAMethodContainerImpl extends EAContainerImpl implements EAMethodCo
     @Override
     public EAElementContainer getReturnTypeElement()
     {
-        int returnTypeElementId = (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        int returnTypeElementId = (Integer) getOrCreateCachedValue(CACHED_RETURN_TYPE_ELEMENT_ID, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -228,7 +231,7 @@ public class EAMethodContainerImpl extends EAContainerImpl implements EAMethodCo
     @Override
     public boolean isReturnTypeArray()
     {
-        return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (Boolean) getOrCreateCachedValue(CACHED_IS_RETURN_TYPE_ARRAY, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -242,7 +245,7 @@ public class EAMethodContainerImpl extends EAContainerImpl implements EAMethodCo
     public List<EAParameterContainer> getParameters()
     {
         @SuppressWarnings("unchecked")
-        Collection<Parameter> parameters = (Collection<Parameter>) eaInstance.syncExecution(new IRunnableWithArguments()
+        Collection<Parameter> parameters = (Collection<Parameter>) getOrCreateCachedValue(CACHED_PARAMETERS, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)

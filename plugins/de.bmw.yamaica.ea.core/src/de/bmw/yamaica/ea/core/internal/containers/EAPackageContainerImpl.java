@@ -50,7 +50,7 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
     @Override
     public String getName()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NAME, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -63,7 +63,7 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
     @Override
     public String getNotes()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NOTES, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -76,6 +76,8 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
     @Override
     public boolean update()
     {
+        clearCache();
+
         return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
         {
             @Override
@@ -93,7 +95,7 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
     @Override
     public List<String> getStereotypes()
     {
-        String stereotype = (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        String stereotype = (String) getOrCreateCachedValue(CACHED_STEREOTYPE, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -118,7 +120,7 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
     @Override
     public EAContainerWithNamespace getParent()
     {
-        int parentId = (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        int parentId = (Integer) getOrCreateCachedValue(CACHED_PARENT_ID, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -133,7 +135,7 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
     @Override
     public EAElementContainer getElement()
     {
-        Element element = (Element) eaInstance.syncExecution(new IRunnableWithArguments()
+        Element element = (Element) getOrCreateCachedValue(CACHED_ELEMENT, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -166,7 +168,7 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
     @Override
     public int getPosition()
     {
-        return (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (Integer) getOrCreateCachedValue(CACHED_POSITION, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -202,7 +204,7 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
     public List<EAElementContainer> getElements()
     {
         @SuppressWarnings("unchecked")
-        Collection<Element> elements = (Collection<Element>) eaInstance.syncExecution(new IRunnableWithArguments()
+        Collection<Element> elements = (Collection<Element>) getOrCreateCachedValue(CACHED_ELEMENTS, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -218,7 +220,7 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
     public List<EAConnectorContainer> getConnectors(int type)
     {
         @SuppressWarnings("unchecked")
-        Collection<Connector> connectors = (Collection<Connector>) eaInstance.syncExecution(new IRunnableWithArguments()
+        Collection<Connector> connectors = (Collection<Connector>) getOrCreateCachedValue(CACHED_CONNECTORS, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -239,7 +241,7 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
     @Override
     public String getVersion()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_VERSION, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -256,7 +258,7 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
     @Override
     public String getFlags()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_FLAGS, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -269,7 +271,7 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
     @Override
     public boolean isModel()
     {
-        return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (Boolean) getOrCreateCachedValue(CACHED_IS_MODEL, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -282,7 +284,7 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
     @Override
     public boolean isNamespaceRoot()
     {
-        return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (Boolean) getOrCreateCachedValue(CACHED_IS_NAMESPACE_ROOT, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -296,7 +298,7 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
     public List<EAPackageContainer> getPackages()
     {
         @SuppressWarnings("unchecked")
-        Collection<Package> packages = (Collection<Package>) eaInstance.syncExecution(new IRunnableWithArguments()
+        Collection<Package> packages = (Collection<Package>) getOrCreateCachedValue(CACHED_PACKAGES, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)

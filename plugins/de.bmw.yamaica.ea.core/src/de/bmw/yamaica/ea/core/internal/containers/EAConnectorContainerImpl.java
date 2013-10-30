@@ -52,7 +52,7 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     @Override
     public String getName()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NAME, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -65,7 +65,7 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     @Override
     public String getNotes()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NOTES, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -78,6 +78,8 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     @Override
     public boolean update()
     {
+        clearCache();
+
         return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
         {
             @Override
@@ -95,7 +97,7 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     @Override
     public List<String> getStereotypes()
     {
-        String stereotype = (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        String stereotype = (String) getOrCreateCachedValue(CACHED_STEREOTYPE, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -121,14 +123,15 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     public List<EATagContainer> getTaggedValues()
     {
         @SuppressWarnings("unchecked")
-        Collection<AttributeTag> taggedValues = (Collection<AttributeTag>) eaInstance.syncExecution(new IRunnableWithArguments()
-        {
-            @Override
-            public Object run(Object... arguments)
-            {
-                return eaConnector.GetTaggedValues();
-            }
-        });
+        Collection<AttributeTag> taggedValues = (Collection<AttributeTag>) getOrCreateCachedValue(CACHED_TAGGED_VALUES,
+                new IRunnableWithArguments()
+                {
+                    @Override
+                    public Object run(Object... arguments)
+                    {
+                        return eaConnector.GetTaggedValues();
+                    }
+                });
 
         return getRepository().getOrCreateEAObjectContainers(taggedValues, EATagContainer.class);
     }
@@ -147,7 +150,7 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     public int getType()
     {
         int connectorType = UNKNOWN;
-        String typeString = (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        String typeString = (String) getOrCreateCachedValue(CACHED_TYPE_STRING, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -162,7 +165,7 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
         }
         else if (typeString.equals(EAConstants.CONNECTOR_TYPE_AGGREGATION))
         {
-            String subtypeString = (String) eaInstance.syncExecution(new IRunnableWithArguments()
+            String subtypeString = (String) getOrCreateCachedValue(CACHED_SUB_TYPE_STRING, new IRunnableWithArguments()
             {
                 @Override
                 public Object run(Object... arguments)
@@ -195,7 +198,7 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     @Override
     public EAElementContainer getSupplier()
     {
-        int supplierId = (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        int supplierId = (Integer) getOrCreateCachedValue(CACHED_SUPPLIER_ID, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -210,7 +213,7 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     @Override
     public EAElementContainer getClient()
     {
-        int clientId = (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        int clientId = (Integer) getOrCreateCachedValue(CACHED_CLIENT_ID, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -245,7 +248,7 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     @Override
     public boolean isNavigable(EAElementContainer destination)
     {
-        String direction = (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        String direction = (String) getOrCreateCachedValue(CACHED_DIRECTION, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -275,7 +278,7 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     @Override
     public boolean isDirected()
     {
-        String direction = (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        String direction = (String) getOrCreateCachedValue(CACHED_DIRECTION, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)

@@ -46,7 +46,7 @@ public class EAAttributeContainerImpl extends EAContainerImpl implements EAAttri
     @Override
     public String getName()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NAME, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -59,7 +59,7 @@ public class EAAttributeContainerImpl extends EAContainerImpl implements EAAttri
     @Override
     public String getNotes()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NOTES, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -72,6 +72,8 @@ public class EAAttributeContainerImpl extends EAContainerImpl implements EAAttri
     @Override
     public boolean update()
     {
+        clearCache();
+
         return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
         {
             @Override
@@ -89,7 +91,7 @@ public class EAAttributeContainerImpl extends EAContainerImpl implements EAAttri
     @Override
     public List<String> getStereotypes()
     {
-        String stereotype = (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        String stereotype = (String) getOrCreateCachedValue(CACHED_STEREOTYPE, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -120,7 +122,7 @@ public class EAAttributeContainerImpl extends EAContainerImpl implements EAAttri
     @Override
     public EAElementContainer getElement()
     {
-        int parentId = (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        int parentId = (Integer) getOrCreateCachedValue(CACHED_PARENT_ID, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -155,7 +157,7 @@ public class EAAttributeContainerImpl extends EAContainerImpl implements EAAttri
     @Override
     public int getPosition()
     {
-        return (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (Integer) getOrCreateCachedValue(CACHED_POSITION, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -173,14 +175,15 @@ public class EAAttributeContainerImpl extends EAContainerImpl implements EAAttri
     public List<EATagContainer> getTaggedValues()
     {
         @SuppressWarnings("unchecked")
-        Collection<AttributeTag> taggedValues = (Collection<AttributeTag>) eaInstance.syncExecution(new IRunnableWithArguments()
-        {
-            @Override
-            public Object run(Object... arguments)
-            {
-                return eaAttribute.GetTaggedValues();
-            }
-        });
+        Collection<AttributeTag> taggedValues = (Collection<AttributeTag>) getOrCreateCachedValue(CACHED_TAGGED_VALUES,
+                new IRunnableWithArguments()
+                {
+                    @Override
+                    public Object run(Object... arguments)
+                    {
+                        return eaAttribute.GetTaggedValues();
+                    }
+                });
 
         return getRepository().getOrCreateEAObjectContainers(taggedValues, EATagContainer.class);
     }
@@ -198,7 +201,7 @@ public class EAAttributeContainerImpl extends EAContainerImpl implements EAAttri
     @Override
     public String getDefault()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_DEFAULT, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -211,7 +214,7 @@ public class EAAttributeContainerImpl extends EAContainerImpl implements EAAttri
     @Override
     public String getType()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_TYPE, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -224,7 +227,7 @@ public class EAAttributeContainerImpl extends EAContainerImpl implements EAAttri
     @Override
     public EAElementContainer getTypeElement()
     {
-        int typeElementId = (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        int typeElementId = (Integer) getOrCreateCachedValue(CACHED_TYPE_ELEMENT_ID, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -239,7 +242,7 @@ public class EAAttributeContainerImpl extends EAContainerImpl implements EAAttri
     @Override
     public boolean isCollection()
     {
-        return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (Boolean) getOrCreateCachedValue(CACHED_IS_COLLECTION, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)

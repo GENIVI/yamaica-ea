@@ -38,7 +38,7 @@ public class EAAttributeTagContainerImpl extends EAContainerImpl implements EAAt
     @Override
     public String getName()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NAME, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -51,7 +51,7 @@ public class EAAttributeTagContainerImpl extends EAContainerImpl implements EAAt
     @Override
     public String getNotes()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NOTES, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -64,6 +64,8 @@ public class EAAttributeTagContainerImpl extends EAContainerImpl implements EAAt
     @Override
     public boolean update()
     {
+        clearCache();
+
         return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
         {
             @Override
@@ -81,13 +83,20 @@ public class EAAttributeTagContainerImpl extends EAContainerImpl implements EAAt
     @Override
     public String getValue()
     {
-        return eaAttributeTag.GetValue();
+        return (String) getOrCreateCachedValue(CACHED_VALUE, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(Object... arguments)
+            {
+                return eaAttributeTag.GetValue();
+            }
+        });
     }
 
     @Override
     public EAAttributeContainer getAttribute()
     {
-        int attributeId = (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        int attributeId = (Integer) getOrCreateCachedValue(CACHED_ATTRIBUTE_ID, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)

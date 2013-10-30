@@ -38,7 +38,7 @@ public class EAConnectorTagContainerImpl extends EAContainerImpl implements EACo
     @Override
     public String getName()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NAME, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -51,7 +51,7 @@ public class EAConnectorTagContainerImpl extends EAContainerImpl implements EACo
     @Override
     public String getNotes()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NOTES, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -64,6 +64,8 @@ public class EAConnectorTagContainerImpl extends EAContainerImpl implements EACo
     @Override
     public boolean update()
     {
+        clearCache();
+
         return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
         {
             @Override
@@ -81,7 +83,7 @@ public class EAConnectorTagContainerImpl extends EAContainerImpl implements EACo
     @Override
     public String getValue()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_VALUE, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -94,7 +96,7 @@ public class EAConnectorTagContainerImpl extends EAContainerImpl implements EACo
     @Override
     public EAConnectorContainer getConnector()
     {
-        int connectorId = (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        int connectorId = (Integer) getOrCreateCachedValue(CACHED_CONNECTOR_ID, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)

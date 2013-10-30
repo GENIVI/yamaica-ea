@@ -51,7 +51,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     @Override
     public String getName()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NAME, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -64,7 +64,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     @Override
     public String getNotes()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NOTES, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -77,6 +77,8 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     @Override
     public boolean update()
     {
+        clearCache();
+
         return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
         {
             @Override
@@ -94,7 +96,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     @Override
     public List<String> getStereotypes()
     {
-        String stereotype = (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        String stereotype = (String) getOrCreateCachedValue(CACHED_STEREOTYPE, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -119,7 +121,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     @Override
     public EAContainerWithNamespace getParent()
     {
-        int parentId = (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        int parentId = (Integer) getOrCreateCachedValue(CACHED_PARENT_ID, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -141,7 +143,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     @Override
     public EAPackageContainer getPackage()
     {
-        int packageId = (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        int packageId = (Integer) getOrCreateCachedValue(CACHED_PACKAGE_ID, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -168,7 +170,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     @Override
     public int getPosition()
     {
-        return (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (Integer) getOrCreateCachedValue(CACHED_POSITION, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -186,14 +188,15 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     public List<EATagContainer> getTaggedValues()
     {
         @SuppressWarnings("unchecked")
-        Collection<AttributeTag> taggedValues = (Collection<AttributeTag>) eaInstance.syncExecution(new IRunnableWithArguments()
-        {
-            @Override
-            public Object run(Object... arguments)
-            {
-                return eaElement.GetTaggedValues();
-            }
-        });
+        Collection<AttributeTag> taggedValues = (Collection<AttributeTag>) getOrCreateCachedValue(CACHED_TAGGED_VALUES,
+                new IRunnableWithArguments()
+                {
+                    @Override
+                    public Object run(Object... arguments)
+                    {
+                        return eaElement.GetTaggedValues();
+                    }
+                });
 
         return getRepository().getOrCreateEAObjectContainers(taggedValues, EATagContainer.class);
     }
@@ -212,7 +215,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     public List<EAElementContainer> getElements()
     {
         @SuppressWarnings("unchecked")
-        Collection<Element> elements = (Collection<Element>) eaInstance.syncExecution(new IRunnableWithArguments()
+        Collection<Element> elements = (Collection<Element>) getOrCreateCachedValue(CACHED_ELEMENTS, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -228,7 +231,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     public List<EAConnectorContainer> getConnectors(int type)
     {
         @SuppressWarnings("unchecked")
-        Collection<Connector> connectors = (Collection<Connector>) eaInstance.syncExecution(new IRunnableWithArguments()
+        Collection<Connector> connectors = (Collection<Connector>) getOrCreateCachedValue(CACHED_CONNECTORS, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -243,7 +246,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     @Override
     public String getAuthor()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_AUTHOR, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -256,7 +259,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     @Override
     public String getVersion()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_VERSION, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -273,7 +276,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     @Override
     public String getGenlinks()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_GEN_LINKS, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -286,7 +289,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     @Override
     public String getType()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_TYPE, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -300,7 +303,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     public List<EAAttributeContainer> getAttributes()
     {
         @SuppressWarnings("unchecked")
-        Collection<Attribute> attributes = (Collection<Attribute>) eaInstance.syncExecution(new IRunnableWithArguments()
+        Collection<Attribute> attributes = (Collection<Attribute>) getOrCreateCachedValue(CACHED_ATTRIBUTES, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -316,7 +319,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     public List<EAMethodContainer> getMethods()
     {
         @SuppressWarnings("unchecked")
-        Collection<Method> methods = (Collection<Method>) eaInstance.syncExecution(new IRunnableWithArguments()
+        Collection<Method> methods = (Collection<Method>) getOrCreateCachedValue(CACHED_METHODS, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -332,7 +335,7 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
     public List<EAElementContainer> getBaseClasses()
     {
         @SuppressWarnings("unchecked")
-        Collection<Element> baseClasses = (Collection<Element>) eaInstance.syncExecution(new IRunnableWithArguments()
+        Collection<Element> baseClasses = (Collection<Element>) getOrCreateCachedValue(CACHED_BASE_CLASSES, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)

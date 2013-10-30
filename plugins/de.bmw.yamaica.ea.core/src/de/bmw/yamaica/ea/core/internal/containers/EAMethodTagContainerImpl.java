@@ -38,7 +38,7 @@ public class EAMethodTagContainerImpl extends EAContainerImpl implements EAMetho
     @Override
     public String getName()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NAME, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -51,7 +51,7 @@ public class EAMethodTagContainerImpl extends EAContainerImpl implements EAMetho
     @Override
     public String getNotes()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_NOTES, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -64,6 +64,8 @@ public class EAMethodTagContainerImpl extends EAContainerImpl implements EAMetho
     @Override
     public boolean update()
     {
+        clearCache();
+
         return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
         {
             @Override
@@ -81,7 +83,7 @@ public class EAMethodTagContainerImpl extends EAContainerImpl implements EAMetho
     @Override
     public String getValue()
     {
-        return (String) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (String) getOrCreateCachedValue(CACHED_VALUE, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -94,7 +96,7 @@ public class EAMethodTagContainerImpl extends EAContainerImpl implements EAMetho
     @Override
     public EAMethodContainer getMethod()
     {
-        int methodId = (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        int methodId = (Integer) getOrCreateCachedValue(CACHED_METHOD_ID, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)

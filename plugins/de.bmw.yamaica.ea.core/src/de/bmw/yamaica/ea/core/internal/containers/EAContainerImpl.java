@@ -7,7 +7,9 @@
 package de.bmw.yamaica.ea.core.internal.containers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IPath;
@@ -17,6 +19,7 @@ import org.sparx.Connector;
 
 import de.bmw.yamaica.ea.core.EAInstance;
 import de.bmw.yamaica.ea.core.EAObjectType;
+import de.bmw.yamaica.ea.core.IRunnableWithArguments;
 import de.bmw.yamaica.ea.core.containers.EAConnectorContainer;
 import de.bmw.yamaica.ea.core.containers.EAContainer;
 import de.bmw.yamaica.ea.core.containers.EAContainerWithNamespace;
@@ -26,10 +29,51 @@ import de.bmw.yamaica.franca.base.core.FrancaUtils;
 
 public abstract class EAContainerImpl implements EAContainer
 {
+    protected final int                   CACHED_NAME                   = 1;
+    protected final int                   CACHED_NOTES                  = 2;
+    protected final int                   CACHED_PARENT_ID              = 3;
+    protected final int                   CACHED_STEREOTYPE             = 4;
+    protected final int                   CACHED_POSITION               = 5;
+    protected final int                   CACHED_KIND                   = 6;
+    protected final int                   CACHED_TYPE                   = 7;
+    protected final int                   CACHED_TYPE_ELEMENT_ID        = 8;
+    protected final int                   CACHED_DEFAULT                = 9;
+    protected final int                   CACHED_ELEMENT                = 10;
+    protected final int                   CACHED_VERSION                = 11;
+    protected final int                   CACHED_FLAGS                  = 12;
+    protected final int                   CACHED_IS_MODEL               = 13;
+    protected final int                   CACHED_IS_NAMESPACE_ROOT      = 14;
+    protected final int                   CACHED_PACKAGES               = 15;
+    protected final int                   CACHED_ELEMENTS               = 16;
+    protected final int                   CACHED_CONNECTORS             = 17;
+    protected final int                   CACHED_PACKAGE_ID             = 18;
+    protected final int                   CACHED_TAGGED_VALUES          = 19;
+    protected final int                   CACHED_AUTHOR                 = 20;
+    protected final int                   CACHED_GEN_LINKS              = 21;
+    protected final int                   CACHED_ATTRIBUTES             = 22;
+    protected final int                   CACHED_METHODS                = 23;
+    protected final int                   CACHED_BASE_CLASSES           = 24;
+    protected final int                   CACHED_IS_COLLECTION          = 25;
+    protected final int                   CACHED_TYPE_STRING            = 26;
+    protected final int                   CACHED_SUB_TYPE_STRING        = 27;
+    protected final int                   CACHED_CLIENT_ID              = 28;
+    protected final int                   CACHED_SUPPLIER_ID            = 29;
+    protected final int                   CACHED_DIRECTION              = 30;
+    protected final int                   CACHED_RETURN_TYPE            = 31;
+    protected final int                   CACHED_RETURN_TYPE_ELEMENT_ID = 32;
+    protected final int                   CACHED_IS_RETURN_TYPE_ARRAY   = 33;
+    protected final int                   CACHED_PARAMETERS             = 34;
+    protected final int                   CACHED_VALUE                  = 35;
+    protected final int                   CACHED_ELEMENT_ID             = 36;
+    protected final int                   CACHED_METHOD_ID              = 37;
+    protected final int                   CACHED_ATTRIBUTE_ID           = 38;
+    protected final int                   CACHED_CONNECTOR_ID           = 39;
+
     protected final EAInstance            eaInstance;
     protected final int                   eaObjectId;
     protected final EARepositoryContainer eaRepository;
-    protected boolean                     isDisposed = false;
+    protected Map<Integer, Object>        cache                         = new HashMap<Integer, Object>(100);
+    protected boolean                     isDisposed                    = false;
 
     protected EAContainerImpl(EAInstance eaInstance, int eaObjectId)
     {
@@ -70,6 +114,8 @@ public abstract class EAContainerImpl implements EAContainer
     @Override
     public void dispose()
     {
+        clearCache();
+        cache = null;
         isDisposed = true;
 
         eaRepository.disposeContainer(this);
@@ -183,5 +229,26 @@ public abstract class EAContainerImpl implements EAContainer
         }
 
         return list;
+    }
+
+    protected void clearCache()
+    {
+        cache.clear();
+    }
+
+    protected Object getOrCreateCachedValue(int key, IRunnableWithArguments runnable, Object... arguments)
+    {
+        if (cache.containsKey(key))
+        {
+            return cache.get(key);
+        }
+        else
+        {
+            Object value = eaInstance.syncExecution(runnable, arguments);
+
+            cache.put(key, value);
+
+            return value;
+        }
     }
 }
