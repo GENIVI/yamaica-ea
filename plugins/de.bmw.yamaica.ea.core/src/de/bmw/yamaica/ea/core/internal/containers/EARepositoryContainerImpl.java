@@ -188,7 +188,7 @@ public class EARepositoryContainerImpl extends EAContainerImpl implements EARepo
         disposeEAContainers(allElements.values());
         disposeEAContainers(allMethods.values());
         disposeEAContainers(allPackages.values());
-        dispose();
+        clearCache();
     }
 
     @Override

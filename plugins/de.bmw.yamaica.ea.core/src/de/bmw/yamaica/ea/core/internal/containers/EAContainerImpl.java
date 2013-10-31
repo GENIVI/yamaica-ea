@@ -73,7 +73,7 @@ public abstract class EAContainerImpl implements EAContainer
     protected final EAInstance            eaInstance;
     protected final int                   eaObjectId;
     protected final EARepositoryContainer eaRepository;
-    protected Map<Object, Object>         cache                         = new HashMap<Object, Object>(100);
+    protected final Map<Object, Object>   cache                         = new HashMap<Object, Object>(100);
     protected boolean                     isDisposed                    = false;
 
     protected EAContainerImpl(EAInstance eaInstance, int eaObjectId)
@@ -116,7 +116,6 @@ public abstract class EAContainerImpl implements EAContainer
     public void dispose()
     {
         clearCache();
-        cache = null;
         isDisposed = true;
 
         if (null != eaRepository)
@@ -237,19 +236,12 @@ public abstract class EAContainerImpl implements EAContainer
 
     protected void clearCache()
     {
-        if (null != cache)
-        {
-            cache.clear();
-        }
+        cache.clear();
     }
 
     protected Object getOrCreateCachedValue(Object key, IRunnableWithArguments runnable, Object... arguments)
     {
-        if (null == cache)
-        {
-            return null;
-        }
-        else if (cache.containsKey(key))
+        if (cache.containsKey(key))
         {
             return cache.get(key);
         }
