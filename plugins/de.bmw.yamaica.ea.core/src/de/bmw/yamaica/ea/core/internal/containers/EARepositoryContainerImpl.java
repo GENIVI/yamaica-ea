@@ -7,6 +7,7 @@
 package de.bmw.yamaica.ea.core.internal.containers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +81,8 @@ public class EARepositoryContainerImpl extends EAContainerImpl implements EARepo
     @Override
     public boolean update()
     {
+        clearCache();
+
         boolean attributeSuccess = updateEAContainers(allAttributes.values());
         boolean connectorsSuccess = updateEAContainers(allConnectors.values());
         boolean elementsSuccess = updateEAContainers(allElements.values());
@@ -142,7 +145,7 @@ public class EARepositoryContainerImpl extends EAContainerImpl implements EARepo
     public List<EAPackageContainer> getModels()
     {
         @SuppressWarnings("unchecked")
-        Collection<Package> models = (Collection<Package>) eaInstance.syncExecution(new IRunnableWithArguments()
+        Collection<Package> models = (Collection<Package>) getOrCreateCachedValue(CACHED_MODELS, new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -185,6 +188,7 @@ public class EARepositoryContainerImpl extends EAContainerImpl implements EARepo
         disposeEAContainers(allElements.values());
         disposeEAContainers(allMethods.values());
         disposeEAContainers(allPackages.values());
+        dispose();
     }
 
     @Override
@@ -192,31 +196,26 @@ public class EARepositoryContainerImpl extends EAContainerImpl implements EARepo
     {
         // It is not possible to access a org.sparx.Collection outside of the EAInstance thread.
         // Thus we copy the collection into a java.util.List.
-        List<?> eaObjectList = (List<?>) eaInstance.syncExecution(new IRunnableWithArguments()
+        @SuppressWarnings("unchecked")
+        List<T> eaObjectList = (List<T>) getOrCreateCachedValue(Arrays.<Object> asList(eaObjects, type), new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
             {
                 Collection<?> eaObjects = (Collection<?>) arguments[0];
-                List<Object> list = new ArrayList<Object>(eaObjects.GetCount());
+                Class<T> type = (Class<T>) arguments[1];
+                List<T> list = new ArrayList<T>(eaObjects.GetCount());
 
                 for (Object eaObject : eaObjects)
                 {
-                    list.add(eaObject);
+                    list.add(getOrCreateEAObjectContainer(eaObject, type));
                 }
 
                 return list;
             }
-        }, eaObjects);
+        }, eaObjects, type);
 
-        List<T> list = new ArrayList<T>(eaObjects.GetCount());
-
-        for (Object eaObject : eaObjectList)
-        {
-            list.add(getOrCreateEAObjectContainer(eaObject, type));
-        }
-
-        return list;
+        return eaObjectList;
     }
 
     @Override
@@ -298,7 +297,7 @@ public class EARepositoryContainerImpl extends EAContainerImpl implements EARepo
 
     protected int getEAObjectId(Object eaObject, EAObjectType eaObjectType)
     {
-        return (Integer) eaInstance.syncExecution(new IRunnableWithArguments()
+        return (Integer) getOrCreateCachedValue(Arrays.<Object> asList(eaObject, eaObjectType), new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)
@@ -341,7 +340,7 @@ public class EARepositoryContainerImpl extends EAContainerImpl implements EARepo
 
     protected Object getEAObjectById(int id, EAObjectType eaObjectType)
     {
-        return eaInstance.syncExecution(new IRunnableWithArguments()
+        return getOrCreateCachedValue(Arrays.<Object> asList(id, eaObjectType), new IRunnableWithArguments()
         {
             @Override
             public Object run(Object... arguments)

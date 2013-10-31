@@ -205,7 +205,7 @@ public class EAInstance implements Runnable
         return errorMessage;
     }
 
-    public synchronized Object syncExecution(IRunnableWithArguments runnable, Object... arguments)
+    public Object syncExecution(IRunnableWithArguments runnable, Object... arguments)
     {
         if (null == thread || State.STARTED != state)
         {
@@ -253,7 +253,7 @@ public class EAInstance implements Runnable
         return returnValue;
     }
 
-    public synchronized Object syncExecution(IRunnableWithArguments runnable)
+    public Object syncExecution(IRunnableWithArguments runnable)
     {
         return syncExecution(runnable, (Object[]) null);
     }
