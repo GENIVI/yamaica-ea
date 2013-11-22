@@ -10,10 +10,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import de.bmw.yamaica.ea.tests.positive.PerformanceTest;
+import de.bmw.yamaica.ea.tests.positive.Franca2EATest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ PerformanceTest.class })
+@SuiteClasses({ Franca2EATest.class })
 public class AllTests
 {
 

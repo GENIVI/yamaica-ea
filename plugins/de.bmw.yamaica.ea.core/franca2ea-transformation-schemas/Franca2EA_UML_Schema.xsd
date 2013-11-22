@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="uml.Franca2EA_UML_Schema" xmlns:xmi="xmei.Franca2EA_XMI_Schema"
+  xmlns:uml="uml.Franca2EA_UML_Schema" elementFormDefault="unqualified">
+
+  <xs:import schemaLocation="Franca2EA_XMI_Schema.xsd"
+    namespace="xmei.Franca2EA_XMI_Schema" />
+
+  <xs:element name="Model">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="packagedElement" type="uml:packagedElementPackageType"
+          minOccurs="1" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attribute ref="xmi:type" use="required" fixed="uml:Model" />
+      <xs:attribute name="name" type="xs:string" use="required"
+        fixed="EA_Model" />
+      <xs:attribute name="visibility" type="uml:visibilityType"
+        use="required" fixed="public" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="visibilityType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="public" />
+      <xs:enumeration value="private" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="packagedElementBaseType">
+    <xs:attribute ref="xmi:type" use="required" />
+    <xs:attribute ref="xmi:id" use="required" />
+    <xs:attribute name="visibility" type="uml:visibilityType"
+      use="required" fixed="public" />
+  </xs:complexType>
+
+  <xs:complexType name="packagedElementPackageType">
+    <xs:complexContent>
+      <xs:extension base="uml:packagedElementBaseType">
+        <xs:sequence>
+          <xs:element name="packageImport" type="uml:packageImportType"
+            minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="packagedElement" type="uml:packagedElementBaseType"
+            minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="packageImportType">
+    <xs:complexContent>
+      <xs:extension base="uml:packagedElementBaseType">
+        <xs:attribute name="importedPackage" type="xmi:idType"
+          use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="packagedElementAssociationType">
+    <xs:complexContent>
+      <xs:extension base="uml:packagedElementBaseType">
+        <xs:sequence>
+          <xs:element name="memberEnd" type="uml:memberEndType"
+            minOccurs="2" maxOccurs="2" />
+          <xs:element name="ownedEnd"
+            type="uml:ownedAttributeExtendedAttributesType" minOccurs="1"
+            maxOccurs="2" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="memberEndType">
+    <xs:attribute ref="xmi:idref" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="packagedElementRelationType">
+    <xs:complexContent>
+      <xs:extension base="uml:packagedElementBaseType">
+        <xs:attribute name="supplier" type="xmi:idType"
+          use="required" />
+        <xs:attribute name="client" type="xmi:idType" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="packagedElementInstanceSpecificationType">
+    <xs:complexContent>
+      <xs:extension base="uml:packagedElementBaseType">
+        <xs:attribute name="name" type="xs:string" use="required"
+          fixed="" />
+        <xs:attribute name="classifier" type="xmi:idType"
+          use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="umlClassType">
+    <xs:complexContent>
+      <xs:extension base="uml:packagedElementBaseType">
+        <xs:sequence>
+          <xs:element name="generalization" type="uml:generalizationType"
+            minOccurs="0" maxOccurs="1" />
+          <xs:element name="ownedAttribute" type="uml:ownedAttributeBaseType"
+            minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="umlInterfaceType">
+    <xs:complexContent>
+      <xs:extension base="uml:packagedElementPackageType">
+        <xs:sequence>
+          <xs:element name="generalization" type="uml:generalizationType"
+            minOccurs="0" maxOccurs="1" />
+          <xs:element name="ownedAttribute" type="uml:ownedAttributeBaseType"
+            minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="ownedOperation" type="uml:ownedOperationType"
+            minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="nestedClassifier" type="uml:packagedElementBaseType"
+            minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="isAbstract" type="xs:boolean"
+          use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="umlEnumerationType">
+    <xs:complexContent>
+      <xs:extension base="uml:packagedElementBaseType">
+        <xs:sequence>
+          <xs:element name="ownedLiteral" type="uml:ownedLiteralType"
+            minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="generalization" type="uml:generalizationType"
+            minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ownedOperationType">
+    <xs:complexContent>
+      <xs:extension base="uml:packagedElementBaseType">
+        <xs:sequence>
+          <xs:element name="ownedParameter" type="uml:ownedParameterType"
+            minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required" />
+        <xs:attribute name="concurrency" type="xs:string" use="required"
+        fixed="sequential" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ownedParameterType">
+    <xs:sequence>
+      <xs:element name="defaultValue" type="uml:defaultValueType"
+        minOccurs="0" maxOccurs="1" />
+      <xs:element name="lowerValue" type="uml:multiplicityValueType"
+        minOccurs="1" maxOccurs="1" />
+      <xs:element name="upperValue" type="uml:multiplicityValueType"
+        minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+    <xs:attribute ref="xmi:id" use="required" />
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="type" type="xs:string" use="required" />
+    <xs:attribute name="direction" type="uml:directionType"
+      use="required" />
+    <xs:attribute name="isStream" type="xs:boolean" use="required" />
+    <xs:attribute name="isException" type="xs:boolean" use="required" />
+    <xs:attribute name="isOrdered" type="xs:boolean" use="required" />
+    <xs:attribute name="isUnique" type="xs:boolean" use="required" />
+  </xs:complexType>
+
+  <xs:simpleType name="directionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="in" />
+      <xs:enumeration value="out" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="defaultValueType">
+    <xs:attribute ref="xmi:type" use="required" />
+    <xs:attribute ref="xmi:id" use="required" />
+    <xs:attribute name="value" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="ownedAttributeBaseType">
+    <xs:sequence>
+      <xs:element name="type" type="uml:typeType" minOccurs="1"
+        maxOccurs="1" />
+    </xs:sequence>
+    <xs:attribute ref="xmi:type" fixed="uml:Property" use="required" />
+    <xs:attribute ref="xmi:id" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="ownedLiteralType">
+    <xs:sequence>
+      <xs:element name="specification" type="uml:defaultValueType" />
+    </xs:sequence>
+    <xs:attribute ref="xmi:type" use="required" />
+    <xs:attribute ref="xmi:id" use="required" />
+    <xs:attribute name="classifier" type="xs:string" use="required" />
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="visibility" type="uml:visibilityType"
+      use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="typeType">
+    <xs:attribute ref="xmi:idref" use="optional" />
+    <xs:attribute name="href" type="xs:string" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="ownedAttributeExtendedAttributesType">
+    <xs:complexContent>
+      <xs:extension base="uml:ownedAttributeBaseType">
+        <xs:attribute name="name" type="xs:string" use="optional" />
+        <xs:attribute name="visibility" type="uml:visibilityType"
+          use="optional" />
+        <xs:attribute name="association" type="xmi:idType"
+          use="optional" />
+        <xs:attribute name="isStatic" type="xs:boolean"
+          use="optional" />
+        <xs:attribute name="isReadOnly" type="xs:boolean"
+          use="optional" />
+        <xs:attribute name="isDerived" type="xs:boolean"
+          use="optional" />
+        <xs:attribute name="isOrdered" type="xs:boolean"
+          use="optional" />
+        <xs:attribute name="isUnique" type="xs:boolean"
+          use="optional" />
+        <xs:attribute name="isDerivedUnion" type="xs:boolean"
+          use="optional" />
+        <xs:attribute name="aggregation" type="xs:string"
+          use="optional" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ownedAttributeExtendedContentType">
+    <xs:complexContent>
+      <xs:extension base="uml:ownedAttributeExtendedAttributesType">
+        <xs:sequence>
+          <xs:element name="lowerValue" type="uml:multiplicityValueType"
+            minOccurs="1" maxOccurs="1" />
+          <xs:element name="upperValue" type="uml:multiplicityValueType"
+            minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="multiplicityValueType">
+    <xs:attribute ref="xmi:type" use="required" />
+    <xs:attribute ref="xmi:id" use="required" />
+    <xs:attribute name="value" type="xs:int" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="generalizationType">
+    <xs:attribute ref="xmi:type" fixed="uml:Generalization"
+      use="required" />
+    <xs:attribute ref="xmi:id" use="required" />
+    <xs:attribute name="general" type="xmi:idType" use="required" />
+  </xs:complexType>
+
+</xs:schema>

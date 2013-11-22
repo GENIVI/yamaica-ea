@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="xmei.Franca2EA_XMI_Schema" xmlns:xmi="xmei.Franca2EA_XMI_Schema"
+  xmlns:uml="uml.Franca2EA_UML_Schema" elementFormDefault="unqualified">
+  <xs:import schemaLocation="Franca2EA_UML_Schema.xsd"
+    namespace="uml.Franca2EA_UML_Schema" />
+
+  <xs:element name="XMI">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Documentation" type="xmi:Documentation"
+          minOccurs="1" maxOccurs="1" form="qualified" />
+        <xs:element ref="uml:Model" minOccurs="1" maxOccurs="1" />
+        <xs:element name="Extension" type="xmi:Extension"
+          minOccurs="1" maxOccurs="1" form="qualified" />
+      </xs:sequence>
+      <xs:attribute ref="xmi:version" use="required" fixed="2.1" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="Documentation">
+    <xs:attribute name="exporter" type="xs:string" use="required"
+      fixed="Enterprise Architect" />
+    <xs:attribute name="exporterVersion" type="xs:string"
+      use="required" fixed="6.5" />
+  </xs:complexType>
+
+  <xs:complexType name="Extension">
+    <xs:sequence>
+      <xs:element name="elements" type="xmi:elementsType" />
+      <xs:element name="connectors" type="xmi:connectorsType" />
+      <xs:element name="primitivetypes" type="xmi:primitiveTypesType" />
+      <xs:element name="profiles" type="xs:string" />
+      <xs:element name="diagrams" type="xmi:diagramsType" />
+    </xs:sequence>
+    <xs:attribute name="extender" type="xs:string" use="required"
+      fixed="Enterprise Architect" />
+    <xs:attribute name="extenderID" type="xs:string" use="required"
+      fixed="6.5" />
+  </xs:complexType>
+
+  <xs:attribute name="version" type="xs:string" />
+
+  <xs:simpleType name="typeBaseType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="uml:Association" />
+      <xs:enumeration value="uml:Class" />
+      <xs:enumeration value="uml:Collaboration" />
+      <xs:enumeration value="uml:Comment" />
+      <xs:enumeration value="uml:Component" />
+      <xs:enumeration value="uml:Dependency" />
+      <xs:enumeration value="uml:Enumeration" />
+      <xs:enumeration value="uml:EnumerationLiteral" />
+      <xs:enumeration value="uml:Extension" />
+      <xs:enumeration value="uml:Generalization" />
+      <xs:enumeration value="uml:InstanceSpecification" />
+      <xs:enumeration value="uml:Interaction" />
+      <xs:enumeration value="uml:Interface" />
+      <xs:enumeration value="uml:Lifeline" />
+      <xs:enumeration value="uml:LiteralInteger" />
+      <xs:enumeration value="uml:LiteralString" />
+      <xs:enumeration value="uml:LiteralUnlimitedNatural" />
+      <xs:enumeration value="uml:Message" />
+      <xs:enumeration value="uml:Model" />
+      <xs:enumeration value="uml:OccurrenceSpecification" />
+      <xs:enumeration value="uml:Package" />
+      <xs:enumeration value="uml:PackageImport" />
+      <xs:enumeration value="uml:PrimitiveType" />
+      <xs:enumeration value="uml:Property" />
+      <xs:enumeration value="uml:Realization" />
+      <xs:enumeration value="uml:Stereotype   " />
+      <xs:enumeration value="uml:Usage" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:attribute name="type" type="xmi:typeBaseType" />
+
+  <xs:attribute name="id" type="xmi:idType" />
+
+  <xs:attribute name="idref" type="xmi:idType" />
+
+  <xs:simpleType name="idType">
+    <xs:restriction base="xs:string">
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="elementsType">
+    <xs:sequence>
+      <xs:element name="element" type="xmi:elementType"
+        minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="elementType">
+    <xs:sequence>
+      <xs:element name="model" type="xmi:modelType" />
+      <xs:element name="properties" type="xmi:propertiesType" />
+      <xs:element name="project" type="xmi:projectType" />
+      <xs:element name="code" type="xmi:codeType" />
+      <xs:element name="links" type="xmi:linksType"
+        minOccurs="0" />
+      <xs:element name="attributes" type="xmi:attributesType"
+        minOccurs="0" />
+      <xs:element name="operations" type="xmi:operationsType"
+        minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute ref="xmi:idref" use="required" />
+    <xs:attribute ref="xmi:type" use="required" />
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="scope" type="uml:visibilityType" />
+  </xs:complexType>
+
+  <xs:complexType name="modelType">
+    <xs:attribute name="package2" type="xmi:idType" />
+    <xs:attribute name="package" type="xmi:idType" />
+    <xs:attribute name="owner" type="xmi:idType" />
+    <xs:attribute name="tpos" type="xs:int" />
+    <xs:attribute name="ea_localid" type="xs:int" />
+    <xs:attribute name="ea_eleType" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="propertiesType">
+    <xs:attribute name="documentation" type="xs:string" />
+    <xs:attribute name="isSpecification" type="xs:boolean" />
+    <xs:attribute name="sType" type="xmi:sTypeType" />
+    <xs:attribute name="className" type="xs:string" />
+    <xs:attribute name="genlinks" type="xs:string" />
+    <xs:attribute name="scope" type="uml:visibilityType" />
+    <xs:attribute name="stereotype" type="xmi:stereotypeType" />
+    <xs:attribute name="isRoot" type="xs:boolean" />
+    <xs:attribute name="isLeaf" type="xs:boolean" />
+    <xs:attribute name="isAbstract" type="xs:boolean" />
+    <xs:attribute name="isActive" type="xs:boolean" />
+  </xs:complexType>
+
+  <xs:complexType name="projectType">
+    <xs:attribute name="author" type="xs:string" />
+    <xs:attribute name="version" type="xs:string" />
+    <xs:attribute name="phase" type="xs:string" />
+    <xs:attribute name="created" type="xs:string" />
+    <xs:attribute name="modified" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="codeType">
+    <xs:attribute name="gentype" type="xs:string" fixed="FrancaIDL" />
+  </xs:complexType>
+
+  <xs:complexType name="linksType">
+    <xs:sequence>
+      <xs:element name="Sequence" type="xmi:concreteLinkType"
+        minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="Realisation" type="xmi:concreteLinkType"
+        minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="Generalization" type="xmi:concreteLinkType"
+        minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="Dependency" type="xmi:concreteLinkType"
+        minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="Association" type="xmi:concreteLinkType"
+        minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="concreteLinkType">
+    <xs:attribute ref="xmi:id" use="required" />
+    <xs:attribute name="start" type="xmi:idType" use="required" />
+    <xs:attribute name="end" type="xmi:idType" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="attributesType">
+    <xs:sequence>
+      <xs:element name="attribute" type="xmi:attributeType"
+        minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="attributeType">
+    <xs:sequence>
+      <xs:element name="initial" type="xmi:initialType" />
+      <xs:element name="documentation" type="xmi:documentationType" />
+      <xs:element name="model" type="xmi:attributeModelType" />
+      <xs:element name="properties" type="xmi:attributePropertiesType" />
+      <xs:element name="containment" type="xmi:attributeContainmentType" />
+      <xs:element name="stereotype" type="xmi:stereotypeAttributeType" />
+      <xs:element name="bounds" type="xmi:boundsType" />
+      <xs:element name="styleex" type="xmi:styleexType" />
+      <xs:element name="xrefs" type="xmi:xrefsType" />
+    </xs:sequence>
+    <xs:attribute ref="xmi:idref" use="required" />
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="scope" type="uml:visibilityType"
+      use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="initialType">
+    <xs:attribute name="body" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="documentationType">
+    <xs:attribute name="value" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="attributeModelType">
+    <xs:attribute name="ea_localid" type="xs:int" use="required" />
+    <xs:attribute name="ea_guid" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="attributePropertiesType">
+    <xs:attribute name="type" type="xs:string" use="required" />
+    <!-- TODO check if this is enough for attributeProperties, but currently 
+      it looks like -->
+  </xs:complexType>
+
+  <xs:complexType name="attributeContainmentType">
+    <xs:attribute name="containment" type="xs:string" use="required" />
+    <xs:attribute name="position" type="xs:int" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="boundsType">
+    <xs:attribute name="lower" type="xs:int" use="required" />
+    <xs:attribute name="upper" type="xs:int" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="styleexType">
+    <xs:attribute name="value" type="xs:string" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="xrefsType">
+    <xs:attribute name="value" type="xs:string" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="operationsType">
+    <xs:sequence>
+      <xs:element name="operation" type="xmi:operationType"
+        minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="operationType">
+    <xs:sequence>
+      <xs:element name="properties" type="xmi:operationPropertiesType" />
+      <xs:element name="stereotype" type="xmi:stereotypeAttributeType" />
+      <xs:element name="model" type="xmi:attributeModelType" />
+      <xs:element name="type" type="xmi:operationTypeType" />
+      <xs:element name="documentation" type="xmi:documentationType" />
+      <xs:element name="tags" type="xmi:operationTagsType" />
+      <xs:element name="parameters" type="xmi:operationParametersType"/>
+      <xs:element name="xrefs" type="xmi:xrefsType" />
+    </xs:sequence>
+    <xs:attribute ref="xmi:idref" use="required" />
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="scope" type="uml:visibilityType"
+      use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="operationPropertiesType">
+    <xs:attribute name="position" type="xs:int" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="operationTypeType">
+    <xs:attribute name="const" type="xs:boolean" use="required" />
+    <xs:attribute name="static" type="xs:boolean" use="required" />
+    <xs:attribute name="isAbstract" type="xs:boolean" use="required" />
+    <xs:attribute name="synchronised" type="xs:int" use="required" />
+    <xs:attribute name="stereotype" type="xmi:stereotypeType" use="required" />
+    <xs:attribute name="concurrency" type="xs:string" use="required" />
+    <xs:attribute name="returnarray" type="xs:int" use="required" />
+    <xs:attribute name="pure" type="xs:int" use="required" />
+    <xs:attribute name="isQuery" type="xs:boolean" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="operationTagsType">
+    <xs:sequence>
+      <xs:element name="tag" type="xmi:tagType" minOccurs="0"
+        maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="tagType">
+    <xs:attribute ref="xmi:id" use="required" />
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="value" type="xs:string" use="required" />
+    <xs:attribute name="notes" type="xs:string" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="operationParametersType">
+    <xs:sequence>
+      <xs:element name="parameter" type="xmi:parameterType"
+        minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="parameterType">
+    <xs:sequence>
+      <xs:element name="properties" type="xmi:parameterPropertiesType" />
+      <xs:element name="documentation" type="xmi:documentationType" />
+      <xs:element name="Value" type="xmi:initialType"
+        minOccurs="0" />
+      <xs:element name="xrefs" type="xmi:xrefsType" />
+    </xs:sequence>
+    <xs:attribute ref="xmi:idref" use="required" />
+    <xs:attribute name="visibility" type="uml:visibilityType"
+      use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="parameterPropertiesType">
+    <xs:attribute name="pos" type="xs:int" use="required" />
+    <xs:attribute name="type" type="xs:string" use="optional" />
+    <xs:attribute name="const" type="xs:boolean" use="required" />
+    <xs:attribute name="classifier" type="xs:string" use="optional" />
+    <xs:attribute name="ea_guid" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:simpleType name="sTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Class" />
+      <xs:enumeration value="Component" />
+      <xs:enumeration value="Interface" />
+      <xs:enumeration value="Package" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:complexType name="stereotypeAttributeType">
+    <xs:attribute name="stereotype" type="xmi:stereotypeType"/>
+  </xs:complexType>
+
+  <xs:simpleType name="stereotypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="array" />
+      <xs:enumeration value="arrayOf" />
+      <xs:enumeration value="attribute" />
+      <xs:enumeration value="attribute nosubscriptions" />
+      <xs:enumeration value="attribute readonly" />
+      <xs:enumeration value="attribute readonly nosubscriptions" />
+      <xs:enumeration value="broadcast" />
+      <xs:enumeration value="broadcast selective" />
+      <xs:enumeration value="enumeration" />
+      <xs:enumeration value="extends" />
+      <xs:enumeration value="fidl" />
+      <xs:enumeration value="FrancaClientInterface" />
+      <xs:enumeration value="FrancaEnum" />
+      <xs:enumeration value="FrancaInterface" />
+      <xs:enumeration value="FrancaServiceInterface" />
+      <xs:enumeration value="import" />
+      <xs:enumeration value="key" />
+      <xs:enumeration value="map" />
+      <xs:enumeration value="method" />
+      <xs:enumeration value="method fireandforget" />
+      <xs:enumeration value="root" />
+      <xs:enumeration value="struct" />
+      <xs:enumeration value="typedef" />
+      <xs:enumeration value="union" />
+      <xs:enumeration value="use" />
+      <xs:enumeration value="value" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="connectorsType">
+    <xs:sequence>
+      <xs:element name="connector" type="xmi:connectorType"
+        minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="connectorType">
+    <xs:sequence>
+      <xs:element name="source" type="xmi:sourceAndTargetType" />
+      <xs:element name="target" type="xmi:sourceAndTargetType" />
+      <xs:element name="model" type="xmi:connectorModelType" />
+      <xs:element name="properties" type="xmi:connectorPropertiesType" />
+      <xs:element name="modifiers" type="xmi:connectorModifiersType" />
+      <xs:element name="documentation" type="xmi:documentationType" />
+      <xs:element name="appearance" type="xmi:connectorAppearanceType" />
+      <xs:element name="labels" type="xmi:connectorLabelsType" />
+      <xs:element name="extendedProperties" type="xmi:extendedPropertiesType" />
+      <xs:element name="style" type="xmi:documentationType" />
+      <xs:element name="xrefs" type="xmi:xrefsType" />
+      <xs:element name="tags" type="xmi:operationTagsType" />
+    </xs:sequence>
+    <xs:attribute ref="xmi:idref" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="sourceAndTargetType">
+    <xs:sequence>
+      <xs:element name="model" type="xmi:sourceAndTargetModelType" />
+      <xs:element name="role" type="xmi:sourceAndTargetRoleType" />
+      <xs:element name="type" type="xmi:sourceAndTargetTypeType" />
+      <xs:element name="modifiers" type="xmi:connectorModifiersType" />
+      <xs:element name="style" type="xmi:documentationType" />
+      <xs:element name="documentation" type="xmi:documentationType" />
+      <xs:element name="xrefs" type="xmi:xrefsType" />
+      <xs:element name="tags" type="xmi:operationTagsType" />
+    </xs:sequence>
+    <xs:attribute ref="xmi:idref" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="sourceAndTargetModelType">
+    <xs:attribute name="ea_localid" type="xs:int" use="required" />
+    <xs:attribute name="type" type="xmi:sTypeType" use="required" />
+    <xs:attribute name="name" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="sourceAndTargetRoleType">
+    <xs:attribute name="visibility" type="uml:visibilityType"
+      use="required" />
+    <xs:attribute name="targetScope" type="xs:string"
+      fixed="instance" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="sourceAndTargetTypeType">
+    <xs:attribute name="multiplicity" type="xs:string" use="optional" />
+    <xs:attribute name="aggregation" type="xs:string" use="optional" />
+    <xs:attribute name="containment" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="connectorModelType">
+    <xs:attribute name="ea_localid" type="xs:int" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="connectorPropertiesType">
+    <xs:attribute name="name" type="xs:string" use="optional" />
+    <xs:attribute name="ea_type" type="xmi:eaTypesType"
+      use="required" />
+    <xs:attribute name="stereotype" type="xmi:stereotypeType"
+      use="optional" />
+    <xs:attribute name="direction" type="xmi:directionType"
+      use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="connectorModifiersType">
+    <xs:attribute name="isOrdered" type="xs:boolean" use="optional" />
+    <xs:attribute name="isNavigable" type="xs:boolean" use="optional" />
+    <xs:attribute name="isRoot" type="xs:boolean" use="optional" />
+    <xs:attribute name="isLeaf" type="xs:boolean" use="optional" />
+    <xs:attribute name="changeable" type="xs:string" use="optional"
+      default="none" />
+  </xs:complexType>
+
+  <xs:complexType name="connectorAppearanceType">
+    <xs:attribute name="linemode" type="xs:int" use="required" />
+    <xs:attribute name="linecolor" type="xs:int" use="required" />
+    <xs:attribute name="linewidth" type="xs:int" use="required" />
+    <xs:attribute name="seqno" type="xs:int" use="required" />
+    <xs:attribute name="headStyle" type="xs:int" use="required" />
+    <xs:attribute name="lineStyle" type="xs:int" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="connectorLabelsType">
+    <xs:attribute name="mt" type="xs:string" use="optional" />
+    <xs:attribute name="mb" type="xs:string" use="optional" />
+    <xs:attribute name="lb" type="xs:string" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="extendedPropertiesType">
+    <xs:attribute name="stateflags" type="xs:string" use="optional" />
+    <xs:attribute name="conditional" type="xs:string" use="optional" />
+    <xs:attribute name="virtualInheritance" type="xs:int"
+      use="required" />
+    <xs:attribute name="diagram" type="xmi:idType" use="optional" />
+    <xs:attribute name="privatedata1" type="xmi:asyncSyncType"
+      use="optional" />
+    <xs:attribute name="privatedata2" type="xs:string" use="optional" />
+    <xs:attribute name="privatedata3" type="xs:string"
+      fixed="Call" use="optional" />
+    <xs:attribute name="privatedata4" type="xs:int"
+      fixed="0" use="optional" />
+    <xs:attribute name="privatedata5" type="xs:string" use="optional" />
+    <xs:attribute name="sequence_points" type="xs:string"
+      use="optional" />
+  </xs:complexType>
+
+  <xs:simpleType name="asyncSyncType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Synchronous" />
+      <xs:enumeration value="Asynchronous" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="eaTypesType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Association" />
+      <xs:enumeration value="Dependency" />
+      <xs:enumeration value="Generalization" />
+      <xs:enumeration value="Package" />
+      <xs:enumeration value="Sequence" />
+      <xs:enumeration value="Realisation" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="directionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Destination -&gt; Source" />
+      <xs:enumeration value="Source -&gt; Destination" />
+      <xs:enumeration value="Unspecified" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="primitiveTypesType">
+    <xs:sequence>
+      <xs:element name="packagedElement" type="uml:packagedElementPackageType"
+        minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="diagramsType">
+    <xs:sequence>
+      <xs:element name="diagram" type="xmi:diagramType"
+        minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="diagramType">
+    <xs:sequence>
+      <xs:element name="model" type="xmi:diagramModelType" />
+      <xs:element name="properties" type="xmi:diagramPropertiesType" />
+      <xs:element name="project" type="xmi:projectType" />
+      <xs:element name="style1" type="xmi:documentationType" />
+      <xs:element name="style2" type="xmi:documentationType" />
+      <xs:element name="swimlanes" type="xmi:documentationType" />
+      <xs:element name="matrixitems" type="xmi:documentationType" />
+      <xs:element name="elements" type="xmi:diagramElementsType" />
+    </xs:sequence>
+    <xs:attribute ref="xmi:id" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="diagramModelType">
+    <xs:attribute name="package" type="xmi:idType" use="required" />
+    <xs:attribute name="localID" type="xs:int" use="required" />
+    <xs:attribute name="owner" type="xmi:idType" use="required" />
+    <xs:attribute name="parent" type="xmi:idType" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="diagramPropertiesType">
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="type" type="xmi:diagramTypeType"
+      use="required" />
+  </xs:complexType>
+
+  <xs:simpleType name="diagramTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Component" />
+      <xs:enumeration value="Logical" />
+      <xs:enumeration value="Sequence" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="diagramElementsType">
+    <xs:sequence>
+      <xs:element name="element" type="xmi:diagramElementType"
+        minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="diagramElementType">
+    <xs:attribute name="geometry" type="xs:string" use="required" />
+    <xs:attribute name="subject" type="xmi:idType" use="required" />
+    <xs:attribute name="seqno" type="xs:int" use="optional" />
+    <xs:attribute name="style" type="xs:string" use="required" />
+  </xs:complexType>
+</xs:schema>
