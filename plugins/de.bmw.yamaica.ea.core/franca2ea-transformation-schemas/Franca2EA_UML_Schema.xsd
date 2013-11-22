@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+ * Copyright (C) 2013 BMW Group
+ * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
+ * Author: Juergen Gehring (juergen.gehring@bmw.de)
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+-->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
   targetNamespace="uml.Franca2EA_UML_Schema" xmlns:xmi="xmei.Franca2EA_XMI_Schema"
   xmlns:uml="uml.Franca2EA_UML_Schema" elementFormDefault="unqualified">
