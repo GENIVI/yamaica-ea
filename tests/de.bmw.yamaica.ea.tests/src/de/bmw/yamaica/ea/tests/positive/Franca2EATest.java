@@ -68,7 +68,6 @@ public class Franca2EATest
     public void test() throws NoOutputCreatedException, IOException
     {
         Franca2EATransformation trafo = new Franca2EATransformation();
-        URI fidlUri = URI.createFileURI(FIDL_PATH);
 
         FrancaImportsProvider francaImportsProvider = new FrancaImportsProvider();
         ModelPersistenceHandler.registerFileExtensionHandler("fidl", francaImportsProvider);
