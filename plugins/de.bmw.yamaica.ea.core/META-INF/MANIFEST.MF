@@ -12,7 +12,9 @@ Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  franca2ea
 Export-Package: de.bmw.yamaica.ea.core,
  de.bmw.yamaica.ea.core.containers,
+ de.bmw.yamaica.ea.core.exceptions,
  de.bmw.yamaica.ea.core.franca,
+ de.bmw.yamaica.ea.core.franca.exceptions,
  de.bmw.yamaica.ea.core.internal.containers;x-internal:=true,
  de.bmw.yamaica.ea.core.resources
 Bundle-ClassPath: .,

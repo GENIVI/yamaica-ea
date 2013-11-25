@@ -19,6 +19,7 @@ import de.bmw.yamaica.ea.core.containers.EAElementContainer;
 import de.bmw.yamaica.ea.core.containers.EAMethodContainer;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.containers.EAParameterContainer;
+import de.bmw.yamaica.ea.core.exceptions.EAException;
 
 public class EAParameterContainerImpl extends EAContainerImpl implements EAParameterContainer
 {
@@ -123,7 +124,14 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
             }
         });
 
-        return getRepository().getOrCreateEAObjectContainerById(parentId, EAMethodContainer.class, this);
+        try
+        {
+            return getRepository().getOrCreateEAObjectContainerById(parentId, EAMethodContainer.class);
+        }
+        catch (EAException e)
+        {
+            throw createParentElementNotFoundException(e, this);
+        }
     }
 
     @Override
@@ -209,7 +217,14 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
             }
         });
 
-        return getRepository().getOrCreateEAObjectContainerById(typeElementId, EAElementContainer.class, this);
+        try
+        {
+            return getRepository().getOrCreateEAObjectContainerById(typeElementId, EAElementContainer.class);
+        }
+        catch (EAException e)
+        {
+            throw createReferencedElementNotFoundException(e, this);
+        }
     }
 
     @Override

@@ -13,6 +13,7 @@ import de.bmw.yamaica.ea.core.EAInstance;
 import de.bmw.yamaica.ea.core.IRunnableWithArguments;
 import de.bmw.yamaica.ea.core.containers.EAMethodContainer;
 import de.bmw.yamaica.ea.core.containers.EAMethodTagContainer;
+import de.bmw.yamaica.ea.core.exceptions.EAException;
 
 public class EAMethodTagContainerImpl extends EAContainerImpl implements EAMethodTagContainer
 {
@@ -105,7 +106,14 @@ public class EAMethodTagContainerImpl extends EAContainerImpl implements EAMetho
             }
         });
 
-        return getRepository().getOrCreateEAObjectContainerById(methodId, EAMethodContainer.class, this);
+        try
+        {
+            return getRepository().getOrCreateEAObjectContainerById(methodId, EAMethodContainer.class);
+        }
+        catch (EAException e)
+        {
+            throw createReferencedElementNotFoundException(e, this);
+        }
     }
 
     // END Implementation of interface EAMethodTagContainer //

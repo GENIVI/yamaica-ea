@@ -1,0 +1,4 @@
+To start the JUnit Plug-in Test launch configuration "All EA Tests" you have to copy 
+the Enterprise Architect File "UML_HowTo_Example.eap" from 
+"https://collab.genivi.org/wiki/display/genivi/UML+Interface+Standardization+Guideline" 
+to the "models/ea/input" directory of this plug-in.

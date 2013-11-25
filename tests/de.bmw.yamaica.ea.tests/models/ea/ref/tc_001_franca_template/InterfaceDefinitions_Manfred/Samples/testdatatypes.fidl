@@ -1,0 +1,112 @@
+package InterfaceDefinitions_Manfred.Samples.testdatatypes
+
+<**
+    @author : Manfred Bathelt
+**>
+typeCollection types {
+    version {
+        major 2
+        minor 0
+    }
+    typedef MyUInt8 is UInt8
+
+    typedef MyUInt16 is UInt16
+
+    typedef MyUInt32 is UInt32
+
+    typedef MyUInt64 is UInt64
+
+    typedef MyInt8 is Int8
+
+    typedef MyInt16 is Int16
+
+    typedef MyInt32 is Int32
+
+    typedef MyInt64 is Int64
+
+    typedef MyBoolean is Boolean
+
+    typedef MyByteBuffer is ByteBuffer
+
+    typedef MyFloat is Float
+
+    typedef MyDouble is Double
+
+    typedef MyString is String
+
+    array MyArrayStandard of UInt64
+
+    array MyArrayExampleType of MyFidlStruct
+
+    <**
+        @description : Common errors.
+    **>
+    enumeration MyEnum {
+
+        <**
+            @description : default
+        **>
+        E_UNKNOWN = "0x00"
+
+        <**
+            @description : no error - positive reply
+        **>
+        E_OK = "0x01"
+
+        <**
+            @description : value out of range
+        **>
+        E_OUT_OF_RANGE = "0x02"
+
+        <**
+            @description : not used
+        **>
+        E_NOT_USED = "0x03"
+    }
+
+    enumeration MyEnumExtended extends MyEnum {
+
+        <**
+            @description : new error
+        **>
+        E_NEW = "0x04"
+    }
+
+    enumeration MyEnumExtended2 extends MyEnum {
+
+        <**
+            @description : new error
+        **>
+        MyEnumExtended2 = "0x05"
+    }
+
+    struct MyFidlStruct {
+        MyEnum muckitest
+
+        <**
+            @description : the name of the property
+        **>
+        MyString name
+
+        <**
+            @description : the actual value
+        **>
+        UInt16 value
+    }
+
+    struct MyStructExtended_ extends MyFidlStruct {
+        MyEnumExtended MyError
+    }
+
+    union MyUnion {
+        UInt32 v1
+        Float v2
+    }
+    union MyUnionExtended extends MyUnion {
+        String MyString
+    }
+    map MyMap {
+        UInt32 to MyArrayExampleType
+    }
+
+}

@@ -26,22 +26,15 @@ import org.sparx.Parameter;
 import org.sparx.Repository;
 import org.sparx.TaggedValue;
 
-import de.bmw.yamaica.ea.core.EAException;
 import de.bmw.yamaica.ea.core.EAInstance;
 import de.bmw.yamaica.ea.core.EAObjectType;
 import de.bmw.yamaica.ea.core.IRunnableWithArguments;
 import de.bmw.yamaica.ea.core.containers.EAContainer;
-import de.bmw.yamaica.ea.core.containers.EAContainerWithNamespace;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.containers.EARepositoryContainer;
 
 public class EARepositoryContainerImpl extends EAContainerImpl implements EARepositoryContainer
 {
-    protected static final String       ERROR_MESSAGE = "An Enterprise Architect error occurred (\"%s\") while transforming "
-                                                              + "the %s \"%s\". This is probably due the fact that the database "
-                                                              + "of Enterprise Architect is inconsistent. A possible solution is "
-                                                              + "to reset all references to other UML elements of this element.";
-
     protected final Repository          eaRepository;
     protected Map<Integer, EAContainer> allAttributes = new HashMap<Integer, EAContainer>();
     protected Map<Integer, EAContainer> allConnectors = new HashMap<Integer, EAContainer>();
@@ -233,41 +226,17 @@ public class EARepositoryContainerImpl extends EAContainerImpl implements EARepo
     }
 
     @Override
-    public <T extends EAContainer> T getOrCreateEAObjectContainerById(int eaObjectId, Class<T> type, EAContainer container)
+    public <T extends EAContainer> T getOrCreateEAObjectContainerById(int eaObjectId, Class<T> type)
     {
         if (0 == eaObjectId || null == type)
         {
             return null;
         }
 
-        try
-        {
-            EAObjectType eaObjectType = EAObjectType.getEAContainerType(type);
-            Object eaObject = getEAObjectById(eaObjectId, eaObjectType);
+        EAObjectType eaObjectType = EAObjectType.getEAContainerType(type);
+        Object eaObject = getEAObjectById(eaObjectId, eaObjectType);
 
-            return getOrCreateEAObjectContainer(eaObject, eaObjectId, type, eaObjectType);
-        }
-        catch (EAException e)
-        {
-            String elementType = container.getEAObjectType().getName().toLowerCase();
-            String elementName = container.getName();
-
-            if (container instanceof EAContainerWithNamespace)
-            {
-                elementName = ((EAContainerWithNamespace) container).getNamespace();
-            }
-
-            Throwable cause = e.getCause();
-
-            if (null == cause)
-            {
-                cause = e;
-            }
-
-            String message = String.format(ERROR_MESSAGE, cause.getMessage(), elementType, elementName);
-
-            throw new EAException(message, cause);
-        }
+        return getOrCreateEAObjectContainer(eaObject, eaObjectId, type, eaObjectType);
     }
 
     // END Implementation of interface EARepositoryContainer //

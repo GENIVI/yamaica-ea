@@ -7,6 +7,8 @@
 package de.bmw.yamaica.ea.ui.franca;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
@@ -24,11 +26,11 @@ import org.franca.core.franca.FModel;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import de.bmw.yamaica.ea.core.EAException;
 import de.bmw.yamaica.ea.core.EAInstance;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
+import de.bmw.yamaica.ea.core.exceptions.EAException;
 import de.bmw.yamaica.ea.core.franca.EA2FrancaTransformation;
-import de.bmw.yamaica.ea.core.franca.EA2FrancaTransformationException;
+import de.bmw.yamaica.ea.core.franca.exceptions.EA2FrancaTransformationException;
 import de.bmw.yamaica.ea.ui.internal.Activator;
 import de.bmw.yamaica.franca.base.core.FrancaResourceSetContainer;
 
@@ -65,7 +67,7 @@ public class EA2FrancaImportOperation extends WorkspaceModifyOperation
         {
             monitor.subTask("Analysing package dependencies");
 
-            FModel[] models = ea2FrancaTransformation.transformModels(packages.toArray(new EAPackageContainer[packages.size()]));
+            Collection<FModel> models = ea2FrancaTransformation.transformModels(packages);
 
             resourceSetContainer.addModels(models);
 
@@ -129,15 +131,16 @@ public class EA2FrancaImportOperation extends WorkspaceModifyOperation
 
             monitor.worked(1);
 
-            String[] logMessages = ea2FrancaTransformation.getLogMessages();
+            Collection<String> logMessages = ea2FrancaTransformation.getLogMessages();
 
-            if (logMessages.length > 0)
+            if (logMessages.size() > 0)
             {
-                String logMessage = logMessages.length + " warning(s) emerged while transforming EA project to Franca code!";
+                Iterator<String> logMessagesIterator = logMessages.iterator();
+                String logMessage = logMessages.size() + " warning(s) emerged while transforming EA project to Franca code!";
 
-                for (int i = 0; i < logMessages.length; i++)
+                for (int i = 0; logMessagesIterator.hasNext(); i++)
                 {
-                    logMessage += String.format("%n%d: %s", i + 1, logMessages[i]);
+                    logMessage += String.format("%n%d: %s", i + 1, logMessagesIterator.next());
                 }
 
                 IStatus status = new Status(IStatus.WARNING, Activator.PLUGIN_ID, logMessage);

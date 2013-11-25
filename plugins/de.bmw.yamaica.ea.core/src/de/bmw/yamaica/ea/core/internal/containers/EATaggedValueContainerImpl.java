@@ -13,6 +13,7 @@ import de.bmw.yamaica.ea.core.EAInstance;
 import de.bmw.yamaica.ea.core.IRunnableWithArguments;
 import de.bmw.yamaica.ea.core.containers.EAElementContainer;
 import de.bmw.yamaica.ea.core.containers.EATaggedValueContainer;
+import de.bmw.yamaica.ea.core.exceptions.EAException;
 
 public class EATaggedValueContainerImpl extends EAContainerImpl implements EATaggedValueContainer
 {
@@ -105,7 +106,14 @@ public class EATaggedValueContainerImpl extends EAContainerImpl implements EATag
             }
         });
 
-        return getRepository().getOrCreateEAObjectContainerById(elementId, EAElementContainer.class, this);
+        try
+        {
+            return getRepository().getOrCreateEAObjectContainerById(elementId, EAElementContainer.class);
+        }
+        catch (EAException e)
+        {
+            throw createReferencedElementNotFoundException(e, this);
+        }
     }
 
     // END Implementation of interface EATaggedValueContainer //

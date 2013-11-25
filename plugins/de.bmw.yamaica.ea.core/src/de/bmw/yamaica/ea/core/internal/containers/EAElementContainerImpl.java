@@ -26,6 +26,7 @@ import de.bmw.yamaica.ea.core.containers.EAElementContainer;
 import de.bmw.yamaica.ea.core.containers.EAMethodContainer;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.containers.EATagContainer;
+import de.bmw.yamaica.ea.core.exceptions.EAException;
 
 public class EAElementContainerImpl extends EAContainerImpl implements EAElementContainer
 {
@@ -130,8 +131,15 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
             }
         });
 
-        // If parent ID is zero, the parent is no element but a package
-        return (0 != parentId) ? getRepository().getOrCreateEAObjectContainerById(parentId, EAElementContainer.class, this) : getPackage();
+        try
+        {
+            // If parent ID is zero, the parent is no element but a package
+            return (0 != parentId) ? getRepository().getOrCreateEAObjectContainerById(parentId, EAElementContainer.class) : getPackage();
+        }
+        catch (EAException e)
+        {
+            throw createParentElementNotFoundException(e, this);
+        }
     }
 
     @Override
@@ -152,7 +160,14 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
             }
         });
 
-        return getRepository().getOrCreateEAObjectContainerById(packageId, EAPackageContainer.class, this);
+        try
+        {
+            return getRepository().getOrCreateEAObjectContainerById(packageId, EAPackageContainer.class);
+        }
+        catch (EAException e)
+        {
+            throw createReferencedElementNotFoundException(e, this);
+        }
     }
 
     @Override

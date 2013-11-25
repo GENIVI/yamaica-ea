@@ -7,66 +7,63 @@
 package de.bmw.yamaica.ea.tests.utils;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.compare.Diff;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xtext.resource.SynchronizedXtextResourceSet;
 import org.franca.core.dsl.FrancaIDLRuntimeModule;
 import org.franca.core.franca.FModel;
-import org.osgi.framework.Bundle;
+import org.junit.Assert;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import de.bmw.yamaica.base.tests.utils.EMFHelper;
+import de.bmw.yamaica.base.tests.utils.PathHelper;
 import de.bmw.yamaica.ea.core.EAProjectLoader;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.containers.EARepositoryContainer;
 import de.bmw.yamaica.ea.core.franca.EA2FrancaTransformation;
 import de.bmw.yamaica.franca.base.core.FrancaResourceSetContainer;
+import de.bmw.yamaica.franca.base.core.FrancaUtils;
 
 public class EA2FrancaTransformationAdapter
 {
-    private static EAProjectLoader eaProjectLoader;
-
-    /* private constructor */
+    // private constructor
     private EA2FrancaTransformationAdapter()
     {
     }
 
-    public static void setUpAdapter(String eaInputFile) throws Exception
+    public static EAProjectLoader createEAProjectLoader(String eaInputFile) throws Exception
     {
-        File eaFile = new File(getFileUriFromBundleRelativePath(EATestConstants.PLUGIN_ID, eaInputFile));
-        eaProjectLoader = new EAProjectLoader(eaFile);
+        File eaFile = new File(PathHelper.getFileUriFromBundleRelativePath(EATestConstants.TESTS_PLUGIN_ID, eaInputFile).toFileString());
+        EAProjectLoader eaProjectLoader = new EAProjectLoader(eaFile);
         eaProjectLoader.run(new NullProgressMonitor());
+
+        return eaProjectLoader;
     }
 
-    public static void tearDownAdapter()
+    public static ResourceSet transformEAPackages(EARepositoryContainer eaRepository, String[] eaPackagePaths, String destinationPath)
+            throws Exception
     {
-        eaProjectLoader.dispose();
-        eaProjectLoader = null;
-    }
+        List<EAPackageContainer> packages = getEAPackageContainers(eaRepository.getModels(), eaPackagePaths);
 
-    public static void transformEAPackages(String[] eaPackagePaths, String genPath) throws Exception
-    {
-        EARepositoryContainer repository = eaProjectLoader.getRepository();
-        List<EAPackageContainer> packages = getEAPackageContainers(repository.getModels(), eaPackagePaths);
-
-        IPath rootSavePath = new Path(getFileUriFromBundleRelativePath(EATestConstants.PLUGIN_ID, genPath).toString());
+        IPath rootSavePath = new Path(PathHelper.getFileUriFromBundleRelativePath(EATestConstants.TESTS_PLUGIN_ID, destinationPath)
+                .toString());
         Injector injector = Guice.createInjector(new FrancaIDLRuntimeModule());
         EA2FrancaTransformation ea2FrancaTransformation = injector.getInstance(EA2FrancaTransformation.class);
 
         FrancaResourceSetContainer resourceSetContainer = new FrancaResourceSetContainer(new SynchronizedXtextResourceSet(), rootSavePath);
 
-        FModel[] models = ea2FrancaTransformation.transformModels(packages.toArray(new EAPackageContainer[packages.size()]));
+        Collection<FModel> models = ea2FrancaTransformation.transformModels(packages);
         resourceSetContainer.addModels(models);
         resourceSetContainer.save();
 
@@ -88,19 +85,40 @@ public class EA2FrancaTransformationAdapter
         ea2FrancaTransformation.transformInterfaceCrossReferences();
         resourceSetContainer.save();
 
-        String[] logMessages = ea2FrancaTransformation.getLogMessages();
+        Collection<String> logMessages = ea2FrancaTransformation.getLogMessages();
 
-        if (logMessages.length > 0)
+        if (logMessages.size() > 0)
         {
-            String logMessage = logMessages.length + " warning(s) emerged while transforming EA project to Franca code!";
+            Iterator<String> logMessagesIterator = logMessages.iterator();
+            String logMessage = logMessages.size() + " warning(s) emerged while transforming EA project to Franca code!";
 
-            for (int i = 0; i < logMessages.length; i++)
+            for (int i = 0; logMessagesIterator.hasNext(); i++)
             {
-                logMessage += String.format("%n%d: %s", i + 1, logMessages[i]);
+                logMessage += String.format("%n%d: %s", i + 1, logMessagesIterator.next());
             }
 
             System.out.println(logMessage);
         }
+
+        return resourceSetContainer.getResourceSet();
+    }
+
+    public static void compareModels(String refModelpath, String genModelpath) throws Exception
+    {
+        URI refModelUri = PathHelper.getFileUriFromBundleRelativePath(EATestConstants.TESTS_PLUGIN_ID, refModelpath);
+        URI genModelUri = PathHelper.getFileUriFromBundleRelativePath(EATestConstants.TESTS_PLUGIN_ID, genModelpath);
+
+        List<URI> refFileUris = PathHelper.toFileUriList(PathHelper.getFilesOfDirectory(new File(refModelUri.toFileString())));
+        List<URI> genFileUris = PathHelper.toFileUriList(PathHelper.getFilesOfDirectory(new File(genModelUri.toFileString())));
+
+        String[] fileExtensions = new String[] { FrancaUtils.INTERFACE_DEFINITION_FILE_EXTENSION,
+                FrancaUtils.DEPLOYMENT_DEFINITION_FILE_EXTENSION };
+
+        ResourceSet refResourceSet = EMFHelper.loadFilesIntoResourceSet(new SynchronizedXtextResourceSet(), refFileUris, fileExtensions);
+        ResourceSet genResourceSet = EMFHelper.loadFilesIntoResourceSet(new SynchronizedXtextResourceSet(), genFileUris, fileExtensions);
+
+        List<Diff> diffs = EMFHelper.compareResourceSets(refResourceSet, genResourceSet);
+        EMFHelper.printDifferences(diffs);
     }
 
     private static List<EAPackageContainer> getEAPackageContainers(List<EAPackageContainer> eaPackageContainers, String[] namespaces)
@@ -116,6 +134,8 @@ public class EA2FrancaTransformationAdapter
                 targetContainers.add(targetContainer);
             }
         }
+
+        Assert.assertEquals("Not all required EA packages could be found!", namespaces.length, targetContainers.size());
 
         return targetContainers;
     }
@@ -150,14 +170,5 @@ public class EA2FrancaTransformationAdapter
         }
 
         return null;
-    }
-
-    private static URI getFileUriFromBundleRelativePath(String bundleId, String bundleRelativePath) throws URISyntaxException, IOException
-    {
-        Bundle bundle = Platform.getBundle(bundleId);
-        URL url = FileLocator.find(bundle, new Path(""), null);
-
-        // Append bundle relative path after resolving URL to allow the creation of URI to an non existing file or folder.
-        return URI.create(FileLocator.resolve(url).toURI().toString() + "/" + bundleRelativePath);
     }
 }

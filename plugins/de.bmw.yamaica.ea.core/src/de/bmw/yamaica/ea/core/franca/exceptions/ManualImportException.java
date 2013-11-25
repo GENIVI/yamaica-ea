@@ -4,28 +4,27 @@
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-package de.bmw.yamaica.ea.core;
+package de.bmw.yamaica.ea.core.franca.exceptions;
 
-public class EAException extends RuntimeException
+public class ManualImportException extends EA2FrancaTransformationException
 {
-    private static final long serialVersionUID = 9197878902791818618L;
+    private static final long serialVersionUID = -297492335239789704L;
 
-    public EAException()
+    public ManualImportException()
     {
-        super();
     }
 
-    public EAException(String message, Throwable cause)
+    public ManualImportException(String message, Throwable cause)
     {
         super(message, cause);
     }
 
-    public EAException(String message)
+    public ManualImportException(String message)
     {
         super(message);
     }
 
-    public EAException(Throwable cause)
+    public ManualImportException(Throwable cause)
     {
         super(cause);
     }

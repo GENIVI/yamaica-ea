@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.Assert;
 import org.sparx.Repository;
 
 import de.bmw.yamaica.ea.core.containers.EARepositoryContainer;
+import de.bmw.yamaica.ea.core.exceptions.EAException;
 import de.bmw.yamaica.ea.core.internal.containers.EARepositoryContainerImpl;
 
 public class EAInstance implements Runnable
@@ -107,7 +108,7 @@ public class EAInstance implements Runnable
 
             lock.lock();
 
-            while (thread != null)
+            while (null != thread)
             {
                 try
                 {

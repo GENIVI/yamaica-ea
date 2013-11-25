@@ -1,0 +1,117 @@
+package testinterface
+import InterfaceDefinitions_Manfred.Samples.testdatatypes.types.* from
+"InterfaceDefinitions_Manfred/Samples/testdatatypes.fidl"
+import InterfaceDefinitions_Manfred.Samples.testdatatypes.* from
+"InterfaceDefinitions_Manfred/Samples/testdatatypes.fidl"
+
+<**
+    @description : This is my interface.
+    @author : Manfred Bathelt
+**>
+
+interface TestInterface {
+    version {
+        major 5
+        minor 0
+    }
+
+    attribute MyArrayExampleType MyArrayExample
+
+    <**
+        @description : This is my basic attribute.
+    **>
+    attribute UInt32 MyBasicAttribute
+
+    attribute Int32 MyNosubscriptionAttribute noSubscriptions
+
+    attribute String MyReadonlyAttribute readonly
+
+    attribute UInt16 MyReadonlyNosubscriptionAttribute readonly noSubscriptions
+
+    attribute MyStructExtended_ MyStructAttribute
+
+    <**
+        @description : This is my method foo.
+
+This is a new line.
+
+(at)return This is a new line with an At-sign
+    **>
+    method foo {
+        in {
+            UInt32 a_in_uint32
+            String a_in_string
+            MyEnum a_in_enum
+            MyStructExtended_ a_in_struct
+            MyMap a_in_map
+        }
+        out {
+            UInt32 a_out_uint32
+            String a_out_string
+            MyEnum a_out_enum
+            MyStructExtended_ a_out_struct
+            MyMap a_out_map
+        }
+        error extends MyEnumExtended2 {
+            E1 = "ERROR 1"
+            E2 = "ERROR 2"
+        }
+    }
+    method fooNoWait fireAndForget {
+        in {
+            Int32 arg1
+            String arg2
+        }
+    }
+    broadcast MyBroadcast {
+        out {
+            String MyProperty
+        }
+    }
+    broadcast MyBroadcastSelection selective {
+        out {
+            String arg1
+        }
+    }
+
+}
+
+<**
+    @description : This is my interface extended.
+    @author : Manfred Bathelt
+**>
+
+interface TestInterfaceExtended extends TestInterface {
+    version {
+        major 1
+        minor 0
+    }
+    method foo2 {
+        in {
+            Boolean MyBoolean
+            ByteBuffer MyByteBuffer
+        }
+        out {
+            MyEnum ReturnValue
+        }
+    }
+    broadcast extendedBroadcast {
+        out {
+            Int8 myarg
+        }
+    }
+}
+
+<**
+    @author : Manfred Bathelt
+**>
+
+interface TestInterface2 {
+    version {
+        major 1
+        minor 0
+    }
+
+    attribute MyUnion MyUnionTestAttribute
+
+}

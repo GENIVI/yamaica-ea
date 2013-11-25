@@ -90,6 +90,8 @@ public class ImportPage extends YamaicaWizardImportPage
     protected EALabelProvider        labelProvider                = null;
     protected EAComparer             comparer                     = null;
 
+    protected boolean                autoRefreshOnNextAttempt     = false;
+
     // dialog store id constants
     protected final static String    STORE_IMPORT_DEPENDENCIES_ID = "YamaicaWizardImportPage.STORE_IMPORT_DEPENDENCIES_ID";
 
@@ -139,7 +141,7 @@ public class ImportPage extends YamaicaWizardImportPage
         {
             public void keyPressed(KeyEvent e)
             {
-                if (e.character != SWT.CR)
+                if (e.character != SWT.CR && e.character != SWT.ESC)
                 {
                     entryChanged = true;
                 }
@@ -223,11 +225,6 @@ public class ImportPage extends YamaicaWizardImportPage
     {
         try
         {
-            if (null != eaProjectLoader && eaProjectLoader.getFile().equals(sourceDirectory))
-            {
-                return;
-            }
-
             sourceSelectionTreeViewer.setInput(null);
 
             disposeEAProjectLoader();
@@ -267,6 +264,7 @@ public class ImportPage extends YamaicaWizardImportPage
         {
             setMessage(null, INFORMATION);
             updateWidgetEnablements();
+            autoRefreshOnNextAttempt = false;
         }
     }
 
@@ -398,6 +396,11 @@ public class ImportPage extends YamaicaWizardImportPage
 
         try
         {
+            if (true == autoRefreshOnNextAttempt && null != eaProjectLoader)
+            {
+                eaProjectLoader.getRepository().disposeContainers();
+            }
+
             IPath containerPath = getContainerFullPath();
 
             getContainer().run(true, false, new TempFolderCreation(containerPath));
@@ -435,6 +438,8 @@ public class ImportPage extends YamaicaWizardImportPage
             {
 
             }
+
+            autoRefreshOnNextAttempt = !success;
         }
 
         return success;

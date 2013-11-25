@@ -7,9 +7,11 @@ Bundle-Vendor: BMW Group
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.xtext,
+ org.eclipse.emf.compare,
  org.junit,
  org.franca.core.dsl.ui,
  org.franca.deploymodel.dsl.ui,
+ de.bmw.yamaica.base.tests,
  de.bmw.yamaica.franca.base.core,
  de.bmw.yamaica.ea.core,
  franca2ea

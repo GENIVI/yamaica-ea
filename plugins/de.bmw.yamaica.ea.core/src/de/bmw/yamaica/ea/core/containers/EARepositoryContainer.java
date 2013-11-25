@@ -30,5 +30,5 @@ public interface EARepositoryContainer extends EAContainer
 
     public <T extends EAContainer> T getOrCreateEAObjectContainer(Object eaObject, Class<T> type);
 
-    public <T extends EAContainer> T getOrCreateEAObjectContainerById(int id, Class<T> type, EAContainer container);
+    public <T extends EAContainer> T getOrCreateEAObjectContainerById(int id, Class<T> type);
 }

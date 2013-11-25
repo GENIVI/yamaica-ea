@@ -4,28 +4,27 @@
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-package de.bmw.yamaica.ea.core.franca;
+package de.bmw.yamaica.ea.core.franca.exceptions;
 
-public class EA2FrancaTransformationException extends RuntimeException
+public class FireAndForgetMethodException extends EA2FrancaTransformationException
 {
-    private static final long serialVersionUID = -4983132121357312262L;
+    private static final long serialVersionUID = -1684769897756528212L;
 
-    public EA2FrancaTransformationException()
+    public FireAndForgetMethodException()
     {
-        super();
     }
 
-    public EA2FrancaTransformationException(String message, Throwable cause)
+    public FireAndForgetMethodException(String message, Throwable cause)
     {
         super(message, cause);
     }
 
-    public EA2FrancaTransformationException(String message)
+    public FireAndForgetMethodException(String message)
     {
         super(message);
     }
 
-    public EA2FrancaTransformationException(Throwable cause)
+    public FireAndForgetMethodException(Throwable cause)
     {
         super(cause);
     }

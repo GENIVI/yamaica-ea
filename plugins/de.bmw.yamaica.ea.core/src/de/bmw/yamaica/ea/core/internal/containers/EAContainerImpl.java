@@ -25,6 +25,8 @@ import de.bmw.yamaica.ea.core.containers.EAContainer;
 import de.bmw.yamaica.ea.core.containers.EAContainerWithNamespace;
 import de.bmw.yamaica.ea.core.containers.EARepositoryContainer;
 import de.bmw.yamaica.ea.core.containers.EATagContainer;
+import de.bmw.yamaica.ea.core.exceptions.ParentElementNotFoundException;
+import de.bmw.yamaica.ea.core.exceptions.ReferencedElementNotFoundException;
 import de.bmw.yamaica.franca.base.core.FrancaUtils;
 
 public abstract class EAContainerImpl implements EAContainer
@@ -69,6 +71,17 @@ public abstract class EAContainerImpl implements EAContainer
     protected final int                   CACHED_ATTRIBUTE_ID           = 38;
     protected final int                   CACHED_CONNECTOR_ID           = 39;
     protected final int                   CACHED_MODELS                 = 40;
+
+    protected static final String         REFERENCE_ERROR_MESSAGE       = "An Enterprise Architect error occurred (\"%s\") while "
+                                                                                + "accessing the %s \"%s\". This is probably due the "
+                                                                                + "fact that the database of Enterprise Architect is "
+                                                                                + "inconsistent. A possible solution is to reset all "
+                                                                                + " references to other UML elements of this element.";
+
+    protected static final String         PARENT_ERROR_MESSAGE          = "An Enterprise Architect error occurred (\"%s\") while "
+                                                                                + "accessing the %s \"%s\". This is probably due the "
+                                                                                + "fact that the element was deleted. A possible solution "
+                                                                                + "is to reload the Enterprise Architect project.";
 
     protected final EAInstance            eaInstance;
     protected final int                   eaObjectId;
@@ -170,7 +183,7 @@ public abstract class EAContainerImpl implements EAContainer
     {
         for (String singleStereotype : allStereotypes)
         {
-            if (singleStereotype.trim().equals(stereotype.trim()))
+            if (singleStereotype.trim().equalsIgnoreCase(stereotype.trim()))
             {
                 return true;
             }
@@ -253,5 +266,48 @@ public abstract class EAContainerImpl implements EAContainer
 
             return value;
         }
+    }
+
+    protected ReferencedElementNotFoundException createReferencedElementNotFoundException(Throwable throwable, EAContainer container)
+    {
+        Throwable cause = getCause(throwable);
+        String message = getErrorMessage(REFERENCE_ERROR_MESSAGE, cause, container, true);
+
+        return new ReferencedElementNotFoundException(message, cause);
+    }
+
+    protected ParentElementNotFoundException createParentElementNotFoundException(Throwable throwable, EAContainer container)
+    {
+        Throwable cause = getCause(throwable);
+        String message = getErrorMessage(PARENT_ERROR_MESSAGE, cause, container, false);
+
+        return new ParentElementNotFoundException(message, cause);
+    }
+
+    private String getErrorMessage(String messageTemplate, Throwable throwable, EAContainer container, boolean fullyQualifiedName)
+    {
+        String elementType = container.getEAObjectType().getName().toLowerCase();
+        String elementName = getContainerName(container, fullyQualifiedName);
+
+        return String.format(messageTemplate, throwable.getMessage(), elementType, elementName);
+    }
+
+    private String getContainerName(EAContainer container, boolean fullyQualifiedName)
+    {
+        if (container instanceof EAContainerWithNamespace && true == fullyQualifiedName)
+        {
+            return ((EAContainerWithNamespace) container).getNamespace();
+        }
+        else
+        {
+            return container.getName();
+        }
+    }
+
+    private Throwable getCause(Throwable throwable)
+    {
+        Throwable cause = throwable.getCause();
+
+        return (null != cause) ? cause : throwable;
     }
 }

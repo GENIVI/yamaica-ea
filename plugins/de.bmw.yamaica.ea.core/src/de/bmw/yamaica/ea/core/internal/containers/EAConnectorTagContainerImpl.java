@@ -13,6 +13,7 @@ import de.bmw.yamaica.ea.core.EAInstance;
 import de.bmw.yamaica.ea.core.IRunnableWithArguments;
 import de.bmw.yamaica.ea.core.containers.EAConnectorContainer;
 import de.bmw.yamaica.ea.core.containers.EAConnectorTagContainer;
+import de.bmw.yamaica.ea.core.exceptions.EAException;
 
 public class EAConnectorTagContainerImpl extends EAContainerImpl implements EAConnectorTagContainer
 {
@@ -105,7 +106,14 @@ public class EAConnectorTagContainerImpl extends EAContainerImpl implements EACo
             }
         });
 
-        return getRepository().getOrCreateEAObjectContainerById(connectorId, EAConnectorContainer.class, this);
+        try
+        {
+            return getRepository().getOrCreateEAObjectContainerById(connectorId, EAConnectorContainer.class);
+        }
+        catch (EAException e)
+        {
+            throw createReferencedElementNotFoundException(e, this);
+        }
     }
 
     // END Implementation of interface EAConnectorTagContainer //

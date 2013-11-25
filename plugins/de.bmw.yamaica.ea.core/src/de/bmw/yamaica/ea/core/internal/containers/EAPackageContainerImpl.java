@@ -25,6 +25,7 @@ import de.bmw.yamaica.ea.core.containers.EAContainerWithNamespace;
 import de.bmw.yamaica.ea.core.containers.EAElementContainer;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.containers.EATagContainer;
+import de.bmw.yamaica.ea.core.exceptions.EAException;
 
 public class EAPackageContainerImpl extends EAContainerImpl implements EAPackageContainer
 {
@@ -129,7 +130,14 @@ public class EAPackageContainerImpl extends EAContainerImpl implements EAPackage
             }
         });
 
-        return getRepository().getOrCreateEAObjectContainerById(parentId, EAPackageContainer.class, this);
+        try
+        {
+            return getRepository().getOrCreateEAObjectContainerById(parentId, EAPackageContainer.class);
+        }
+        catch (EAException e)
+        {
+            throw createParentElementNotFoundException(e, this);
+        }
     }
 
     @Override

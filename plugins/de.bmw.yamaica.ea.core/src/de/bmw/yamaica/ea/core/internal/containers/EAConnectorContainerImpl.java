@@ -19,6 +19,7 @@ import de.bmw.yamaica.ea.core.IRunnableWithArguments;
 import de.bmw.yamaica.ea.core.containers.EAConnectorContainer;
 import de.bmw.yamaica.ea.core.containers.EAElementContainer;
 import de.bmw.yamaica.ea.core.containers.EATagContainer;
+import de.bmw.yamaica.ea.core.exceptions.EAException;
 
 public class EAConnectorContainerImpl extends EAContainerImpl implements EAConnectorContainer
 {
@@ -207,7 +208,14 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
             }
         });
 
-        return getRepository().getOrCreateEAObjectContainerById(supplierId, EAElementContainer.class, this);
+        try
+        {
+            return getRepository().getOrCreateEAObjectContainerById(supplierId, EAElementContainer.class);
+        }
+        catch (EAException e)
+        {
+            throw createReferencedElementNotFoundException(e, this);
+        }
     }
 
     @Override
@@ -222,7 +230,14 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
             }
         });
 
-        return getRepository().getOrCreateEAObjectContainerById(clientId, EAElementContainer.class, this);
+        try
+        {
+            return getRepository().getOrCreateEAObjectContainerById(clientId, EAElementContainer.class);
+        }
+        catch (EAException e)
+        {
+            throw createReferencedElementNotFoundException(e, this);
+        }
     }
 
     @Override

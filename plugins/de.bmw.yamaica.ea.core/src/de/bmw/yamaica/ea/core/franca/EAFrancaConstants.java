@@ -22,6 +22,7 @@ public interface EAFrancaConstants
     String STEREOTYPE_BROADCAST                            = "broadcast";
     String STEREOTYPE_BROADCAST_SELECTIVE                  = "broadcast selective";
     String STEREOTYPE_ENUMERATION                          = "enumeration";
+    String STEREOTYPE_FRANCA_ENUM                          = "FrancaEnum";
     String STEREOTYPE_ERROR                                = "error";
     String STEREOTYPE_FIDL                                 = "fidl";
     String STEREOTYPE_FIRE_AND_FORGET                      = "fireandforget";
