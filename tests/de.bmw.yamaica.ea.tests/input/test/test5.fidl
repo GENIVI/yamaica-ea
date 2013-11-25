@@ -1,0 +1,361 @@
+package test3.test5
+
+import test.test.test_interface from "test.fidl"
+
+interface test_interface2 extends test_interface{
+    
+    version {
+        major 1
+        minor 1
+    }
+
+    <**
+        @description : this is a test comment 
+    **>
+    attribute test_typecollection.MyIntInt base_s8 
+    
+    <**
+        @description : this is a test comment 
+    **>
+    attribute test_typecollection.enum base_s16 noSubscriptions
+    
+    <**
+        @description : this is a test comment 
+    **>
+    attribute Int32 base_s32 readonly
+
+    <**
+        @description : this is a test comment 
+    **>
+    attribute Int64 base_s64 readonly noSubscriptions
+    
+    <**
+        @description : this is a test comment 
+    **>
+    method testMethod {
+    } 
+    
+    <**
+        @description : this is a test comment 
+    **>
+    method fireAndForgetMethod fireAndForget {
+        
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    method oneInput {
+        in {
+            Int8 inOne
+        }
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    method multipleInput {
+        in {
+            Int8 inOne
+            Int8 inTwo
+            Int8 inThree
+        }
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    method oneOutput {
+        out {
+            Int8 outOne
+        }
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    method multipleOutput {
+        out {
+            Int8 outOne
+            Int8 outTwo
+            Int8 outThree
+        }
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    method oneInputOneOutput {
+        in {
+            Int8 inOne
+        }
+        out {
+            Int8 outOne
+        }
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    method multipleInputmultipleOutput {
+        in {
+            Int8[] inOne
+            test_typecollection.MyInt[] inTwo
+            test_typecollection.MyIntInt inThree
+        }
+        out {
+            Int8[] outOne
+            Int8 outTwo
+            Int8 outThree
+        }
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    method oneError {
+        error
+        {
+            errorOne
+        }
+    }
+    
+    method referencedError {
+        error test_typecollection.enum2
+    }
+    
+    method referencedBaseError {
+        error extends test_typecollection.enum2{
+            errorOne = "33"
+        }
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    method multipleError {
+        error
+        {
+            errorOne
+            errorTwo
+            errorThree
+        }
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    method bigTestMethod {
+        in {
+            <**
+                 @description : this is a test comment 
+             **>
+            Int8 inOne
+            <**
+                @description : this is a test comment 
+            **>
+            Int8 inTwo
+            Int8 inThree
+        }
+        out {
+            <**
+                @description : this is a test comment 
+            **>
+            Int8 outOne
+            Int8 outTwo
+            Int8 outThree
+        }
+        error {
+            <**
+                @description : this is a test comment 
+            **>
+            errorOne
+            errorTwo
+            errorThree
+        }
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    broadcast testEmptyBroadcast {
+    }
+    
+    
+    <**
+        @description : this is a test comment 
+    **>
+    broadcast testBroadcastOneOut {
+        out {
+            Int8 outInt
+        }
+    }
+    
+    
+    <**
+        @description : this is a test comment 
+    **>
+    broadcast testBroadcastMultipleOut {
+        out {
+            Int8 outIntOne
+            Int16 outIntTwo
+            Int64 outIntThree
+        }
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    broadcast testBroadcastSelective selective {
+        out {
+            Int8 outInt
+        }
+    }
+    
+    typedef test_bool is Boolean
+    
+    typedef test_bool2 is test_typecollection.ty_bool2
+    
+    enumeration enum3 extends test_typecollection.enum2 {
+        
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    union uni extends test_typecollection.uni {
+        test_typecollection.typedef_bool t
+        UInt8 int
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    struct stru extends test_typecollection.stru {
+        test_typecollection.typedef_bool[] typeDefInStruct
+        UInt8 int
+        test_typecollection.uni2 unionInStruct
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    array arr of UInt8
+    
+    <**
+        @description : this is a test comment 
+    **>
+    map testMap {
+        Int8 
+        to test_typecollection.uni2
+    }
+}
+
+<**
+    @author : Michael Bauer
+**>
+typeCollection test_typecollection {
+
+    version {
+        major 1
+        minor 3
+    }
+    <**
+        @description : this is a test comment 
+        
+    **>
+    enumeration enum {
+        
+    <**
+        @description : this is a test comment 
+    **>
+        testValue = "0x00"
+    }
+
+    <**
+        @description : this is a test comment 
+    **>
+    enumeration enum2 extends enum {
+        testValue2 = "0x01"
+    }
+
+    <**
+        @description : this is a test comment 
+    **>
+    union uni {
+        typedef_bool t
+        UInt8 int
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    struct stru {
+        typedef_bool[] typeDefInStruct
+        UInt8 int
+        uni2 unionInStruct
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    struct stru2 extends stru {
+        UInt32 int32
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    union uni2 extends uni {
+    }
+
+    <**
+        @description : this is a test comment 
+    **>
+    array arr of UInt8
+    
+    <**
+        @description : this is a test comment 
+    **>
+    array arr2 of arr
+    
+    
+    <**
+        @description : this is a test comment 
+    **>
+    map testMap {
+        Int8 
+        to uni2
+    }
+    
+    <**
+        @description : this is a test comment 
+    **>
+    typedef typedef_bool is Boolean
+    
+    <**
+        @description : this is a test comment 
+    **>
+    typedef ty_bool2 is typedef_bool
+    
+    <**
+        @author : Test
+    **>
+    typedef MyInt is Int8
+    
+    typedef MyIntInt is MyInt
+    
+    typedef MyIntIntInt is MyIntInt
+    
+    typedef MyString is String
+
+}
+
+typeCollection {
+
+    <**
+        @description : this is a test comment 
+     **>
+    typedef typedef_anon_bool is UInt8
+
+}

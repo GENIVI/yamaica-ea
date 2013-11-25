@@ -144,27 +144,6 @@ class Franca2EATransformation
         ]
     }
     
-    def void transformInterfaceReferences(FInterface inter)
-    {
-        if(inter.base != null)
-        {
-            inter.transformReferenceIfBaseExists
-        }
-    }
-    
-    def void transformReferenceIfBaseExists(FInterface inter)
-    {
-        val parentId = inter.base.searchTransformedElementsForIdByFModelElement
-        val childId = inter.searchTransformedElementsForIdByFModelElement
-        
-        val generalizationElement = parentId.createGeneralizationElement
-
-        val childElement = transformedElementMap.get(childId).umlModelElement as UmlInterfaceType
-        childElement.generalization = generalizationElement
-
-        generalizationElement.id.createExtensionElementsForIds(parentId, childId)
-    }
-
     def void initializeXmiType()
     {
         xmiModel.version = XMI_VERSION
@@ -188,6 +167,18 @@ class Franca2EATransformation
         xmiModel.model.name = MODEL_NAME
         xmiModel.model.type = TypeBaseType.UML_MODEL
         xmiModel.model.visibility = VisibilityType.PUBLIC
+        xmiModel.model.addModelPackage
+    }
+    
+    def void addModelPackage(uml.ModelType modelType)
+    {
+        val modelPackage = UmlFactory.eINSTANCE.createPackagedElementPackageType
+        modelPackage.id = ROOT_ELEMENT_ID
+        modelPackage.name = MODEL
+        modelPackage.type = TypeBaseType.UML_PACKAGE
+        modelPackage.visibility = VisibilityType.PUBLIC
+        
+        modelType.packagedElement.add(modelPackage)
     }
 
     def void initializeExtension()
@@ -253,7 +244,7 @@ class Franca2EATransformation
         if(!packageMap.containsKey(rootPackageName))
         {
             rootPackage = src.createRootPackage
-            xmiModel.model.packagedElement.add(rootPackage)
+            xmiModel.model.packagedElement.get(0).packagedElement.add(rootPackage)
         }
         else
         {
@@ -1916,6 +1907,27 @@ class Franca2EATransformation
         target.idref = details.endId
         
         xmiModel.extension.connectors.connector.add(it)
+    }
+    
+    def void transformInterfaceReferences(FInterface inter)
+    {
+        if(inter.base != null)
+        {
+            inter.transformReferenceIfBaseExists
+        }
+    }
+    
+    def void transformReferenceIfBaseExists(FInterface inter)
+    {
+        val parentId = inter.base.searchTransformedElementsForIdByFModelElement
+        val childId = inter.searchTransformedElementsForIdByFModelElement
+        
+        val generalizationElement = parentId.createGeneralizationElement
+
+        val childElement = transformedElementMap.get(childId).umlModelElement as UmlInterfaceType
+        childElement.generalization = generalizationElement
+
+        generalizationElement.id.createExtensionElementsForIds(parentId, childId)
     }
 
     def String getTypeName(FTypeRef t)

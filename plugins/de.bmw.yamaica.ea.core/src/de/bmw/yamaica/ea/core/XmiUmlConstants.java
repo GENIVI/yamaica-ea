@@ -13,6 +13,7 @@ public interface XmiUmlConstants
     String ENTERPRISE_ARCHITECT                   = "Enterprise Architect";
     String EXPORTER_VERSION                       = "6.5";
     String MODEL_NAME                             = "EA_Model";
+    String MODEL                                  = "ImportModel";
     String ELEMENTTYPE_PACKAGE                    = "package";
     String ELEMENTTYPE_ELEMENT                    = "element";
     String ROOT_ELEMENT_ID                        = "EAID_0";
