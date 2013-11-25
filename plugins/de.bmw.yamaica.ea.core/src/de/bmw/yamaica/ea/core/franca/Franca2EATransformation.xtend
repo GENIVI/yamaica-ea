@@ -715,7 +715,7 @@ class Franca2EATransformation
 
         containerAttribute.bounds = XmeiFactory.eINSTANCE.createBoundsType
         containerAttribute.bounds.lower = 1
-        containerAttribute.bounds.upper = 1
+        containerAttribute.bounds.upper = 1.toString
 
         containerAttribute.containment = XmeiFactory.eINSTANCE.createAttributeContainmentType
         containerAttribute.containment.position = enumeratorPosition
@@ -786,6 +786,7 @@ class Franca2EATransformation
 
     def create UmlFactory.eINSTANCE.createOwnedAttributeExtendedContentType createUmlOwnedAttribute(FTypedElement field, String parentId)
     {
+                //TODO field.array != null heißt dass das attribut ein array ist
         id = uniqueEaId
         name = field.name
         type1 = TypeBaseType.UML_PROPERTY
@@ -794,12 +795,21 @@ class Franca2EATransformation
         lowerValue = UmlFactory.eINSTANCE.createMultiplicityValueType
         lowerValue.type = TypeBaseType.UML_LITERAL_INTEGER
         lowerValue.id = id
-        lowerValue.value = 1
+        lowerValue.value = 1.toString
 
         upperValue = UmlFactory.eINSTANCE.createMultiplicityValueType
         upperValue.type = TypeBaseType.UML_LITERAL_INTEGER
         upperValue.id = id
-        upperValue.value = 1
+        
+        if(field.array != null)
+        {
+           // upperValue.value = ASTERISK
+           upperValue.value = (-1).toString
+        }
+        else
+        {
+            upperValue.value = 1.toString
+        }
 
         type = UmlFactory.eINSTANCE.createTypeType
 
@@ -824,6 +834,11 @@ class Franca2EATransformation
         scope = VisibilityType.PUBLIC
 
         it.createAttributeElementDefaults
+        
+        if(field.array != null)
+        {
+            bounds.upper = ASTERISK
+        }
 
         documentation.value = field.description
 
@@ -895,12 +910,12 @@ class Franca2EATransformation
         returnAttr.lowerValue = UmlFactory.eINSTANCE.createMultiplicityValueType
         returnAttr.lowerValue.type = TypeBaseType.UML_LITERAL_INTEGER
         returnAttr.lowerValue.id = returnAttr.id
-        returnAttr.lowerValue.value = 1
+        returnAttr.lowerValue.value = 1.toString
 
         returnAttr.upperValue = UmlFactory.eINSTANCE.createMultiplicityValueType
         returnAttr.upperValue.type = TypeBaseType.UML_LITERAL_INTEGER
         returnAttr.upperValue.id = returnAttr.id
-        returnAttr.upperValue.value = 1
+        returnAttr.upperValue.value = 1.toString
 
         returnAttr.type = UmlFactory.eINSTANCE.createTypeType
 
@@ -1190,7 +1205,6 @@ class Franca2EATransformation
         type.elements.forEach[ field |
             if(field.type.predefined.toString == UNDEFINED)
             {
-                //TODO field.array != null heißt dass das attribut ein array ist
                 val refId = transformedTypes.get(field.type.derived)
                 val containerId = transformedTypes.get(type)
                 val containerUmlElement = transformedElementMap.get(containerId).umlModelElement as UmlClassType
@@ -1712,12 +1726,12 @@ class Franca2EATransformation
             {
                 lowerValue = UmlFactory.eINSTANCE.createMultiplicityValueType
                 lowerValue.type = TypeBaseType.UML_LITERAL_INTEGER
-                lowerValue.value = 1
+                lowerValue.value = 1.toString
                 lowerValue.id = id + "_A"
                 
                 upperValue = UmlFactory.eINSTANCE.createMultiplicityValueType
                 upperValue.type = TypeBaseType.UML_LITERAL_UNLIMITED_NATURAL
-                upperValue.value = -1
+                upperValue.value = (-1).toString
                 upperValue.id = id + "_B"
             }
         }

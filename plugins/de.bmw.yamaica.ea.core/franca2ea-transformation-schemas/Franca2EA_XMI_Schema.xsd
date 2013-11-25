@@ -225,7 +225,7 @@
 
   <xs:complexType name="boundsType">
     <xs:attribute name="lower" type="xs:int" use="required" />
-    <xs:attribute name="upper" type="xs:int" use="required" />
+    <xs:attribute name="upper" type="xs:string" use="required" />
   </xs:complexType>
 
   <xs:complexType name="styleexType">

@@ -266,7 +266,7 @@
   <xs:complexType name="multiplicityValueType">
     <xs:attribute ref="xmi:type" use="required" />
     <xs:attribute ref="xmi:id" use="required" />
-    <xs:attribute name="value" type="xs:int" use="required" />
+    <xs:attribute name="value" type="xs:string" use="required" />
   </xs:complexType>
 
   <xs:complexType name="generalizationType">
