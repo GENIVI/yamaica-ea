@@ -134,13 +134,35 @@ class Franca2EATransformation
             inter.types.forEach[type | type.transformReference]
         ]
         
-        /*
-         * TODO interface vererbung!!
-         */
+        srcModel.interfaces.forEach [ inter |
+            inter.transformInterfaceReferences
+        ]
+        
          
         connectorMap.values.forEach [ connector |
             connector.createConnector
         ]
+    }
+    
+    def void transformInterfaceReferences(FInterface inter)
+    {
+        if(inter.base != null)
+        {
+            inter.transformReferenceIfBaseExists
+        }
+    }
+    
+    def void transformReferenceIfBaseExists(FInterface inter)
+    {
+        val parentId = inter.base.searchTransformedElementsForIdByFModelElement
+        val childId = inter.searchTransformedElementsForIdByFModelElement
+        
+        val generalizationElement = parentId.createGeneralizationElement
+
+        val childElement = transformedElementMap.get(childId).umlModelElement as UmlInterfaceType
+        childElement.generalization = generalizationElement
+
+        generalizationElement.id.createExtensionElementsForIds(parentId, childId)
     }
 
     def void initializeXmiType()
