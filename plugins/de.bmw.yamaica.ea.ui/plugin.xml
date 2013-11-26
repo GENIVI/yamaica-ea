@@ -2,6 +2,23 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
+         point="org.eclipse.ui.exportWizards">
+      <category
+            id="de.bmw.yamaica.ea.ui.exportCategory"
+            name="Enterprise Architect">
+      </category>
+      <wizard
+            category="de.bmw.yamaica.ea.ui.exportCategory"
+            class="de.bmw.yamaica.ea.ui.internal.franca.ExportWizard"
+            icon="platform:/plugin/org.eclipse.ui/icons/full/obj16/elements_obj.gif"
+            id="de.bmw.yamaica.ea.ui.exportWizard"
+            name="Franca to EAxmi">
+         <description>
+            Converts Franca interface definition files to Enterprise Architect XMI data.
+         </description>
+      </wizard>
+   </extension>
+   <extension
          point="org.eclipse.ui.importWizards">
       <category
             id="de.bmw.yamaica.ea.ui.importCategory"
@@ -41,6 +58,12 @@
          point="de.bmw.yamaica.base.ui.yamaicaImportWizards">
       <wizard
             importWizardId="de.bmw.yamaica.ea.ui.franca.importWizard">
+      </wizard>
+   </extension>
+   <extension
+         point="de.bmw.yamaica.base.ui.yamaicaExportWizards">
+      <wizard
+            exportWizardId="de.bmw.yamaica.ea.ui.exportWizard">
       </wizard>
    </extension>
 </plugin>

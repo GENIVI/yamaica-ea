@@ -4,66 +4,61 @@
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-package de.bmw.yamaica.ea.tests.positive;
+package de.bmw.yamaica.ea.ui.internal.franca;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.Assert;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.ui.dialogs.IOverwriteQuery;
 import org.eclipse.xtext.resource.SynchronizedXtextResourceSet;
 import org.franca.core.dsl.FrancaImportsProvider;
 import org.franca.core.franca.FModel;
 import org.franca.core.utils.ModelPersistenceHandler;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 import xmei.DocumentRoot;
 import xmei.XmeiPackage;
 import xmei.util.XmeiResourceFactoryImpl;
 import xmei.util.XmeiResourceImpl;
 import de.bmw.yamaica.ea.core.franca.Franca2EATransformation;
-import de.bmw.yamaica.ea.tests.utils.NoOutputCreatedException;
-import de.bmw.yamaica.ea.tests.utils.PathHelper;
 
-public class Franca2EATest
+public class EaXmiExportOperation implements IRunnableWithProgress
 {
 
-    private static final String      FIDL_FOLDER = "C:\\Users\\bauer\\yamaica_git\\ascgit048.yamaica-ea\\tests\\de.bmw.yamaica.ea.tests\\input\\test";
+    protected IPath           directoryPath;
+    protected IContainer      source;
+    protected IOverwriteQuery overwriteImplementor;
+    protected List<IResource> resources;
 
-    private static List<String>      refList     = new ArrayList<String>();
-    // private static ResourceSet referenceResourceSet;
-    private static ArrayList<FModel> modelList   = new ArrayList<FModel>();
+    protected boolean         showOverwriteQuery = true;
+    protected boolean         overwrite          = false;
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception
+    public EaXmiExportOperation(IPath directoryPath, IContainer source, IOverwriteQuery overwriteImplementor, List<IResource> resources)
     {
+        Assert.isNotNull(directoryPath);
+        Assert.isNotNull(source);
+        Assert.isNotNull(overwriteImplementor);
+        Assert.isNotNull(resources);
+
+        this.directoryPath = directoryPath;
+        this.source = source;
+        this.overwriteImplementor = overwriteImplementor;
+        this.resources = resources;
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception
-    {
-    }
-
-    @Before
-    public void setUp() throws Exception
-    {
-    }
-
-    @After
-    public void tearDown() throws Exception
-    {
-    }
-
-    @Test
-    public void test() throws NoOutputCreatedException, IOException
+    @Override
+    public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
     {
         Franca2EATransformation trafo = new Franca2EATransformation();
 
@@ -71,37 +66,33 @@ public class Franca2EATest
         ModelPersistenceHandler.registerFileExtensionHandler("fidl", francaImportsProvider);
         ModelPersistenceHandler persistenceManager = new ModelPersistenceHandler(new SynchronizedXtextResourceSet());
 
-        refList = PathHelper.listOfFilesInPath(FIDL_FOLDER);
-        // referenceResourceSet = new SynchronizedXtextResourceSet();
+        ArrayList<FModel> modelList = new ArrayList<FModel>();
 
-        for (String refPath : refList)
+        for (IResource res : resources)
         {
-            URI testUri = URI.createFileURI(refPath);
-            FModel testModel = (FModel) persistenceManager.loadModel(testUri, testUri);
+            URI sourceUri = URI.createPlatformResourceURI(res.getFullPath().toString(), false);
+            FModel testModel = (FModel) persistenceManager.loadModel(sourceUri, sourceUri);
             modelList.add(testModel);
-
         }
-        // for (Resource rec : referenceResourceSet.getResources())
-        // {
-        // System.out.println(rec.toString());
-        // }
 
         DocumentRoot xmi = trafo.transform(modelList);
-        Franca2EATest.saveModel(xmi,
-                "file:///C:\\Users\\bauer\\yamaica_git\\ascgit048.yamaica-ea\\tests\\de.bmw.yamaica.ea.tests\\demo2.xmi");
-
-        // Franca2EATest.saveModel(xmi, "demo.xmi");
+        // this.saveModel(xmi, "file:///C:\\Users\\bauer\\yamaica_git\\ascgit048.yamaica-ea\\tests\\de.bmw.yamaica.ea.tests\\demo2.xmi");
+        this.saveModel(xmi, "file:///" + directoryPath.toString());
     }
 
-    public static boolean saveModel(DocumentRoot model, String filename)
+    public void setOverwriteFiles(boolean value)
+    {
+        showOverwriteQuery = !value;
+        overwrite = value;
+    }
+
+    public boolean saveModel(DocumentRoot model, String filename)
     {
         ResourceSet resourceSet = new ResourceSetImpl();
         resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XmeiResourceFactoryImpl());
         resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(XmeiPackage.eNS_URI, XmeiPackage.eINSTANCE);
 
         URI uri = URI.createURI(filename);
-        Factory fac = resourceSet.getResourceFactoryRegistry().getFactory(uri);
-        System.out.println(fac.toString());
         XmeiResourceImpl res = (XmeiResourceImpl) resourceSet.createResource(uri);
         res.setEncoding("UTF-8");
         res.getContents().add(model);

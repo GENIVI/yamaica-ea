@@ -484,9 +484,19 @@ class Franca2EATransformation
         {
             packageName = restString.returnPrefix
             prefixName = prefixName + DOT + packageName
-            val newPackage = packageName.createPackageForName
-            packageMap.put(prefixName, newPackage)
-            parentPackage.packagedElement.add(newPackage)
+            
+            var PackagedElementPackageType newPackage
+            if(!packageMap.containsKey(prefixName))
+            {
+                newPackage = packageName.createPackageForName
+                packageMap.put(prefixName, newPackage)
+                parentPackage.packagedElement.add(newPackage)
+            }
+            else
+            {
+                newPackage = packageMap.get(prefixName)
+            }
+            
             val extensionPackage = transformedElementMap.get(newPackage.id).extensionElement as ElementType
             extensionPackage.model.package = parentPackage.id
             parentPackage = newPackage
@@ -498,7 +508,10 @@ class Franca2EATransformation
         val extensionPackage = transformedElementMap.get(newPackage.id).extensionElement as ElementType
         extensionPackage.properties.stereotype = StereotypeType.FIDL
         extensionPackage.model.package = parentPackage.id
-        packageMap.put(prefixName, newPackage)
+        if(!packageMap.containsKey(prefixName))
+        {
+            packageMap.put(prefixName, newPackage)
+        }
         parentPackage.packagedElement.add(newPackage)
         return newPackage
     }
@@ -777,7 +790,6 @@ class Franca2EATransformation
 
     def create UmlFactory.eINSTANCE.createOwnedAttributeExtendedContentType createUmlOwnedAttribute(FTypedElement field, String parentId)
     {
-                //TODO field.array != null heißt dass das attribut ein array ist
         id = uniqueEaId
         name = field.name
         type1 = TypeBaseType.UML_PROPERTY
@@ -794,7 +806,6 @@ class Franca2EATransformation
         
         if(field.array != null)
         {
-           // upperValue.value = ASTERISK
            upperValue.value = (-1).toString
         }
         else
