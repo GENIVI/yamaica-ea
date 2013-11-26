@@ -76,7 +76,6 @@ public class EaXmiExportOperation implements IRunnableWithProgress
         }
 
         DocumentRoot xmi = trafo.transform(modelList);
-        // this.saveModel(xmi, "file:///C:\\Users\\bauer\\yamaica_git\\ascgit048.yamaica-ea\\tests\\de.bmw.yamaica.ea.tests\\demo2.xmi");
         this.saveModel(xmi, "file:///" + directoryPath.toString());
     }
 
