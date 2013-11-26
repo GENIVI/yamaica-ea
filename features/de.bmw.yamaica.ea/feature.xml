@@ -42,6 +42,7 @@ All rights reserved.
       <import feature="org.eclipse.xtend.sdk" version="2.4.1.v201304180855" match="compatible"/>
       <import feature="org.eclipse.xtext.sdk" version="2.4.1.v201304180855" match="compatible"/>
       <import feature="org.eclipse.xtend.ui" version="1.3.0.v201302260541" match="compatible"/>
+      <import feature="de.bmw.emf.eaxmi.feature" version="1.0.0.201311261600"/>
    </requires>
 
    <plugin
