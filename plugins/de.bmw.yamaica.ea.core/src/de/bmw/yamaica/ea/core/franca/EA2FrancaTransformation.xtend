@@ -26,8 +26,8 @@ import de.bmw.yamaica.ea.core.franca.exceptions.InternalErrorException
 import de.bmw.yamaica.ea.core.franca.exceptions.ManualImportException
 import de.bmw.yamaica.ea.core.franca.exceptions.TypeResolvingException
 import de.bmw.yamaica.ea.core.franca.exceptions.VersionNumberFormatException
-import de.bmw.yamaica.franca.base.core.FrancaUtils
-import de.bmw.yamaica.franca.base.core.InterfaceDefinitionKeyword
+import de.bmw.yamaica.franca.common.core.FrancaUtils
+import de.bmw.yamaica.franca.common.core.InterfaceDefinitionKeyword
 import java.util.Collection
 import java.util.LinkedHashMap
 import java.util.LinkedHashSet

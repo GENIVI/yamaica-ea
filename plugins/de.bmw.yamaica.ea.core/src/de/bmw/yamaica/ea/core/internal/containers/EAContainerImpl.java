@@ -27,7 +27,8 @@ import de.bmw.yamaica.ea.core.containers.EARepositoryContainer;
 import de.bmw.yamaica.ea.core.containers.EATagContainer;
 import de.bmw.yamaica.ea.core.exceptions.ParentElementNotFoundException;
 import de.bmw.yamaica.ea.core.exceptions.ReferencedElementNotFoundException;
-import de.bmw.yamaica.franca.base.core.FrancaUtils;
+import de.bmw.yamaica.franca.common.core.FrancaUtils;
+;
 
 public abstract class EAContainerImpl implements EAContainer
 {

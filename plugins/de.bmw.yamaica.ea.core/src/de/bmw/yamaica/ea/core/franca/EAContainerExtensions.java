@@ -14,7 +14,7 @@ import de.bmw.yamaica.ea.core.containers.EAContainerWithNamespace;
 import de.bmw.yamaica.ea.core.containers.EAContainerWithTaggedValues;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.containers.EATagContainer;
-import de.bmw.yamaica.franca.base.core.FrancaUtils;
+import de.bmw.yamaica.franca.common.core.FrancaUtils;
 
 public class EAContainerExtensions
 {

@@ -17,7 +17,7 @@ import de.bmw.yamaica.ea.core.franca.exceptions.BaseTypeCountException
 import de.bmw.yamaica.ea.core.franca.exceptions.BaseTypeDataTypeException
 import de.bmw.yamaica.ea.core.franca.exceptions.ClientInterfaceCountException
 import de.bmw.yamaica.ea.core.franca.exceptions.NameNormalizationException
-import de.bmw.yamaica.franca.base.core.FrancaUtils
+import de.bmw.yamaica.franca.common.core.FrancaUtils
 import java.util.LinkedHashMap
 import java.util.Map
 import org.eclipse.core.runtime.IPath

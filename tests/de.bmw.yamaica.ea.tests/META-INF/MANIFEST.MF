@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.franca.core.dsl.ui,
  org.franca.deploymodel.dsl.ui,
  de.bmw.yamaica.common.tests,
- de.bmw.yamaica.franca.base.core,
+ de.bmw.yamaica.franca.common.core,
  de.bmw.yamaica.ea.core,
  de.bmw.emf.eaxmi
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

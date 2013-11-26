@@ -32,8 +32,8 @@ import de.bmw.yamaica.ea.core.EAProjectLoader;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.containers.EARepositoryContainer;
 import de.bmw.yamaica.ea.core.franca.EA2FrancaTransformation;
-import de.bmw.yamaica.franca.base.core.FrancaResourceSetContainer;
-import de.bmw.yamaica.franca.base.core.FrancaUtils;
+import de.bmw.yamaica.franca.common.core.FrancaResourceSetContainer;
+import de.bmw.yamaica.franca.common.core.FrancaUtils;
 
 public class EA2FrancaTransformationAdapter
 {

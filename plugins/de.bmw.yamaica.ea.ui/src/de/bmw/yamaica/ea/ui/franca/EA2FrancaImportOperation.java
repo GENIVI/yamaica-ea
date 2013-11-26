@@ -32,7 +32,7 @@ import de.bmw.yamaica.ea.core.exceptions.EAException;
 import de.bmw.yamaica.ea.core.franca.EA2FrancaTransformation;
 import de.bmw.yamaica.ea.core.franca.exceptions.EA2FrancaTransformationException;
 import de.bmw.yamaica.ea.ui.internal.Activator;
-import de.bmw.yamaica.franca.base.core.FrancaResourceSetContainer;
+import de.bmw.yamaica.franca.common.core.FrancaResourceSetContainer;
 
 public class EA2FrancaImportOperation extends WorkspaceModifyOperation
 {

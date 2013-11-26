@@ -65,7 +65,7 @@ import de.bmw.yamaica.ea.ui.EAComparer;
 import de.bmw.yamaica.ea.ui.EAContentProvider;
 import de.bmw.yamaica.ea.ui.EALabelProvider;
 import de.bmw.yamaica.ea.ui.franca.EA2FrancaImportOperation;
-import de.bmw.yamaica.franca.base.core.FrancaUtils;
+import de.bmw.yamaica.franca.common.core.FrancaUtils;
 
 public class ImportPage extends YamaicaWizardImportPage
 {

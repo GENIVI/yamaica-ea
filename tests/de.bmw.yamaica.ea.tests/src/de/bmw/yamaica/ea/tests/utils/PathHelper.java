@@ -19,7 +19,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
-import de.bmw.yamaica.franca.base.core.FrancaUtils;
+import de.bmw.yamaica.franca.common.core.FrancaUtils;
 
 public class PathHelper
 {
