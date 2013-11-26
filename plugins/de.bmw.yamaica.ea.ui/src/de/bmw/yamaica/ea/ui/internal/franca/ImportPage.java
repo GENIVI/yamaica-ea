@@ -52,11 +52,11 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.ContainerGenerator;
 import org.eclipse.ui.dialogs.IOverwriteQuery;
 
-import de.bmw.yamaica.base.core.utils.ResourceUtils;
-import de.bmw.yamaica.base.ui.dialogs.YamaicaCheckedTreeViewer;
-import de.bmw.yamaica.base.ui.dialogs.YamaicaWizardImportPage;
-import de.bmw.yamaica.base.ui.utils.ActionRunEvent;
-import de.bmw.yamaica.base.ui.utils.ViewerToolBar;
+import de.bmw.yamaica.common.core.utils.ResourceUtils;
+import de.bmw.yamaica.common.ui.dialogs.YamaicaCheckedTreeViewer;
+import de.bmw.yamaica.common.ui.dialogs.YamaicaWizardImportPage;
+import de.bmw.yamaica.common.ui.utils.ActionRunEvent;
+import de.bmw.yamaica.common.ui.utils.ViewerToolBar;
 import de.bmw.yamaica.ea.core.EAProjectLoader;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.franca.EAContainerExtensions;

@@ -1,6 +1,6 @@
 package de.bmw.yamaica.ea.core;
 
-import de.bmw.yamaica.base.core.YamaicaConstants;
+import de.bmw.yamaica.common.core.YamaicaConstants;
 
 public interface YamaicaEAConstants extends YamaicaConstants
 {

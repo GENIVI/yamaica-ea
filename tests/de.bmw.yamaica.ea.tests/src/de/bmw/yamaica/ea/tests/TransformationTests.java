@@ -4,7 +4,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.bmw.yamaica.base.tests.utils.PathHelper;
+import de.bmw.yamaica.common.tests.utils.PathHelper;
 import de.bmw.yamaica.ea.core.EAProjectLoader;
 import de.bmw.yamaica.ea.core.containers.EARepositoryContainer;
 import de.bmw.yamaica.ea.core.franca.exceptions.ArrayTypeCountException;

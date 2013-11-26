@@ -26,8 +26,8 @@ import org.junit.Assert;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import de.bmw.yamaica.base.tests.utils.EMFHelper;
-import de.bmw.yamaica.base.tests.utils.PathHelper;
+import de.bmw.yamaica.common.tests.utils.EMFHelper;
+import de.bmw.yamaica.common.tests.utils.PathHelper;
 import de.bmw.yamaica.ea.core.EAProjectLoader;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.containers.EARepositoryContainer;

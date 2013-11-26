@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Tutorials" link_to="../de.bmw.yamaica.base.doc/toc.xml#mediumPriorityTutorials">
+<toc label="Tutorials" link_to="../de.bmw.yamaica.common.doc/toc.xml#mediumPriorityTutorials">
    <topic href="help/importing_ea_projects.html" label="Importing EA Projects">
    </topic>
 </toc>

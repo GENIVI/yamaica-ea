@@ -9,7 +9,7 @@ package de.bmw.yamaica.ea.ui.internal.franca;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
 
-import de.bmw.yamaica.base.ui.dialogs.YamaicaImportWizard;
+import de.bmw.yamaica.common.ui.dialogs.YamaicaImportWizard;
 import de.bmw.yamaica.ea.ui.internal.Activator;
 
 public class ImportWizard extends YamaicaImportWizard

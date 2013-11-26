@@ -14,7 +14,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
 
-import de.bmw.yamaica.base.ui.dialogs.YamaicaWizardExportPage;
+import de.bmw.yamaica.common.ui.dialogs.YamaicaWizardExportPage;
 
 public class ExportPage extends YamaicaWizardExportPage
 {
