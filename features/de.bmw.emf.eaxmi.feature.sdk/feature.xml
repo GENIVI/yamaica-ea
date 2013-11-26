@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="de.bmw.emf.eaxmi.feature.sdk"
+      label="EA XMI Ecore Model SDK Feature"
+      version="1.0.0.qualifier"
+      provider-name="BMW Group">
+
+   <description>
+      Ecore model and helper classes for EA XMI format with sources.
+   </description>
+
+   <includes
+         id="de.bmw.emf.eaxmi.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="de.bmw.emf.eaxmi.feature.source"
+         version="0.0.0"/>
+
+</feature>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="de.bmw.emf.eaxmi.feature"
+      label="EA XMI Ecore Model Feature"
+      version="1.0.0.qualifier"
+      provider-name="BMW Group">
+
+   <description>
+      Ecore model and helper classes for EA XMI format.
+   </description>
+
+   <plugin
+         id="de.bmw.emf.eaxmi"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.bmw.emf.eaxmi.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.bmw.emf.eaxmi.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

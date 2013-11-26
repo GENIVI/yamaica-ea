@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated Franca2EA_XMI_Schema -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="uml.presentation.UmlModelWizardID"
+            name="%_UI_UmlModelWizard_label"
+            class="uml.presentation.UmlModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/UmlModelFile.gif">
+         <description>%_UI_UmlModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated Franca2EA_XMI_Schema -->
+      <editor
+            id="uml.presentation.UmlEditorID"
+            name="%_UI_UmlEditor_label"
+            icon="icons/full/obj16/UmlModelFile.gif"
+            extensions="uml"
+            class="uml.presentation.UmlEditor"
+            contributorClass="uml.presentation.UmlActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated Franca2EA_XMI_Schema -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="xmei.presentation.XmeiModelWizardID"
+            name="%_UI_XmeiModelWizard_label"
+            class="xmei.presentation.XmeiModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/XmeiModelFile.gif">
+         <description>%_UI_XmeiModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated Franca2EA_XMI_Schema -->
+      <editor
+            id="xmei.presentation.XmeiEditorID"
+            name="%_UI_XmeiEditor_label"
+            icon="icons/full/obj16/XmeiModelFile.gif"
+            extensions="xmei"
+            class="xmei.presentation.XmeiEditor"
+            contributorClass="xmei.presentation.XmeiActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

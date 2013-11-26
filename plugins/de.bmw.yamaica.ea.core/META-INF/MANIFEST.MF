@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.xtend2.lib;visibility:=reexport,
  de.bmw.yamaica.franca.base.core;visibility:=reexport,
  org.eclipse.xtext,
- EAXmiEcoreModel
+ de.bmw.emf.eaxmi
 Export-Package: de.bmw.yamaica.ea.core,
  de.bmw.yamaica.ea.core.containers,
  de.bmw.yamaica.ea.core.exceptions,
