@@ -12,7 +12,7 @@
             class="de.bmw.yamaica.ea.ui.internal.franca.ExportWizard"
             icon="platform:/plugin/org.eclipse.ui/icons/full/obj16/elements_obj.gif"
             id="de.bmw.yamaica.ea.ui.exportWizard"
-            name="Franca to EAxmi">
+            name="Franca to EA XMI">
          <description>
             Converts Franca interface definition files to Enterprise Architect XMI data.
          </description>
@@ -38,13 +38,42 @@
    <extension
          point="org.eclipse.ui.navigator.navigatorContent">
       <commonWizard
-            menuGroupId="de.bmw.yamaica.ea.ui.internal.franca"
+            menuGroupId="de.bmw.yamaica.ea.ui.franca"
             type="import"
             wizardId="de.bmw.yamaica.ea.ui.franca.importWizard">
          <enablement>
             <or>
                <adapt
                      type="org.eclipse.core.resources.IResource">
+                  <test
+                        property="org.eclipse.core.resources.projectNature"
+                        value="de.bmw.yamaica.common.core.yamaicanature">
+                  </test>
+               </adapt>
+            </or>
+         </enablement>
+      </commonWizard>
+      <commonWizard
+            menuGroupId="de.bmw.yamaica.ea.ui.xmi"
+            type="export"
+            wizardId="de.bmw.yamaica.ea.ui.exportWizard">
+         <enablement>
+            <or>
+               <adapt
+                     type="org.eclipse.core.resources.IFile">
+                  <test
+                        property="org.eclipse.core.resources.projectNature"
+                        value="de.bmw.yamaica.common.core.yamaicanature">
+                  </test>
+                  <or>
+                     <test
+                           property="org.eclipse.core.resources.name"
+                           value="*.fidl">
+                     </test>
+                  </or>
+               </adapt>
+               <adapt
+                     type="org.eclipse.core.resources.IContainer">
                   <test
                         property="org.eclipse.core.resources.projectNature"
                         value="de.bmw.yamaica.common.core.yamaicanature">

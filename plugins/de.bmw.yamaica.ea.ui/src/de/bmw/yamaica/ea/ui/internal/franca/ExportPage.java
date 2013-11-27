@@ -6,7 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package de.bmw.yamaica.ea.ui.internal.franca;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.Path;
@@ -33,6 +35,15 @@ public class ExportPage extends YamaicaWizardExportPage
     protected String[] getFileExtensions()
     {
         return new String[] { "fidl" };
+    }
+
+    @Override
+    protected Map<String, String> getSaveDialogExtensions()
+    {
+        LinkedHashMap<String, String> returnMap = new LinkedHashMap<String, String>();
+        returnMap.put("*.xmi", "XML Metadata Interchange files");
+        returnMap.putAll(super.getSaveDialogExtensions());
+        return returnMap;
     }
 
     @Override
