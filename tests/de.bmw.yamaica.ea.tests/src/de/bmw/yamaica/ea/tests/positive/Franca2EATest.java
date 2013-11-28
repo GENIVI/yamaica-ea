@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.xtext.resource.SynchronizedXtextResourceSet;
@@ -36,7 +35,7 @@ import de.bmw.yamaica.ea.tests.utils.PathHelper;
 public class Franca2EATest
 {
 
-    private static final String      FIDL_FOLDER = "C:\\Users\\bauer\\yamaica_git\\ascgit048.yamaica-ea\\tests\\de.bmw.yamaica.ea.tests\\input\\test";
+    private static final String      FIDL_FOLDER = "C:\\Users\\bauer\\yamaica_git\\ascgit048.yamaica-ea\\tests\\de.bmw.yamaica.ea.tests\\models\\franca\\input\\test";
 
     private static List<String>      refList     = new ArrayList<String>();
     // private static ResourceSet referenceResourceSet;
@@ -72,7 +71,6 @@ public class Franca2EATest
         ModelPersistenceHandler persistenceManager = new ModelPersistenceHandler(new SynchronizedXtextResourceSet());
 
         refList = PathHelper.listOfFilesInPath(FIDL_FOLDER);
-        // referenceResourceSet = new SynchronizedXtextResourceSet();
 
         for (String refPath : refList)
         {
@@ -81,16 +79,10 @@ public class Franca2EATest
             modelList.add(testModel);
 
         }
-        // for (Resource rec : referenceResourceSet.getResources())
-        // {
-        // System.out.println(rec.toString());
-        // }
 
         DocumentRoot xmi = trafo.transform(modelList);
         Franca2EATest.saveModel(xmi,
                 "file:///C:\\Users\\bauer\\yamaica_git\\ascgit048.yamaica-ea\\tests\\de.bmw.yamaica.ea.tests\\demo2.xmi");
-
-        // Franca2EATest.saveModel(xmi, "demo.xmi");
     }
 
     public static boolean saveModel(DocumentRoot model, String filename)
@@ -100,8 +92,6 @@ public class Franca2EATest
         resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(XmeiPackage.eNS_URI, XmeiPackage.eINSTANCE);
 
         URI uri = URI.createURI(filename);
-        Factory fac = resourceSet.getResourceFactoryRegistry().getFactory(uri);
-        System.out.println(fac.toString());
         XmeiResourceImpl res = (XmeiResourceImpl) resourceSet.createResource(uri);
         res.setEncoding("UTF-8");
         res.getContents().add(model);
