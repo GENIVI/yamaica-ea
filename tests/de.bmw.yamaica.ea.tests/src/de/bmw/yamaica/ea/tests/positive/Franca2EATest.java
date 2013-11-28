@@ -8,12 +8,18 @@ package de.bmw.yamaica.ea.tests.positive;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.XMLSave;
+import org.eclipse.emf.ecore.xmi.XMLSave.XMLTypeInfo;
 import org.eclipse.xtext.resource.SynchronizedXtextResourceSet;
 import org.franca.core.dsl.FrancaImportsProvider;
 import org.franca.core.franca.FModel;
@@ -96,9 +102,27 @@ public class Franca2EATest
         res.setEncoding("UTF-8");
         res.getContents().add(model);
 
+        XMLTypeInfo typeInfo = new XMLSave.XMLTypeInfo()
+        {
+
+            public boolean shouldSaveType(EClass arg0, EClassifier arg1, EStructuralFeature arg2)
+            {
+                return false;
+            }
+
+            public boolean shouldSaveType(EClass arg0, EClass arg1, EStructuralFeature arg2)
+            {
+                return false;
+            }
+
+        };
+
+        HashMap<Object, Object> options = new HashMap<Object, Object>();
+        options.put(XMLResource.OPTION_SAVE_TYPE_INFORMATION, typeInfo);
         try
         {
-            res.save(Collections.EMPTY_MAP);
+            // res.save(Collections.EMPTY_MAP);
+            res.save(options);
         }
         catch (IOException e)
         {

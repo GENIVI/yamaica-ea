@@ -9,7 +9,7 @@ package de.bmw.yamaica.ea.ui.internal.franca;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
@@ -18,8 +18,14 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.XMLSave;
+import org.eclipse.emf.ecore.xmi.XMLSave.XMLTypeInfo;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.dialogs.IOverwriteQuery;
 import org.eclipse.xtext.resource.SynchronizedXtextResourceSet;
@@ -96,9 +102,26 @@ public class EaXmiExportOperation implements IRunnableWithProgress
         res.setEncoding("UTF-8");
         res.getContents().add(model);
 
+        XMLTypeInfo typeInfo = new XMLSave.XMLTypeInfo()
+        {
+
+            public boolean shouldSaveType(EClass arg0, EClassifier arg1, EStructuralFeature arg2)
+            {
+                return false;
+            }
+
+            public boolean shouldSaveType(EClass arg0, EClass arg1, EStructuralFeature arg2)
+            {
+                return false;
+            }
+
+        };
+
+        HashMap<Object, Object> options = new HashMap<Object, Object>();
+        options.put(XMLResource.OPTION_SAVE_TYPE_INFORMATION, typeInfo);
         try
         {
-            res.save(Collections.EMPTY_MAP);
+            res.save(options);
         }
         catch (IOException e)
         {

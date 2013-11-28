@@ -14,5 +14,7 @@ Require-Bundle: org.eclipse.core.runtime,
  de.bmw.yamaica.common.tests,
  de.bmw.yamaica.franca.common.core,
  de.bmw.yamaica.ea.core,
- de.bmw.emf.eaxmi
+ de.bmw.emf.eaxmi,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
