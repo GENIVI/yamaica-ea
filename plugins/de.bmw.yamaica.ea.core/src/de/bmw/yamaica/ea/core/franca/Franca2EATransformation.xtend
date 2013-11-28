@@ -138,7 +138,6 @@ class Franca2EATransformation
             inter.transformInterfaceReferences
         ]
         
-         
         connectorMap.values.forEach [ connector |
             connector.createConnector
         ]
@@ -238,7 +237,6 @@ class Franca2EATransformation
 
     def void transformFModel(FModel src)
     {
-
         val rootPackageName = src.returnFirstSegmentOfFidlQualifiedName
         var PackagedElementPackageType rootPackage
         if(!packageMap.containsKey(rootPackageName))
@@ -253,7 +251,6 @@ class Franca2EATransformation
         src.transformTypeCollections
 
         src.transformInterfaces
-        
     }
 
     def String returnFirstSegmentOfFidlQualifiedName(FModel src)
@@ -296,7 +293,6 @@ class Franca2EATransformation
         project = null.createProjectElement
 
         code = createCodeElement
-
     }
 
     def PropertiesType createPropertiesElement(ElementType element)
@@ -579,7 +575,6 @@ class Franca2EATransformation
         {
             extensionElement.properties.genlinks = PARENT_EQUALS + type.actualType.predefined.getName + SEMICOLON
         }
-
     }
 
     def create XmeiFactory.eINSTANCE.createElementType createCorrespondingExtensionElement(PackagedElementBaseType umlType)
@@ -611,7 +606,6 @@ class Franca2EATransformation
 
         xmiModel.extension.elements.element.add(it)
         transformedElementMap.get(umlType.id).setExtensionElement(it)
-
     }
 
     def create UmlFactory.eINSTANCE.createUmlEnumerationType transformEnumerationType(FEnumerationType type,
@@ -654,7 +648,6 @@ class Franca2EATransformation
 
     def void transformEnumerator(FEnumerator enumerator, String parentId)
     {
-
         if(enumerator.value != null)
         {
             enumerator.createUmlEnumeratorLiteral(parentId)
@@ -728,7 +721,6 @@ class Franca2EATransformation
         containerAttribute.styleex = XmeiFactory.eINSTANCE.createStyleexType
 
         containerAttribute.stereotype = XmeiFactory.eINSTANCE.createStereotypeAttributeType
-
     }
 
     def create UmlFactory.eINSTANCE.createDefaultValueType createSpecificationElement(OwnedLiteralType literalType, FEnumerator enumerator)
@@ -899,7 +891,6 @@ class Franca2EATransformation
         {
             extensionElement.properties.genlinks = PARENT_EQUALS + arrType.elementType.predefined.getName + SEMICOLON
         }
-
     }
 
     def OwnedAttributeExtendedContentType createUmlOwnedAttributeWithoutName(String parentId)
@@ -1067,7 +1058,6 @@ class Franca2EATransformation
             FArrayType: type.transformArrayRef
             FMapType: type.transformMapRef
         }
-
     }
 
     def void transformTypeRef(FTypeDef typeDef)
@@ -1168,7 +1158,6 @@ class Franca2EATransformation
 
     def void setReferenceIfBaseExists(FEnumerationType enumType)
     {
-
         val childId = enumType.searchTransformedElementsForIdByFModelElement
         val parentId = enumType.base.searchTransformedElementsForIdByFModelElement
 
@@ -1601,7 +1590,6 @@ class Franca2EATransformation
         {
             method.errorEnum.setErrorEnumReference(it)
         }
-        
     }
     
     def void transformErrorEnumerator(FEnumerator enumerator, OwnedOperationType parentOperation)
@@ -1714,7 +1702,6 @@ class Franca2EATransformation
         operation.type.pure = 0
         
         operation.parameters = XmeiFactory.eINSTANCE.createOperationParametersType
-        
     }
     
     def create UmlFactory.eINSTANCE.createOwnedParameterType transformParameter(FArgument argument, String argDirection, String operationId)
@@ -1883,7 +1870,6 @@ class Franca2EATransformation
         {
             extensionElement.stereotype.stereotype = StereotypeType.ATTRIBUTE
         }
-        
     }
     
     def create XmeiFactory.eINSTANCE.createConnectorType createConnector(ConnectorDetails details) {
@@ -1952,6 +1938,5 @@ class Franca2EATransformation
         {
             return t.predefined.getName;
         }
-
     }
 }
