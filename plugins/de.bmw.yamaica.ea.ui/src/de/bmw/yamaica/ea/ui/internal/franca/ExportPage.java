@@ -21,7 +21,7 @@ import de.bmw.yamaica.common.ui.dialogs.YamaicaWizardExportPage;
 public class ExportPage extends YamaicaWizardExportPage
 {
     private static final String FRANCA_EA_EXPORTER      = "Franca IDL Exporter";
-    private static final String EXPORT_FRANCA_IDL_FILES = "Export Franca IDL files to Enterprise Architect.";
+    private static final String EXPORT_FRANCA_IDL_FILES = "Export Franca IDL files to Enterprise Architect XMI.";
 
     public ExportPage(IWorkbench workbench, IStructuredSelection structuredSelection)
     {
