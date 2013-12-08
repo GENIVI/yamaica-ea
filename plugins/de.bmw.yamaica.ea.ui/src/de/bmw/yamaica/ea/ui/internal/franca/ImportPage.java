@@ -484,7 +484,7 @@ public class ImportPage extends YamaicaWizardImportPage
     @Override
     protected IRunnableWithProgress getImporter()
     {
-        IPath platformPath = ResourceUtils.getPlatformRelativePath(tempFolder.getFullPath());
+        IPath platformPath = ResourceUtils.createPlatformPath(tempFolder.getFullPath());
 
         return new EA2FrancaImportOperation(platformPath, eaProjectLoader.getRepository().getEAInstance(), getSelectedPackages());
     }
