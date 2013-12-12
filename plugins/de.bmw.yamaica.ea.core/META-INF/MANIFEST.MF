@@ -5,11 +5,11 @@ Bundle-SymbolicName: de.bmw.yamaica.ea.core
 Bundle-Version: 0.9.0.qualifier
 Bundle-Vendor: BMW Group
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
- org.eclipse.xtend2.lib;visibility:=reexport,
- de.bmw.yamaica.franca.common.core;visibility:=reexport,
- org.eclipse.xtext,
- de.bmw.emf.eaxmi
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.8.0,4.0.0)";visibility:=reexport,
+ org.eclipse.xtend2.lib;bundle-version="[2.4.0,3.0.0)";visibility:=reexport,
+ org.eclipse.xtext;bundle-version="[2.4.0,3.0.0)";visibility:=reexport,
+ de.bmw.emf.eaxmi;bundle-version="[1.0.0,1.1.0)";visibility:=reexport,
+ de.bmw.yamaica.franca.common.core;bundle-version="[0.9.0,0.10.0)";visibility:=reexport
 Export-Package: de.bmw.yamaica.ea.core,
  de.bmw.yamaica.ea.core.containers,
  de.bmw.yamaica.ea.core.exceptions,

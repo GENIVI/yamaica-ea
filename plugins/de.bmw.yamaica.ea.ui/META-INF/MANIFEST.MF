@@ -5,14 +5,14 @@ Bundle-SymbolicName: de.bmw.yamaica.ea.ui;singleton:=true
 Bundle-Version: 0.9.0.qualifier
 Bundle-Activator: de.bmw.yamaica.ea.ui.internal.Activator
 Bundle-Vendor: BMW Group
-Require-Bundle: org.eclipse.core.resources,
- org.eclipse.ui,
- org.eclipse.ui.ide,
- org.eclipse.xtext,
- com.google.inject,
- de.bmw.yamaica.ea.core,
- de.bmw.yamaica.common.ui,
- de.bmw.emf.eaxmi
+Require-Bundle: org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)";visibility:=reexport,
+ org.eclipse.ui;bundle-version="[3.103.0,4.0.0)";visibility:=reexport,
+ org.eclipse.ui.ide;bundle-version="[3.8.0,4.0.0)";visibility:=reexport,
+ org.eclipse.xtext;bundle-version="[2.4.0,3.0.0)";visibility:=reexport,
+ com.google.inject;bundle-version="[3.0.0,4.0.0)";visibility:=reexport,
+ de.bmw.emf.eaxmi;bundle-version="[1.0.0,1.1.0)";visibility:=reexport,
+ de.bmw.yamaica.ea.core;bundle-version="[0.9.0,0.10.0)";visibility:=reexport,
+ de.bmw.yamaica.common.ui;bundle-version="[0.9.0,0.10.0)";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: de.bmw.yamaica.ea.ui,
