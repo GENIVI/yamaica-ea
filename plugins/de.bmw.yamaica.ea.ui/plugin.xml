@@ -28,7 +28,7 @@
             category="de.bmw.yamaica.ea.ui.importCategory"
             class="de.bmw.yamaica.ea.ui.internal.franca.ImportWizard"
             icon="platform:/plugin/org.eclipse.ui/icons/full/obj16/elements_obj.gif"
-            id="de.bmw.yamaica.ea.ui.franca.importWizard"
+            id="de.bmw.yamaica.ea.ui.importWizard"
             name="Franca Interface Definition Files from Enterprise Architect Project">
          <description>
             Converts Enterprise Architect packages to Franca interface definition files.
@@ -38,23 +38,7 @@
    <extension
          point="org.eclipse.ui.navigator.navigatorContent">
       <commonWizard
-            menuGroupId="de.bmw.yamaica.ea.ui.franca"
-            type="import"
-            wizardId="de.bmw.yamaica.ea.ui.franca.importWizard">
-         <enablement>
-            <or>
-               <adapt
-                     type="org.eclipse.core.resources.IResource">
-                  <test
-                        property="org.eclipse.core.resources.projectNature"
-                        value="de.bmw.yamaica.common.core.yamaicanature">
-                  </test>
-               </adapt>
-            </or>
-         </enablement>
-      </commonWizard>
-      <commonWizard
-            menuGroupId="de.bmw.yamaica.ea.ui.xmi"
+            menuGroupId="de.bmw.yamaica.ea.ui"
             type="export"
             wizardId="de.bmw.yamaica.ea.ui.exportWizard">
          <enablement>
@@ -82,11 +66,27 @@
             </or>
          </enablement>
       </commonWizard>
+      <commonWizard
+            menuGroupId="de.bmw.yamaica.ea.ui"
+            type="import"
+            wizardId="de.bmw.yamaica.ea.ui.importWizard">
+         <enablement>
+            <or>
+               <adapt
+                     type="org.eclipse.core.resources.IResource">
+                  <test
+                        property="org.eclipse.core.resources.projectNature"
+                        value="de.bmw.yamaica.common.core.yamaicanature">
+                  </test>
+               </adapt>
+            </or>
+         </enablement>
+      </commonWizard>
    </extension>
    <extension
          point="de.bmw.yamaica.common.ui.yamaicaImportWizards">
       <wizard
-            importWizardId="de.bmw.yamaica.ea.ui.franca.importWizard">
+            importWizardId="de.bmw.yamaica.ea.ui.importWizard">
       </wizard>
    </extension>
    <extension
