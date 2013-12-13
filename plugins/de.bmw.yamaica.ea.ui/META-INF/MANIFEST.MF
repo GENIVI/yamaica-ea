@@ -9,6 +9,8 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)";visibi
  org.eclipse.ui;bundle-version="[3.103.0,4.0.0)";visibility:=reexport,
  org.eclipse.ui.ide;bundle-version="[3.8.0,4.0.0)";visibility:=reexport,
  org.eclipse.xtext;bundle-version="[2.4.0,3.0.0)";visibility:=reexport,
+ org.franca.core.dsl.ui;bundle-version="[0.8.8,0.9.0)";visibility:=reexport,
+ org.franca.deploymodel.dsl.ui;bundle-version="[0.8.8,0.9.0)";visibility:=reexport,
  com.google.inject;bundle-version="[3.0.0,4.0.0)";visibility:=reexport,
  de.bmw.emf.eaxmi;bundle-version="[1.0.0,1.1.0)";visibility:=reexport,
  de.bmw.yamaica.ea.core;bundle-version="[0.9.0,0.10.0)";visibility:=reexport,
