@@ -17,7 +17,6 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)";visibi
  de.bmw.yamaica.common.ui;bundle-version="[0.9.0,0.10.0)";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: de.bmw.yamaica.ea.ui,
- de.bmw.yamaica.ea.ui.franca,
- de.bmw.yamaica.ea.ui.internal;x-internal:=true,
- de.bmw.yamaica.ea.ui.internal.franca;x-internal:=true
+Export-Package: de.bmw.yamaica.ea.ui,de.bmw.yamaica.ea.ui.franca,de.bm
+ w.yamaica.ea.ui.internal;x-internal:=true,de.bmw.yamaica.ea.ui.intern
+ al.franca;x-internal:=true

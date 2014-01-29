@@ -397,18 +397,4 @@ Exhibit B - &quot;Incompatible With Secondary Licenses&quot; Notice
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
-         id="de.bmw.emf.eaxmi.edit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="de.bmw.emf.eaxmi.editor"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
 </feature>

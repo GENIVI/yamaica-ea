@@ -10,13 +10,10 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.8.0,4.0.0)";visibili
  org.eclipse.xtext;bundle-version="[2.4.0,3.0.0)";visibility:=reexport,
  de.bmw.emf.eaxmi;bundle-version="[1.0.0,1.1.0)";visibility:=reexport,
  de.bmw.yamaica.franca.common.core;bundle-version="[0.9.0,0.10.0)";visibility:=reexport
-Export-Package: de.bmw.yamaica.ea.core,
- de.bmw.yamaica.ea.core.containers,
- de.bmw.yamaica.ea.core.exceptions,
- de.bmw.yamaica.ea.core.franca,
- de.bmw.yamaica.ea.core.franca.exceptions,
- de.bmw.yamaica.ea.core.internal.containers;x-internal:=true,
- de.bmw.yamaica.ea.core.resources
+Export-Package: de.bmw.yamaica.ea.core,de.bmw.yamaica.ea.core.containe
+ rs,de.bmw.yamaica.ea.core.exceptions,de.bmw.yamaica.ea.core.franca,de
+ .bmw.yamaica.ea.core.franca.exceptions,de.bmw.yamaica.ea.core.interna
+ l.containers;x-internal:=true,de.bmw.yamaica.ea.core.resources
 Bundle-ClassPath: .,
  external:$java.home$/lib/ext/eaapi.jar
 Import-Package: org.sparx;resolution:=optional
