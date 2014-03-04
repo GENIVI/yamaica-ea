@@ -121,28 +121,28 @@ class Franca2EATransformation
         srcModels.forEach[transformFModel]
 
         srcModels.forEach[transformReferences]
-        
+
         return docRoot
     }
 
     def void transformReferences(FModel srcModel)
     {
         srcModel.typeCollections.forEach [ typeColl |
-            typeColl.types.forEach[type | type.transformReference]
+            typeColl.types.forEach[type|type.transformReference]
         ]
         srcModel.interfaces.forEach [ inter |
-            inter.types.forEach[type | type.transformReference]
+            inter.types.forEach[type|type.transformReference]
         ]
-        
+
         srcModel.interfaces.forEach [ inter |
             inter.transformInterfaceReferences
         ]
-        
+
         connectorMap.values.forEach [ connector |
             connector.createConnector
         ]
     }
-    
+
     def void initializeXmiType()
     {
         xmiModel.version = XMI_VERSION
@@ -168,7 +168,7 @@ class Franca2EATransformation
         xmiModel.model.visibility = VisibilityType.PUBLIC
         xmiModel.model.addModelPackage
     }
-    
+
     def void addModelPackage(uml.ModelType modelType)
     {
         val modelPackage = UmlFactory.eINSTANCE.createPackagedElementPackageType
@@ -176,7 +176,7 @@ class Franca2EATransformation
         modelPackage.name = MODEL
         modelPackage.type = TypeBaseType.UML_PACKAGE
         modelPackage.visibility = VisibilityType.PUBLIC
-        
+
         modelType.packagedElement.add(modelPackage)
     }
 
@@ -348,19 +348,20 @@ class Franca2EATransformation
             newElement.author = fidlElement.author
             switch (fidlElement)
             {
-                FTypeCollection: newElement.version = fidlElement.extractVersionFromTypeCollection
-                default: 
+                FTypeCollection:
+                    newElement.version = fidlElement.extractVersionFromTypeCollection
+                default:
+                {
+                    if(fidlElement.eContainer instanceof FTypeCollection)
                     {
-                        if(fidlElement.eContainer instanceof FTypeCollection)
-                        {
-                            val container = fidlElement.eContainer as FTypeCollection
-                            newElement.version = container.extractVersionFromTypeCollection
-                        }
-                        else
-                        {
-                            newElement.version = ""
-                        }
+                        val container = fidlElement.eContainer as FTypeCollection
+                        newElement.version = container.extractVersionFromTypeCollection
                     }
+                    else
+                    {
+                        newElement.version = ""
+                    }
+                }
             }
         }
         else
@@ -401,7 +402,7 @@ class Franca2EATransformation
         eaIdCounter = eaIdCounter + 1
         return eaIdCounter
     }
-    
+
     def PackagedElementPackageType createPackageForTypeCollection(FTypeCollection typeColl)
     {
         val newPackage = typeColl.name.createPackageForName
@@ -480,7 +481,7 @@ class Franca2EATransformation
         {
             packageName = restString.returnPrefix
             prefixName = prefixName + DOT + packageName
-            
+
             var PackagedElementPackageType newPackage
             if(!packageMap.containsKey(prefixName))
             {
@@ -492,7 +493,7 @@ class Franca2EATransformation
             {
                 newPackage = packageMap.get(prefixName)
             }
-            
+
             val extensionPackage = transformedElementMap.get(newPackage.id).extensionElement as ElementType
             extensionPackage.model.package = parentPackage.id
             parentPackage = newPackage
@@ -552,7 +553,7 @@ class Franca2EATransformation
         it.type = TypeBaseType.UML_CLASS
         visibility = VisibilityType.PUBLIC
 
-        if(type.eContainer instanceof FTypeCollection && !(type.eContainer instanceof FInterface)) 
+        if(type.eContainer instanceof FTypeCollection && !(type.eContainer instanceof FInterface))
         {
             parentPackage.packagedElement.add(it)
         }
@@ -592,7 +593,7 @@ class Franca2EATransformation
 
         model = it.createModelElement
         model.package = (umlType.eContainer as PackagedElementPackageType).id
-        
+
         if(umlType.eContainer instanceof UmlInterfaceType)
         {
             model.owner = (umlType.eContainer as PackagedElementPackageType).id
@@ -616,7 +617,7 @@ class Franca2EATransformation
         it.type = TypeBaseType.UML_CLASS
         visibility = VisibilityType.PUBLIC
 
-        if(type.eContainer instanceof FTypeCollection && !(type.eContainer instanceof FInterface)) 
+        if(type.eContainer instanceof FTypeCollection && !(type.eContainer instanceof FInterface))
         {
             parentPackage.packagedElement.add(it)
         }
@@ -738,7 +739,7 @@ class Franca2EATransformation
         type = TypeBaseType.UML_CLASS
         visibility = VisibilityType.PUBLIC
 
-        if(compType.eContainer instanceof FTypeCollection && !(compType.eContainer instanceof FInterface)) 
+        if(compType.eContainer instanceof FTypeCollection && !(compType.eContainer instanceof FInterface))
         {
             parentPackage.packagedElement.add(it)
         }
@@ -795,10 +796,10 @@ class Franca2EATransformation
         upperValue = UmlFactory.eINSTANCE.createMultiplicityValueType
         upperValue.type = TypeBaseType.UML_LITERAL_INTEGER
         upperValue.id = id
-        
+
         if(field.array != null)
         {
-           upperValue.value = (-1).toString
+            upperValue.value = (-1).toString
         }
         else
         {
@@ -819,7 +820,8 @@ class Franca2EATransformation
         field.createExtensionOwnedAttribute(id, parentId)
     }
 
-    def create XmeiFactory.eINSTANCE.createAttributeType createExtensionOwnedAttribute(FTypedElement field, String umlElementId, String parentId)
+    def create XmeiFactory.eINSTANCE.createAttributeType createExtensionOwnedAttribute(FTypedElement field, String umlElementId,
+        String parentId)
     {
         val extensionElement = transformedElementMap.get(parentId).extensionElement as ElementType
 
@@ -828,7 +830,7 @@ class Franca2EATransformation
         scope = VisibilityType.PUBLIC
 
         it.createAttributeElementDefaults
-        
+
         if(field.array != null)
         {
             bounds.upper = ASTERISK
@@ -860,7 +862,7 @@ class Franca2EATransformation
         type = TypeBaseType.UML_CLASS
         visibility = VisibilityType.PUBLIC
 
-        if(arrType.eContainer instanceof FTypeCollection && !(arrType.eContainer instanceof FInterface)) 
+        if(arrType.eContainer instanceof FTypeCollection && !(arrType.eContainer instanceof FInterface))
         {
             parentPackage.packagedElement.add(it)
         }
@@ -868,7 +870,7 @@ class Franca2EATransformation
         {
             (parentPackage as UmlInterfaceType).nestedClassifier.add(it)
         }
-        
+
         transformedElementMap.put(id, new EquivalentElementContainer)
         transformedElementMap.get(id).fidlElement = arrType
         transformedElementMap.get(id).umlModelElement = it
@@ -962,7 +964,7 @@ class Franca2EATransformation
         type = TypeBaseType.UML_CLASS
         visibility = VisibilityType.PUBLIC
 
-        if(mapType.eContainer instanceof FTypeCollection && !(mapType.eContainer instanceof FInterface)) 
+        if(mapType.eContainer instanceof FTypeCollection && !(mapType.eContainer instanceof FInterface))
         {
             parentPackage.packagedElement.add(it)
         }
@@ -970,11 +972,11 @@ class Franca2EATransformation
         {
             (parentPackage as UmlInterfaceType).nestedClassifier.add(it)
         }
-        
+
         transformedElementMap.put(id, new EquivalentElementContainer)
         transformedElementMap.get(id).fidlElement = mapType
         transformedElementMap.get(id).umlModelElement = it
-        
+
         transformedTypes.put(mapType, id)
 
         it.createCorrespondingExtensionElement
@@ -1124,7 +1126,7 @@ class Franca2EATransformation
         parentExtensionElement.links.generalization.add(parentGeneralizationExtension)
         if(!connectorMap.containsKey(parentGeneralizationExtension))
         {
-            connectorMap.put(parentGeneralizationExtension, new ConnectorDetails) 
+            connectorMap.put(parentGeneralizationExtension, new ConnectorDetails)
             connectorMap.get(parentGeneralizationExtension).connectorId = parentGeneralizationExtension.id
             connectorMap.get(parentGeneralizationExtension).connectorType = EaTypesType.GENERALIZATION
             connectorMap.get(parentGeneralizationExtension).connectorStereotype = StereotypeType.EXTENDS
@@ -1177,7 +1179,7 @@ class Franca2EATransformation
         }
         unionType.transformContainedAttributes
     }
-    
+
     def void setReferenceIfBaseExists(FUnionType unionType)
     {
         val childId = unionType.searchTransformedElementsForIdByFModelElement
@@ -1190,16 +1192,16 @@ class Franca2EATransformation
 
         generalizationElement.id.createExtensionElementsForIds(parentId, childId)
     }
-    
+
     def void transformContainedAttributes(FCompoundType type)
     {
-        type.elements.forEach[ field |
+        type.elements.forEach [ field |
             if(field.type.predefined.toString == UNDEFINED)
             {
                 val refId = transformedTypes.get(field.type.derived)
                 val containerId = transformedTypes.get(type)
                 val containerUmlElement = transformedElementMap.get(containerId).umlModelElement as UmlClassType
-                containerUmlElement.ownedAttribute.forEach[ attribute |
+                containerUmlElement.ownedAttribute.forEach [ attribute |
                     val attr = attribute as OwnedAttributeExtendedContentType
                     if(attr.name == field.name)
                     {
@@ -1209,7 +1211,7 @@ class Franca2EATransformation
             }
         ]
     }
-    
+
     def void transformStructRef(FStructType structType)
     {
         if(structType.base != null)
@@ -1238,25 +1240,25 @@ class Franca2EATransformation
         {
             val baseType = arrayType.elementType.derived
             val baseId = transformedTypes.get(baseType)
-            
+
             val arrayId = transformedTypes.get(arrayType)
             val arrayUmlElement = transformedElementMap.get(arrayId).umlModelElement as UmlClassType
             arrayUmlElement.ownedAttribute.head.type.idref = baseId
-            
+
             val arrayExtensionElement = transformedElementMap.get(arrayId).extensionElement as ElementType
             if(arrayExtensionElement.links == null)
             {
                 arrayExtensionElement.links = XmeiFactory.eINSTANCE.createLinksType
             }
-            
+
             val extensionAssociation = arrayUmlElement.createAssociationExtension(arrayId, baseId)
             val baseExtensionElement = transformedElementMap.get(baseId).extensionElement as ElementType
-            
+
             arrayExtensionElement.links.association.add(extensionAssociation)
-            
+
             if(!connectorMap.containsKey(extensionAssociation))
             {
-                connectorMap.put(extensionAssociation, new ConnectorDetails) 
+                connectorMap.put(extensionAssociation, new ConnectorDetails)
                 connectorMap.get(extensionAssociation).connectorId = extensionAssociation.id
                 connectorMap.get(extensionAssociation).connectorType = EaTypesType.ASSOCIATION
                 connectorMap.get(extensionAssociation).connectorStereotype = StereotypeType.ARRAY_OF
@@ -1265,24 +1267,23 @@ class Franca2EATransformation
                 connectorMap.get(extensionAssociation).startLocalId = baseExtensionElement.model.eaLocalid
                 connectorMap.get(extensionAssociation).endLocalId = arrayExtensionElement.model.eaLocalid
 
-                 /* we only need to insert the element once into the connectorMap
+            /* we only need to insert the element once into the connectorMap
              * because the elements we add to the parent as well as the child extension element
              * are equal (but need to be created twice) 
              */
             }
-            
-            
+
             if(baseExtensionElement.links == null)
             {
                 baseExtensionElement.links = XmeiFactory.eINSTANCE.createLinksType
             }
-            
+
             val baseExtensionAssociation = arrayUmlElement.createAssociationExtension(arrayId, baseId)
-            
+
             baseExtensionElement.links.association.add(baseExtensionAssociation)
         }
     }
-    
+
     def ConcreteLinkType createAssociationExtension(UmlClassType arrayUmlElement, String arrayId, String baseId)
     {
         val extensionAssociation = XmeiFactory.eINSTANCE.createConcreteLinkType
@@ -1294,8 +1295,8 @@ class Franca2EATransformation
 
     def void transformMapRef(FMapType mapType)
     {
-         mapType.setAttributeRef(mapType.keyType, KEY)
-         mapType.setAttributeRef(mapType.valueType, VALUE)
+        mapType.setAttributeRef(mapType.keyType, KEY)
+        mapType.setAttributeRef(mapType.valueType, VALUE)
     }
 
     def void setAttributeRef(FMapType map, FTypeRef ref, String keyOrValue)
@@ -1305,7 +1306,7 @@ class Franca2EATransformation
             val refId = transformedTypes.get(ref.derived)
             val containerId = transformedTypes.get(map)
             val containerUmlElement = transformedElementMap.get(containerId).umlModelElement as UmlClassType
-            containerUmlElement.ownedAttribute.forEach[ attribute |
+            containerUmlElement.ownedAttribute.forEach [ attribute |
                 val attr = attribute as OwnedAttributeExtendedContentType
                 if(attr.name == keyOrValue)
                 {
@@ -1318,79 +1319,86 @@ class Franca2EATransformation
     def void transformInterfaces(FModel model)
     {
         val parentPackage = packageMap.get(model.name)
-        model.interfaces.forEach[ currentInterface |
+        model.interfaces.forEach [ currentInterface |
             currentInterface.transformInterface(parentPackage)
         ]
     }
-    
+
     def void transformInterface(FInterface currentInterface, PackagedElementPackageType parentPackage)
     {
         val interfacePackage = currentInterface.createPackageForInterface
         parentPackage.packagedElement.add(interfacePackage)
         val extensionElement = (transformedElementMap.get(interfacePackage.id).extensionElement as ElementType)
         extensionElement.model.package = parentPackage.id
-        
+
         if(!currentInterface.attributes.empty || !currentInterface.types.empty)
         {
             extensionElement.attributes = XmeiFactory.eINSTANCE.createAttributesType
         }
-        
+
         if(!currentInterface.broadcasts.empty || !currentInterface.methods.empty)
         {
             extensionElement.operations = XmeiFactory.eINSTANCE.createOperationsType
         }
-        
+
         val interfaceId = transformedTypes.get(currentInterface)
-        currentInterface.attributes.forEach[ attribute |
+        currentInterface.attributes.forEach [ attribute |
             attribute.transformInterfaceAttributes(interfaceId)
         ]
-        
+
         enumeratorPosition = 0
-        currentInterface.methods.forEach[ method |
+        currentInterface.methods.forEach [ method |
             method.transformInterfaceMethod(interfaceId)
         ]
-        currentInterface.types.forEach[ type |
+        currentInterface.types.forEach [ type |
             type.transformInterfaceTypes(interfaceId)
         ]
-        
-        val clientInterface = currentInterface.createClientInterface
-        parentPackage.packagedElement.add(clientInterface)
-        val extensionElementClient = (transformedElementMap.get(clientInterface.id).extensionElement as ElementType)
-        extensionElementClient.model.package = clientInterface.id
-        extensionElementClient.operations = XmeiFactory.eINSTANCE.createOperationsType
-        extensionElementClient.properties.stereotype = StereotypeType.FRANCA_CLIENT_INTERFACE
-        
-        currentInterface.broadcasts.forEach[ broadcast |
-            broadcast.transformInterfaceBroadcasts(clientInterface.id)
-        ]
-        
-        val interfaceAssociation = interfacePackage.id.createAssociationBetweenInterfaces(clientInterface.id)
-        parentPackage.packagedElement.add(interfaceAssociation)
-        val associationLink = interfaceAssociation.id.createConcreteLink(interfacePackage.id, clientInterface.id)
-        val associationLinkClient = interfaceAssociation.id.createConcreteLink(interfacePackage.id, clientInterface.id)
-        extensionElement.links = XmeiFactory.eINSTANCE.createLinksType
-        extensionElement.links.association.add(associationLink)
-        extensionElementClient.links = XmeiFactory.eINSTANCE.createLinksType
-        extensionElementClient.links.association.add(associationLinkClient)
-        
-        if(!connectorMap.containsKey(associationLink))
+
+        if(!currentInterface.broadcasts.empty)
         {
-            connectorMap.put(associationLink, new ConnectorDetails) 
-            connectorMap.get(associationLink).connectorId = associationLink.id
-            connectorMap.get(associationLink).connectorType = EaTypesType.ASSOCIATION
-            connectorMap.get(associationLink).connectorStereotype = StereotypeType.FRANCA_INTERFACE
-            connectorMap.get(associationLink).startId = interfacePackage.id
-            connectorMap.get(associationLink).endId = clientInterface.id
-            connectorMap.get(associationLink).startLocalId = extensionElement.model.eaLocalid
-            connectorMap.get(associationLink).endLocalId = extensionElementClient.model.eaLocalid
-             /* we only need to insert the element once into the connectorMap
-         * because the elements we add to the parent as well as the child extension element
-         * are equal (but need to be created twice) 
-         */
+            val clientInterface = currentInterface.createClientInterface
+            parentPackage.packagedElement.add(clientInterface)
+            val extensionElementClient = (transformedElementMap.get(clientInterface.id).extensionElement as ElementType)
+            extensionElementClient.model.package = clientInterface.id
+            extensionElementClient.operations = XmeiFactory.eINSTANCE.createOperationsType
+            extensionElementClient.properties.stereotype = StereotypeType.FRANCA_CLIENT_INTERFACE
+
+            currentInterface.broadcasts.forEach [ broadcast |
+                broadcast.transformInterfaceBroadcasts(clientInterface.id)
+            ]
+
+            val interfaceAssociation = interfacePackage.id.createAssociationBetweenInterfaces(clientInterface.id)
+            parentPackage.packagedElement.add(interfaceAssociation)
+            val associationLink = interfaceAssociation.id.createConcreteLink(interfacePackage.id, clientInterface.id)
+            val associationLinkClient = interfaceAssociation.id.createConcreteLink(interfacePackage.id, clientInterface.id)
+            extensionElement.links = XmeiFactory.eINSTANCE.createLinksType
+            extensionElement.links.association.add(associationLink)
+            extensionElementClient.links = XmeiFactory.eINSTANCE.createLinksType
+            extensionElementClient.links.association.add(associationLinkClient)
+
+            if(!connectorMap.containsKey(associationLink))
+            {
+                connectorMap.put(associationLink, new ConnectorDetails)
+                connectorMap.get(associationLink).connectorId = associationLink.id
+                connectorMap.get(associationLink).connectorType = EaTypesType.ASSOCIATION
+                connectorMap.get(associationLink).connectorStereotype = StereotypeType.FRANCA_INTERFACE
+                connectorMap.get(associationLink).startId = interfacePackage.id
+                connectorMap.get(associationLink).endId = clientInterface.id
+                connectorMap.get(associationLink).startLocalId = extensionElement.model.eaLocalid
+                connectorMap.get(associationLink).endLocalId = extensionElementClient.model.eaLocalid
+
+            /* we only need to insert the element once into the connectorMap
+             * because the elements we add to the parent as well as the child extension element
+             * are equal (but need to be created twice)
+             */
+            }
         }
+
     }
-    
-    def create UmlFactory.eINSTANCE.createPackagedElementAssociationType createAssociationBetweenInterfaces(String parentInterfaceId, String clientInterfaceId) {
+
+    def create UmlFactory.eINSTANCE.createPackagedElementAssociationType createAssociationBetweenInterfaces(String parentInterfaceId,
+        String clientInterfaceId)
+    {
         id = uniqueEaId
         type = TypeBaseType.UML_ASSOCIATION
         visibility = VisibilityType.PUBLIC
@@ -1398,7 +1406,7 @@ class Franca2EATransformation
         val firstMemberEnd = UmlFactory.eINSTANCE.createMemberEndType
         firstMemberEnd.idref = id + "_A"
         memberEnd.add(firstMemberEnd)
-        
+
         val secondMemberEnd = UmlFactory.eINSTANCE.createMemberEndType
         secondMemberEnd.idref = id + "_B"
         memberEnd.add(secondMemberEnd)
@@ -1412,8 +1420,9 @@ class Franca2EATransformation
         transformedElementMap.put(id, new EquivalentElementContainer)
         transformedElementMap.get(id).umlModelElement = it
     }
-    
-    def create UmlFactory.eINSTANCE.createOwnedAttributeExtendedAttributesType createOwnedEndElementWithId(String parentId, String refElementId, String memberEndId)
+
+    def create UmlFactory.eINSTANCE.createOwnedAttributeExtendedAttributesType createOwnedEndElementWithId(String parentId,
+        String refElementId, String memberEndId)
     {
         id = memberEndId
         type1 = TypeBaseType.UML_PROPERTY
@@ -1422,7 +1431,7 @@ class Franca2EATransformation
         type = UmlFactory.eINSTANCE.createTypeType
         type.idref = refElementId
     }
-    
+
     def UmlInterfaceType createPackageForInterface(FInterface inter)
     {
         val newPackage = inter.name.createInterfaceForName
@@ -1431,12 +1440,12 @@ class Franca2EATransformation
 
         val extensionElement = transformedElementMap.get(newPackage.id).extensionElement as ElementType
         extensionElement.project = transformedElementMap.get(newPackage.id).fidlElement.createProjectElement
-        
+
         transformedTypes.put(inter, newPackage.id)
-        
+
         return newPackage
     }
-    
+
     def UmlInterfaceType createClientInterface(FInterface inter)
     {
         val clientName = inter.name + CLIENT
@@ -1446,7 +1455,7 @@ class Franca2EATransformation
 
         val extensionElement = transformedElementMap.get(newPackage.id).extensionElement as ElementType
         extensionElement.project = transformedElementMap.get(newPackage.id).fidlElement.createProjectElement
-        
+
         return newPackage
     }
 
@@ -1461,7 +1470,6 @@ class Franca2EATransformation
 
         transformedElementMap.put(newPackage.id, new EquivalentElementContainer)
         transformedElementMap.get(newPackage.id).umlModelElement = newPackage
-        
 
         val extensionElement = newPackage.createExtensionInterface
         extensionElement.project = createProjectElement(null)
@@ -1480,11 +1488,11 @@ class Franca2EATransformation
         transformedElementMap.get(umlPackage.id).extensionElement = it
 
         model = it.createModelElement
-        
+
         model.eaEleType = ELEMENTTYPE_ELEMENT
 
         properties = it.createPropertiesElement
-        
+
         properties.SType = STypeType.INTERFACE
         properties.isAbstract = true
         properties.stereotype = StereotypeType.FRANCA_SERVICE_INTERFACE
@@ -1495,12 +1503,12 @@ class Franca2EATransformation
 
         xmiModel.extension.elements.element.add(it)
     }
-    
+
     def void transformInterfaceTypes(FType type, String parentInterface)
     {
         type.transformTypeInCollection(transformedElementMap.get(parentInterface).umlModelElement as UmlInterfaceType)
     }
-    
+
     def create UmlFactory.eINSTANCE.createUmlEnumerationType transformEnumerationTypeInInterface(FEnumerationType type,
         UmlInterfaceType parentPackage)
     {
@@ -1531,67 +1539,68 @@ class Franca2EATransformation
             enumerator.transformEnumerator(id)
         ]
     }
-    
+
     def void transformInterfaceMethod(FMethod method, String parentInterface)
     {
         method.createOwnedOperationElement(parentInterface)
     }
-    
+
     def create UmlFactory.eINSTANCE.createOwnedOperationType createOwnedOperationElement(FMethod method, String parentInterface)
     {
         id = uniqueEaId
         name = method.name
         visibility = VisibilityType.PUBLIC
         it.concurrency = SEQUENTIAL
-        
+
         val parentUmlElement = transformedElementMap.get(parentInterface).umlModelElement as UmlInterfaceType
         parentUmlElement.ownedOperation.add(it)
-        
+
         transformedElementMap.put(id, new EquivalentElementContainer)
         transformedElementMap.get(id).fidlElement = method
         transformedElementMap.get(id).umlModelElement = it
 
         transformedTypes.put(method, id)
-        
+
         val extensionOperation = method.createOwnedOperationExtensionElement(id, parentInterface)
-        
+
         parameterPosition = 0
-        method.inArgs.forEach[ inArg |
+        method.inArgs.forEach [ inArg |
             inArg.transformParameter(DIRECTION_IN, id)
         ]
 
         extensionOperation.type.returnarray = 0
-        method.outArgs.forEach[ outArg |
+        method.outArgs.forEach [ outArg |
             outArg.transformParameter(DIRECTION_OUT, id)
         ]
-        
-        method.outArgs.forEach[ outArg |
+
+        method.outArgs.forEach [ outArg |
             if(outArg.array != null)
             {
+
                 /*
                  * if one of the return parameters is an array, we set the returnarray flag to true
                  */
                 extensionOperation.type.returnarray = 1
-            }            
+            }
         ]
-        
+
         if(method.errors != null)
         {
             if(method.errors.base != null)
             {
                 method.errors.base.setErrorEnumReference(it)
             }
-            method.errors.enumerators.forEach[ errorEnumerator |
+            method.errors.enumerators.forEach [ errorEnumerator |
                 errorEnumerator.transformErrorEnumerator(it)
             ]
         }
-        
+
         if(method.errorEnum != null)
         {
             method.errorEnum.setErrorEnumReference(it)
         }
     }
-    
+
     def void transformErrorEnumerator(FEnumerator enumerator, OwnedOperationType parentOperation)
     {
         val ownedParam = UmlFactory.eINSTANCE.createOwnedParameterType
@@ -1603,23 +1612,23 @@ class Franca2EATransformation
         ownedParam.isException = false
         ownedParam.isUnique = false
         ownedParam.direction = DirectionType.OUT
-        
+
         ownedParam.defaultValue = UmlFactory.eINSTANCE.createDefaultValueType
         ownedParam.defaultValue.type = TypeBaseType.UML_LITERAL_STRING
         ownedParam.defaultValue.id = ownedParam.id + "_" + parameterPosition
         parameterPosition = parameterPosition + 1
         ownedParam.defaultValue.value = enumerator.value
-        
-        parentOperation.ownedParameter.add(ownedParam) 
+
+        parentOperation.ownedParameter.add(ownedParam)
         transformedElementMap.put(ownedParam.id, new EquivalentElementContainer)
         transformedElementMap.get(ownedParam.id).fidlElement = enumerator
         transformedElementMap.get(ownedParam.id).umlModelElement = ownedParam
 
         transformedTypes.put(enumerator, ownedParam.id)
-        
+
         ownedParam.createParameterExtension(parentOperation.id)
     }
-    
+
     def void setErrorEnumReference(FEnumerationType errorEnum, OwnedOperationType parentOperation)
     {
         val ownedParam = UmlFactory.eINSTANCE.createOwnedParameterType
@@ -1631,26 +1640,28 @@ class Franca2EATransformation
         ownedParam.isException = false
         ownedParam.isUnique = false
         ownedParam.direction = DirectionType.OUT
-        
-        parentOperation.ownedParameter.add(ownedParam)     
-        ownedParam.createEnumRefExtension(parentOperation.id, errorEnum)        
+
+        parentOperation.ownedParameter.add(ownedParam)
+        ownedParam.createEnumRefExtension(parentOperation.id, errorEnum)
     }
-    
-    def create XmeiFactory.eINSTANCE.createParameterType createEnumRefExtension(OwnedParameterType paramType, String operationId, FEnumerationType errorEnum)
+
+    def create XmeiFactory.eINSTANCE.createParameterType createEnumRefExtension(OwnedParameterType paramType, String operationId,
+        FEnumerationType errorEnum)
     {
         idref = paramType.id
         visibility = VisibilityType.PUBLIC
-        
+
         it.createParameterDefaults
-        
+
         properties.classifier = transformedTypes.get(errorEnum)
         properties.type = errorEnum.name
-             
+
         val extensionOperation = transformedElementMap.get(operationId).extensionElement as OperationType
         extensionOperation.parameters.parameter.add(it)
     }
-    
-    def create XmeiFactory.eINSTANCE.createOperationType createOwnedOperationExtensionElement(FMethod method, String umlElementId, String parentId)
+
+    def create XmeiFactory.eINSTANCE.createOperationType createOwnedOperationExtensionElement(FMethod method, String umlElementId,
+        String parentId)
     {
         val extensionElement = transformedElementMap.get(parentId).extensionElement as ElementType
 
@@ -1663,7 +1674,7 @@ class Franca2EATransformation
         documentation.value = method.description
 
         transformedElementMap.get(umlElementId).extensionElement = it
-        
+
         if(method.fireAndForget != null)
         {
             it.stereotype.stereotype = StereotypeType.METHOD_FIREANDFORGET
@@ -1673,11 +1684,10 @@ class Franca2EATransformation
             it.stereotype.stereotype = StereotypeType.METHOD
         }
         it.type.stereotype = it.stereotype.stereotype
-        
+
         extensionElement.operations.operation.add(it)
     }
-    
-    
+
     def void createOperationElementDefaults(OperationType operation)
     {
         operation.documentation = XmeiFactory.eINSTANCE.createDocumentationType
@@ -1691,7 +1701,7 @@ class Franca2EATransformation
         operation.model.eaGuid = OPEN_CURLED_BRACKETS + operation.idref + CLOSE_CURLED_BRACKETS
 
         operation.stereotype = XmeiFactory.eINSTANCE.createStereotypeAttributeType
-        
+
         operation.type = XmeiFactory.eINSTANCE.createOperationTypeType
         operation.type.static = false
         operation.type.const = false
@@ -1700,10 +1710,10 @@ class Franca2EATransformation
         operation.type.isQuery = false
         operation.type.synchronised = 0
         operation.type.pure = 0
-        
+
         operation.parameters = XmeiFactory.eINSTANCE.createOperationParametersType
     }
-    
+
     def create UmlFactory.eINSTANCE.createOwnedParameterType transformParameter(FArgument argument, String argDirection, String operationId)
     {
         id = uniqueEaId
@@ -1717,7 +1727,7 @@ class Franca2EATransformation
                 lowerValue.type = TypeBaseType.UML_LITERAL_INTEGER
                 lowerValue.value = 1.toString
                 lowerValue.id = id + "_A"
-                
+
                 upperValue = UmlFactory.eINSTANCE.createMultiplicityValueType
                 upperValue.type = TypeBaseType.UML_LITERAL_UNLIMITED_NATURAL
                 upperValue.value = (-1).toString
@@ -1733,34 +1743,34 @@ class Franca2EATransformation
         isException = false
         isUnique = false
         type = argument.type.typeName
-        
+
         val parentOperation = transformedElementMap.get(operationId).umlModelElement as OwnedOperationType
         parentOperation.ownedParameter.add(it)
-        
+
         transformedElementMap.put(id, new EquivalentElementContainer)
         transformedElementMap.get(id).fidlElement = argument
         transformedElementMap.get(id).umlModelElement = it
 
         transformedTypes.put(argument, id)
-        
+
         it.createParameterExtension(operationId)
     }
-    
+
     def create XmeiFactory.eINSTANCE.createParameterType createParameterExtension(OwnedParameterType paramType, String operationId)
     {
         idref = paramType.id
         visibility = VisibilityType.PUBLIC
-        
+
         it.createParameterDefaults
-        
+
         transformedElementMap.get(idref).extensionElement = it
-        
+
         if(transformedElementMap.get(idref).fidlElement instanceof FEnumerator)
         {
             val enumerator = transformedElementMap.get(idref).fidlElement as FEnumerator
             properties.type = enumerator.name
         }
-        else 
+        else
         {
             val fArgument = transformedElementMap.get(idref).fidlElement as FArgument
             if(fArgument.type.predefined.getName == UNDEFINED)
@@ -1772,7 +1782,7 @@ class Franca2EATransformation
         val extensionOperation = transformedElementMap.get(operationId).extensionElement as OperationType
         extensionOperation.parameters.parameter.add(it)
     }
-    
+
     def void createParameterDefaults(ParameterType paramType)
     {
         paramType.properties = XmeiFactory.eINSTANCE.createParameterPropertiesType
@@ -1780,47 +1790,49 @@ class Franca2EATransformation
         parameterPosition = parameterPosition + 1
         paramType.properties.const = false
         paramType.properties.eaGuid = OPEN_CURLED_BRACKETS + paramType.idref + CLOSE_CURLED_BRACKETS
-        
+
         paramType.documentation = XmeiFactory.eINSTANCE.createDocumentationType
     }
-    
+
     def create UmlFactory.eINSTANCE.createOwnedOperationType transformInterfaceBroadcasts(FBroadcast broadcast, String parentInterface)
     {
         id = uniqueEaId
         name = broadcast.name
         visibility = VisibilityType.PUBLIC
         it.concurrency = SEQUENTIAL
-        
+
         val parentUmlElement = transformedElementMap.get(parentInterface).umlModelElement as UmlInterfaceType
         parentUmlElement.ownedOperation.add(it)
-        
+
         transformedElementMap.put(id, new EquivalentElementContainer)
         transformedElementMap.get(id).fidlElement = broadcast
         transformedElementMap.get(id).umlModelElement = it
 
         transformedTypes.put(broadcast, id)
-        
+
         val extensionOperation = broadcast.createOwnedOperationBroadcastExtensionElement(id, parentInterface)
-        
+
         parameterPosition = 0
 
         extensionOperation.type.returnarray = 0
-        broadcast.outArgs.forEach[ outArg |
+        broadcast.outArgs.forEach [ outArg |
             outArg.transformParameter(DIRECTION_OUT, id)
         ]
-        
-        broadcast.outArgs.forEach[ outArg |
+
+        broadcast.outArgs.forEach [ outArg |
             if(outArg.array != null)
             {
+
                 /*
                  * if one of the return parameters is an array, we set the returnarray flag to true
                  */
                 extensionOperation.type.returnarray = 1
-            }            
+            }
         ]
     }
-    
-    def create XmeiFactory.eINSTANCE.createOperationType createOwnedOperationBroadcastExtensionElement(FBroadcast broadcast, String umlElementId, String parentId)
+
+    def create XmeiFactory.eINSTANCE.createOperationType createOwnedOperationBroadcastExtensionElement(FBroadcast broadcast,
+        String umlElementId, String parentId)
     {
         val extensionElement = transformedElementMap.get(parentId).extensionElement as ElementType
 
@@ -1833,7 +1845,7 @@ class Franca2EATransformation
         documentation.value = broadcast.description
 
         transformedElementMap.get(umlElementId).extensionElement = it
-        
+
         if(broadcast.selective != null)
         {
             it.stereotype.stereotype = StereotypeType.BROADCAST_SELECTIVE
@@ -1843,17 +1855,17 @@ class Franca2EATransformation
             it.stereotype.stereotype = StereotypeType.BROADCAST
         }
         it.type.stereotype = it.stereotype.stereotype
-        
+
         extensionElement.operations.operation.add(it)
     }
-    
+
     def void transformInterfaceAttributes(FAttribute attribute, String parentInterface)
     {
         val createdAttr = attribute.createUmlOwnedAttribute(parentInterface)
         val umlParent = transformedElementMap.get(parentInterface).umlModelElement as UmlInterfaceType
         umlParent.ownedAttribute.add(createdAttr)
         val extensionElement = transformedElementMap.get(createdAttr.id).extensionElement as AttributeType
-        
+
         if(attribute.readonly && attribute.noSubscriptions)
         {
             extensionElement.stereotype.stereotype = StereotypeType.ATTRIBUTE_READONLY_NOSUBSCRIPTIONS
@@ -1871,19 +1883,21 @@ class Franca2EATransformation
             extensionElement.stereotype.stereotype = StereotypeType.ATTRIBUTE
         }
     }
-    
-    def create XmeiFactory.eINSTANCE.createConnectorType createConnector(ConnectorDetails details) {
+
+    def create XmeiFactory.eINSTANCE.createConnectorType createConnector(ConnectorDetails details)
+    {
         idref = details.connectorId
-        
+
         source = XmeiFactory.eINSTANCE.createSourceAndTargetType
         target = XmeiFactory.eINSTANCE.createSourceAndTargetType
-        
+
         model = XmeiFactory.eINSTANCE.createConnectorModelType
         model.eaLocalid = assignEaIdCounterValue
         properties = XmeiFactory.eINSTANCE.createConnectorPropertiesType
         properties.eaType = details.connectorType
         properties.stereotype = details.connectorStereotype
         properties.direction = xmei.DirectionType.SOURCE_DESTINATION
+
         /*
          * if we have a franca interface we don't want any direction, so overwrite the setting
          */
@@ -1891,7 +1905,7 @@ class Franca2EATransformation
         {
             properties.direction = xmei.DirectionType.UNSPECIFIED
         }
-        
+
         if(properties.stereotype == StereotypeType.ARRAY_OF)
         {
             labels = XmeiFactory.eINSTANCE.createConnectorLabelsType
@@ -1899,13 +1913,13 @@ class Franca2EATransformation
             target.type = XmeiFactory.eINSTANCE.createSourceAndTargetTypeType
             target.type.multiplicity = ASTERISK
         }
-        
+
         source.idref = details.startId
         target.idref = details.endId
-        
+
         xmiModel.extension.connectors.connector.add(it)
     }
-    
+
     def void transformInterfaceReferences(FInterface inter)
     {
         if(inter.base != null)
@@ -1913,12 +1927,12 @@ class Franca2EATransformation
             inter.transformReferenceIfBaseExists
         }
     }
-    
+
     def void transformReferenceIfBaseExists(FInterface inter)
     {
         val parentId = inter.base.searchTransformedElementsForIdByFModelElement
         val childId = inter.searchTransformedElementsForIdByFModelElement
-        
+
         val generalizationElement = parentId.createGeneralizationElement
 
         val childElement = transformedElementMap.get(childId).umlModelElement as UmlInterfaceType
