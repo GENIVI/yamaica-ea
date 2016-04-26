@@ -1,0 +1,58 @@
+package Test_Cases.Test_2_Datatypes.Test_Case_212_Version_NumbersInf_Extended
+
+// Importing anonymous typeCollection and interfaces
+import Test_Cases.Test_2_Datatypes.Test_Case_212_Version_Numbers_Extended.* from "Test_Case_212_Version_Numbers_Extended.fidl"
+// Importing named typeCollection 'typeVersion1'.
+import Test_Cases.Test_2_Datatypes.Test_Case_212_Version_Numbers_Extended.typesVersion1.* from "Test_Case_212_Version_Numbers_Extended.fidl"
+// Importing named typeCollection 'typeVersion2'.
+import Test_Cases.Test_2_Datatypes.Test_Case_212_Version_Numbers_Extended.typesVersion2.* from "Test_Case_212_Version_Numbers_Extended.fidl"
+// Importing named typeCollection 'typeVersion3'.
+import Test_Cases.Test_2_Datatypes.Test_Case_212_Version_Numbers_Extended.typesVersion3.* from "Test_Case_212_Version_Numbers_Extended.fidl"
+
+<**
+    @description :
+        Version: 1.0
+        Import line for each typeCollection and interface.
+    @author : Max Mustermann
+**>
+interface MyInterface1 extends MyBaseInterface1 {
+    version {
+        major 1
+        minor 0
+    }
+
+    attribute MyBooleanDummy0 myBoolDummy0
+
+    attribute MyBooleanDummy1 myBoolDummy1
+
+    attribute MyBooleanDummy2 myBoolDummy2
+
+    attribute MyBooleanDummy3 myBoolDummy3
+}
+
+<**
+    @description :
+        Version: 1.0
+        Import line for each typeCollection and interface.
+    @author : Max Mustermann
+**>
+interface MyInterface2 extends MyBaseInterface2 {
+    version {
+        major 1
+        minor 0
+    }
+
+    method m2 {
+        in {
+                MyByteBufferDummy0 myBoolDummy0
+
+                MyByteBufferDummy1 myBoolDummy1
+
+        }
+        out {
+                MyByteBufferDummy2 myBoolDummy2
+
+                MyByteBufferDummy3 myBoolDummy3
+        }
+    }
+}

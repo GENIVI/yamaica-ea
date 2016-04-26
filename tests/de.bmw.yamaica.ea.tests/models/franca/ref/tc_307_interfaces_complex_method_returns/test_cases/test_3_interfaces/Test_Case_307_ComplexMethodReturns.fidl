@@ -1,0 +1,54 @@
+package test_cases.test_3_interfaces.test_case_307_complexmethodreturns
+
+<**
+    @author : Max Mustermann
+**>
+
+interface complexOuts {
+    version {
+        major 1
+        minor 0
+    }
+    method outParameters {
+        out {
+            MyUnion myUnionOut
+            MyStructArray myStructArrayOut
+            MyEnum myEnumOut
+            MyMap myMapOut
+            MyStruct myStructOut
+            MyUInt64Array myUInt64ArrayOut
+            MyInt32Array myInt32ArrayOut
+        }
+    }
+    array MyInt32Array of Int32
+
+    array MyUInt64Array of UInt64
+
+    array MyStructArray of MyStruct
+
+    struct MyStruct {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    map MyMap {
+        UInt32 to Double
+    }
+
+    union MyUnion {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    enumeration MyEnum {
+        A = 1
+        B = 2
+        C = 3
+        D = 4
+    }
+
+}

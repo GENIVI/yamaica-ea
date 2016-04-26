@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -21,4 +21,6 @@ public interface EAContainerWithNamespace extends EAContainerWithStereotypes
     public String getNamespace();
 
     public int getPosition();
+
+    public void setPosition(int position);
 }

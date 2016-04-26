@@ -1,0 +1,37 @@
+package Test_Cases.Test_3_Interfaces.Test_Case_309_SpecialMethods
+
+<**
+    @author : Max Mustermann
+**>
+
+interface specialMethods {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : fireandforget method
+    **>
+    method m1 fireAndForget {
+    }
+
+    <**
+        @description : broadcast
+    **>
+    broadcast m5 {
+        out {
+            Int32 myInt32
+        }
+    }
+
+    <**
+        @description : selective broadcast
+    **>
+    broadcast m6 selective {
+        out {
+            Double myDouble
+        }
+    }
+
+}

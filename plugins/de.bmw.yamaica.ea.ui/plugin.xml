@@ -12,9 +12,9 @@
             class="de.bmw.yamaica.ea.ui.internal.franca.ExportWizard"
             icon="platform:/plugin/org.eclipse.ui/icons/full/obj16/elements_obj.gif"
             id="de.bmw.yamaica.ea.ui.exportWizard"
-            name="Franca to EA XMI">
+            name="Franca Interface Definition Files To Enterprise Architect Project">
          <description>
-            Converts Franca interface definition files to Enterprise Architect XMI data.
+            Converts Franca interface definition files to Enterprise Architect projects.
          </description>
       </wizard>
    </extension>
@@ -92,7 +92,8 @@
    <extension
          point="de.bmw.yamaica.common.ui.yamaicaExportWizards">
       <wizard
-            exportWizardId="de.bmw.yamaica.ea.ui.exportWizard">
+            exportWizardId="de.bmw.yamaica.ea.ui.exportWizard"
+            extensions="fidl">
       </wizard>
    </extension>
 </plugin>

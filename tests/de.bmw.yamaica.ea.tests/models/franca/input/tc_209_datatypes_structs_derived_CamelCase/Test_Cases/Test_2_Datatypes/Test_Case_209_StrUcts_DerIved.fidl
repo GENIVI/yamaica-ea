@@ -1,0 +1,34 @@
+package Test_Cases.Test_2_Datatypes.Test_Case_209_StrUcts_DerIved
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection types {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : complexType struct
+    **>
+    struct MyStruct {
+        String name
+    }
+
+    <**
+        @description : complexType struct
+    **>
+    struct MyStructDerived extends MyStruct {
+        Double x
+        Double y
+    }
+
+    <**
+        @description : complexType struct
+    **>
+    struct MyStructExtended extends MyStructDerived {
+        Double z
+    }
+
+}

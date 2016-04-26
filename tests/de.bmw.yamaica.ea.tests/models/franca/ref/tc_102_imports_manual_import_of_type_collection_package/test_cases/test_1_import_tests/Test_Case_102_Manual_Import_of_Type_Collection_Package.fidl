@@ -1,0 +1,4 @@
+package
+test_cases.test_1_import_tests.test_case_102_manual_import_of_type_collection_package
+import test_cases.test_1_import_tests.tc_102_datatypes.types.* from
+"TC_102_Datatypes.fidl"

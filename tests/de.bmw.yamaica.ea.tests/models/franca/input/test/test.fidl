@@ -1,9 +1,0 @@
-package test.test
-
-interface test_interface {
-
-}
-
-typeCollection test_typecollection {
-
-}

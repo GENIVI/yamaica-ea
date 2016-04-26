@@ -1,0 +1,68 @@
+package test_cases.test_1_import_tests.tc_113_interfaces
+
+interface MyInterface1 {
+    version {
+        major 1
+        minor 0
+    }
+    method myMethod {
+        out {
+
+            <**
+                @description : This is a simple description.
+            **>
+            Boolean isSet
+        }
+    }
+
+    attribute String myString readonly
+
+    attribute undefined myValue readonly
+
+}
+
+interface MyInterface2 {
+    version {
+        major 1
+        minor 0
+    }
+    struct MyStruct {
+        Boolean isActivated
+    }
+
+    enumeration MyEnumeration {
+        A = 1
+        B = 2
+        C = 4
+        D = 8
+    }
+
+    broadcast myBroadcast {
+        out {
+
+            <**
+                @description : This is a simple description.
+            **>
+            MyStruct floatingNumber
+        }
+    }
+}
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection {
+    version {
+        major 100
+        minor 200
+    }
+    union MyUnion {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    typedef Build is UInt8
+
+}

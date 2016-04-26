@@ -1,0 +1,47 @@
+package test_cases.test_1_import_tests.tc_106.test6.b
+
+<**
+    @description : TypeCollection CommonTypesTwo (test6).
+    @author : Max Mustermann
+**>
+typeCollection CommonTypesTwo {
+
+    <**
+        @description : Unsigned int32 example.
+    **>
+    typedef UnsignedInt32 is UInt32
+
+    <**
+        @description : Standard[en]=The qualifier expresses whether the content of this event can be used or not.
+    **>
+    enumeration BaseEnumeration {
+        ALPHA = 0
+        BRAVO = 1
+    }
+
+    enumeration ExtendedEnumeration extends BaseEnumeration {
+        CHARLIE = 2
+        DELTA = 3
+    }
+
+    struct MyStruct {
+
+        <**
+            @description : TODO
+        **>
+        UnsignedInt32 x
+        UnsignedInt32 y
+        VersionType ^version
+    }
+
+    struct VersionType {
+        MyArray [ ] arrayOfArray
+    }
+
+    union MyUnion {
+        MyArray arr
+        String UTF8
+    }
+    array MyArray of UInt8
+
+}

@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -19,7 +19,7 @@ public class EATaggedValueContainerImpl extends EAContainerImpl implements EATag
 {
     protected final TaggedValue eaTaggedValue;
 
-    protected EATaggedValueContainerImpl(EAInstance eaInstance, TaggedValue eaTaggedValue)
+    protected EATaggedValueContainerImpl(final EAInstance eaInstance, final TaggedValue eaTaggedValue)
     {
         super(eaInstance, eaInstance.getRepository().getEAObjectId(eaTaggedValue));
 
@@ -42,11 +42,27 @@ public class EATaggedValueContainerImpl extends EAContainerImpl implements EATag
         return (String) getOrCreateCachedValue(CACHED_NAME, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaTaggedValue.GetName();
             }
         });
+    }
+
+    @Override
+    public void setName(final String name)
+    {
+        clearCachedValue(CACHED_NAME, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaTaggedValue.SetName((String) arguments[0]);
+                eaTaggedValue.Update();
+
+                return null;
+            }
+        }, name);
     }
 
     @Override
@@ -55,11 +71,27 @@ public class EATaggedValueContainerImpl extends EAContainerImpl implements EATag
         return (String) getOrCreateCachedValue(CACHED_NOTES, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaTaggedValue.GetNotes();
             }
         });
+    }
+
+    @Override
+    public void setNotes(final String notes)
+    {
+        clearCachedValue(CACHED_NOTES, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaTaggedValue.SetNotes((String) arguments[0]);
+                eaTaggedValue.Update();
+
+                return null;
+            }
+        }, notes);
     }
 
     @Override
@@ -70,11 +102,22 @@ public class EATaggedValueContainerImpl extends EAContainerImpl implements EATag
         return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaTaggedValue.Update();
             }
         });
+    }
+
+    @Override
+    public void delete()
+    {
+        final EAElementContainer element = getElement();
+
+        if (null != element)
+        {
+            element.deleteTaggedValue(this);
+        }
     }
 
     // END Implementation of interface EAContainer //
@@ -87,7 +130,7 @@ public class EATaggedValueContainerImpl extends EAContainerImpl implements EATag
         return (String) getOrCreateCachedValue(CACHED_VALUE, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaTaggedValue.GetValue();
             }
@@ -95,12 +138,28 @@ public class EATaggedValueContainerImpl extends EAContainerImpl implements EATag
     }
 
     @Override
-    public EAElementContainer getElement()
+    public void setValue(final String value)
     {
-        int elementId = (Integer) getOrCreateCachedValue(CACHED_ELEMENT_ID, new IRunnableWithArguments()
+        clearCachedValue(CACHED_VALUE, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
+            {
+                eaTaggedValue.SetValue((String) arguments[0]);
+                eaTaggedValue.Update();
+
+                return null;
+            }
+        }, value);
+    }
+
+    @Override
+    public EAElementContainer getElement()
+    {
+        final int elementId = (Integer) getOrCreateCachedValue(CACHED_ELEMENT_ID, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
             {
                 return eaTaggedValue.GetElementID();
             }

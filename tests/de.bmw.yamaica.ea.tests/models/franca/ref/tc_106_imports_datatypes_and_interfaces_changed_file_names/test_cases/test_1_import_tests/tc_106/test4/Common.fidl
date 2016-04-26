@@ -1,0 +1,142 @@
+package test_cases.test_1_import_tests.tc_106.test4.common
+import test_cases.test_1_import_tests.tc_106.test4.commontypesone.* from
+"Commontypesone.fidl"
+import test_cases.test_1_import_tests.tc_106.test4.commontypestwo.* from
+"Commontypestwo.fidl"
+
+<**
+    @description : MyInterface (test4).
+    @author : Max Mustermann
+**>
+
+interface MyInterface {
+    version {
+        major 1
+        minor 0
+    }
+    enumeration ErrorEnum {
+        NOT_FOUND
+        INTERNAL_ERROR
+    }
+
+    <**
+        @description : Broadcast
+    **>
+    broadcast myBroadcast {
+        out {
+
+            <**
+                @description : x
+            **>
+            MyTypes.MyArray [ ] x
+
+            <**
+                @description : y
+            **>
+            myTypes.MyArray [ ] y
+        }
+    }
+
+    <**
+        @description : check (out only)
+    **>
+    method check {
+        out {
+
+            <**
+                @description : result
+            **>
+            String result
+        }
+        error extends ErrorEnum {
+            CHECK
+        }
+    }
+
+    <**
+        @description : check (in and out)
+    **>
+    method check {
+        in {
+
+            <**
+                @description : parameter
+            **>
+            MyTypes.MyUnion parameter
+        }
+        out {
+
+            <**
+                @description : result
+            **>
+            myTypes.MyUnion result
+        }
+        error extends MyTypes.BaseEnumeration {
+            CHECK
+        }
+    }
+
+    <**
+        @description : activate
+    **>
+    method activate {
+        in {
+
+            <**
+                @description : start
+            **>
+            MyTypes.MyStruct start
+
+            <**
+                @description : end
+            **>
+            myTypes.MyStruct end
+        }
+        error extends myTypes.BaseEnumeration {
+            ACTIVATE
+        }
+    }
+
+    <**
+        @description : reset
+    **>
+    method reset fireAndForget {
+    }
+
+    <**
+        @description : suspend
+    **>
+    method suspend fireAndForget {
+        in {
+            MyTypes.UnsignedInt32 start
+            myTypes.UnsignedInt32 end
+        }
+    }
+
+    <**
+        @description : VersionAttribute1
+    **>
+    attribute MyTypes.VersionType [ ] VersionAttribute1 readonly
+
+    <**
+        @description : VersionAttribute2
+    **>
+    attribute myTypes.VersionType [ ] VersionAttribute2 readonly
+
+}
+
+<**
+    @description : MyEnumInterface (test4).
+    @author : Max Mustermann
+**>
+
+interface MyEnumInterface extends MyInterface {
+    version {
+        major 1
+        minor 0
+    }
+    enumeration ErrorEnumExtended extends MyInterface.ErrorEnum {
+        EXTENDED_ERROR
+    }
+
+}

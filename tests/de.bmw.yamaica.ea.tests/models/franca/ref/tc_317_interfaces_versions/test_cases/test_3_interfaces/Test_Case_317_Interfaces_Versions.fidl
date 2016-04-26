@@ -1,0 +1,33 @@
+package test_cases.test_3_interfaces.test_case_317_interfaces_versions
+
+<**
+    @description : Version: empty
+    @author : Max Mustermann
+**>
+
+interface i1 {
+}
+
+<**
+    @description : Version: 42
+    @author : Max Mustermann
+**>
+
+interface i2 {
+    version {
+        major 42
+        minor 0
+    }
+}
+
+<**
+    @description : Version: 42.23
+    @author : Max Mustermann
+**>
+
+interface i3 {
+    version {
+        major 42
+        minor 23
+    }
+}

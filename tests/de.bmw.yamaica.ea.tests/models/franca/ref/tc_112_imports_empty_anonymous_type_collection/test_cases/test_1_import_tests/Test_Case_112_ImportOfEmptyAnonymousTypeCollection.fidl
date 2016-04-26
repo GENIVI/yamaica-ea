@@ -1,0 +1,16 @@
+package test_cases.test_1_import_tests
+
+<**
+    @description : Imports an empty anonymous typeCollection.
+    @author : Max Mustermann
+**>
+typeCollection Test_Case_112_ImportOfEmptyAnonymousTypeCollection {
+    version {
+        major 255
+        minor 256
+    }
+    enumeration MyEnum {
+        VALUE
+    }
+
+}

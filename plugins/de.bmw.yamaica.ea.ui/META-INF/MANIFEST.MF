@@ -2,21 +2,20 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: yamaica Enterprise Architect UI
 Bundle-SymbolicName: de.bmw.yamaica.ea.ui;singleton:=true
-Bundle-Version: 0.9.1.qualifier
+Bundle-Version: 0.16.0.qualifier
 Bundle-Activator: de.bmw.yamaica.ea.ui.internal.Activator
 Bundle-Vendor: BMW Group
 Require-Bundle: org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)";visibility:=reexport,
  org.eclipse.ui;bundle-version="[3.103.0,4.0.0)";visibility:=reexport,
  org.eclipse.ui.ide;bundle-version="[3.8.0,4.0.0)";visibility:=reexport,
- org.eclipse.xtext;bundle-version="[2.4.0,3.0.0)";visibility:=reexport,
- org.franca.core.dsl.ui;bundle-version="[0.8.8,0.9.0)";visibility:=reexport,
- org.franca.deploymodel.dsl.ui;bundle-version="[0.8.8,0.9.0)";visibility:=reexport,
+ org.franca.core.dsl.ui;bundle-version="[0.9.0,0.10.0)";visibility:=reexport,
+ org.franca.deploymodel.dsl.ui;bundle-version="[0.9.0,0.10.0)";visibility:=reexport,
  com.google.inject;bundle-version="[3.0.0,4.0.0)";visibility:=reexport,
- de.bmw.emf.eaxmi;bundle-version="[1.0.0,1.1.0)";visibility:=reexport,
- de.bmw.yamaica.ea.core;bundle-version="[0.9.0,0.10.0)";visibility:=reexport,
- de.bmw.yamaica.common.ui;bundle-version="[0.9.0,0.10.0)";visibility:=reexport
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+ de.bmw.yamaica.ea.core;bundle-version="[0.15.0,0.16.0)";visibility:=reexport,
+ de.bmw.yamaica.common.ui;bundle-version="[0.15.0,0.16.0)";visibility:=reexport
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
-Export-Package: de.bmw.yamaica.ea.ui,de.bmw.yamaica.ea.ui.franca,de.bm
- w.yamaica.ea.ui.internal;x-internal:=true,de.bmw.yamaica.ea.ui.intern
- al.franca;x-internal:=true
+Export-Package: de.bmw.yamaica.ea.ui,
+ de.bmw.yamaica.ea.ui.franca,
+ de.bmw.yamaica.ea.ui.internal;x-internal:=true,
+ de.bmw.yamaica.ea.ui.internal.franca;x-internal:=true

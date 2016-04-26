@@ -1,0 +1,140 @@
+package test_cases.test_1_import_tests.tc_106.test7.common
+import test_cases.test_1_import_tests.tc_106.test7.* from "A.fidl"
+import test_cases.test_1_import_tests.tc_106.test7.* from "B.fidl"
+
+<**
+    @description : MyInterface (test7).
+    @author : Max Mustermann
+**>
+
+interface MyInterface {
+    version {
+        major 1
+        minor 0
+    }
+    enumeration ErrorEnum {
+        NOT_FOUND
+        INTERNAL_ERROR
+    }
+
+    <**
+        @description : Broadcast
+    **>
+    broadcast myBroadcast {
+        out {
+
+            <**
+                @description : x
+            **>
+            A.MyArray [ ] x
+
+            <**
+                @description : y
+            **>
+            B.MyArray [ ] y
+        }
+    }
+
+    <**
+        @description : check (out only)
+    **>
+    method check {
+        out {
+
+            <**
+                @description : result
+            **>
+            String result
+        }
+        error extends ErrorEnum {
+            CHECK
+        }
+    }
+
+    <**
+        @description : check (in and out)
+    **>
+    method check {
+        in {
+
+            <**
+                @description : parameter
+            **>
+            A.MyUnion parameter
+        }
+        out {
+
+            <**
+                @description : result
+            **>
+            B.MyUnion result
+        }
+        error extends A.BaseEnumeration {
+            CHECK
+        }
+    }
+
+    <**
+        @description : activate
+    **>
+    method activate {
+        in {
+
+            <**
+                @description : start
+            **>
+            A.MyStruct start
+
+            <**
+                @description : end
+            **>
+            B.MyStruct end
+        }
+        error extends B.BaseEnumeration {
+            ACTIVATE
+        }
+    }
+
+    <**
+        @description : reset
+    **>
+    method reset fireAndForget {
+    }
+
+    <**
+        @description : suspend
+    **>
+    method suspend fireAndForget {
+        in {
+            A.UnsignedInt32 start
+            B.UnsignedInt32 end
+        }
+    }
+
+    <**
+        @description : VersionAttribute1
+    **>
+    attribute A.VersionType [ ] VersionAttribute1 readonly
+
+    <**
+        @description : VersionAttribute2
+    **>
+    attribute B.VersionType [ ] VersionAttribute2 readonly
+
+}
+
+<**
+    @description : MyEnumInterface (test7).
+    @author : Max Mustermann
+**>
+
+interface MyEnumInterface extends MyInterface {
+    version {
+        major 1
+        minor 0
+    }
+    enumeration ErrorEnumExtended extends MyInterface.ErrorEnum {
+        EXTENDED_ERROR
+    }
+
+}

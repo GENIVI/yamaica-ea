@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -364,7 +365,7 @@ public class ImportPage extends YamaicaWizardImportPage
 
     protected List<EAPackageContainer> getSelectedPackages()
     {
-        List<EAPackageContainer> packages = new LinkedList<EAPackageContainer>();
+        List<EAPackageContainer> packages = new LinkedList<>();
 
         if (null != sourceSelectionTreeViewer)
         {
@@ -637,7 +638,7 @@ public class ImportPage extends YamaicaWizardImportPage
                 if (null != tempFolder)
                 {
                     Map<String, IFile> allCreatedFiles = getAllCreatedFiles(tempFolder);
-                    Map<String, IFile> files2Move = new HashMap<String, IFile>();
+                    Map<String, IFile> files2Move = new HashMap<>();
 
                     if (importDependencies)
                     {
@@ -651,13 +652,19 @@ public class ImportPage extends YamaicaWizardImportPage
                         {
                             IPath namespaceAsPath = EAContainerExtensions.getFidlNamespaceAsPath(eaPackageContainer);
 
-                            String namespace = FrancaUtils.normalizeNamespacePath(namespaceAsPath,
-                                    FrancaUtils.ALL_FOR_INTERFACE_DEFINITIONS, FrancaUtils.ALL).toString();
-                            IFile file = allCreatedFiles.get(namespace);
+                            // Normalize the namespace.
+                            IPath destNamespaceAsPath = FrancaUtils.normalizeNamespacePath(namespaceAsPath,
+                                    FrancaUtils.ALL_FOR_INTERFACE_DEFINITIONS, FrancaUtils.ALL);
+                            IPath withoutLastSegment = destNamespaceAsPath.removeLastSegments(1);
+                            // Keep the last segment of the namespace unchanged. Lower case anything else.
+                            IPath newPath = new Path(withoutLastSegment.toString().toLowerCase()).append(destNamespaceAsPath.lastSegment());
+
+                            final String path = newPath.toString();
+                            IFile file = allCreatedFiles.get(path);
 
                             if (null != file)
                             {
-                                files2Move.put(namespace, file);
+                                files2Move.put(path, file);
                             }
                         }
                     }
@@ -772,7 +779,7 @@ public class ImportPage extends YamaicaWizardImportPage
 
         public Map<String, IFile> getAllCreatedFiles(IContainer folder)
         {
-            Map<String, IFile> files = new HashMap<String, IFile>();
+            Map<String, IFile> files = new HashMap<>();
             IPath tempFolderPath = tempFolder.getFullPath();
 
             try

@@ -1,0 +1,8 @@
+package Test_Cases.Test_1_Import_Tests.TC_112_Datatypes
+
+<**
+    @author : Max Mustermann
+    @description : Containing an anonymous typeCollection only.
+**>
+typeCollection {
+}

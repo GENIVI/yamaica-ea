@@ -1,0 +1,37 @@
+package Test_Cases.Test_3_Interfaces.Test_Case_304_PrimitiveMethodParams
+
+<**
+    @author : Max Mustermann
+**>
+
+interface PrimitiveMethodParams {
+    version {
+        major 4
+        minor 0
+    }
+    method method1 {
+        in {
+            Boolean myBool
+            ByteBuffer myByteBuffer
+            Double myDouble
+            Float myFloat
+            String myString
+        }
+    }
+    method method2 {
+        in {
+            Int8 myInt8
+            Int16 myInt16
+            Int32 myInt32
+            Int64 myInt64
+        }
+    }
+    method method3 {
+        in {
+            UInt8 myUInt8
+            UInt16 myUInt16
+            UInt32 myUInt32
+            UInt64 myUInt64
+        }
+    }
+}

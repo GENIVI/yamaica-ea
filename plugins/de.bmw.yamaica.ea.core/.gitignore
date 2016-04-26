@@ -1,5 +1,4 @@
 bin/
 xtend-gen/
-/test.xmi
 *.fidl
 /target

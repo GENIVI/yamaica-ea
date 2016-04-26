@@ -1,0 +1,119 @@
+package test_cases.test_1_import_tests.tc_106.test3.testability
+
+import test_cases.test_1_import_tests.tc_106.test1.common.* from "../test1/tc_106_1_interfaces.fidl"
+import test_cases.test_1_import_tests.tc_106.test3.testabilitytypes.* from "tc_106_6_testtypes.fidl"
+
+
+<**
+    @author : Max Mustermann
+    @description : MyInterface (test3).
+**>
+interface MyInterface {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : VersionAttribute1
+    **>
+    attribute VersionType [] VersionAttribute1 readonly
+
+    <**
+        @description : VersionAttribute2
+    **>
+    attribute VersionType [] VersionAttribute2 readonly
+
+    <**
+        @description : Broadcast
+    **>
+    broadcast myBroadcast {
+        out {
+            <**
+                @description : x
+            **>
+            MyArray [ ] x
+
+            <**
+                @description : y
+            **>
+            MyArray [ ] y
+        }
+    }
+
+    <**
+        @description : check (out only)
+    **>
+    method check {
+        out {
+
+            <**
+                @description : result
+            **>
+            String result
+        }
+        error extends MyEnumInterface.ErrorEnumExtended {
+            CHECK
+        }
+    }
+
+
+    <**
+        @description : check (in and out)
+    **>
+    method check {
+        in {
+
+            <**
+                @description : parameter
+            **>
+            MyUnion parameter
+        }
+        out {
+
+            <**
+                @description : result
+            **>
+            MyUnion result
+        }
+        error extends MyInterface.ErrorEnum {
+            CHECK
+        }
+    }
+
+    <**
+        @description : activate
+    **>
+    method activate {
+        in {
+            <**
+                @description : start
+            **>
+            MyStruct start
+
+            <**
+                @description : end
+            **>
+            MyStruct end
+        }
+        error extends EnumPlus {
+            ACTIVATE
+        }
+    }
+
+    <**
+        @description : reset
+    **>
+    method reset fireAndForget {
+    }
+
+    <**
+        @description : suspend
+    **>
+    method suspend fireAndForget {
+        in {
+            UnsignedInt32 start
+            UnsignedInt32 end
+        }
+    }
+}

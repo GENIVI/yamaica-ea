@@ -1,6 +1,7 @@
 Manifest-Version: 1.0
+Eclipse-BundleShape: dir
 Bundle-ManifestVersion: 2
 Bundle-Name: yamaica EA Documentation
 Bundle-SymbolicName: de.bmw.yamaica.ea.doc;singleton:=true
-Bundle-Version: 0.9.1.qualifier
+Bundle-Version: 0.13.0.qualifier
 Bundle-Vendor: BMW Group

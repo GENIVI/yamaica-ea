@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -19,7 +19,7 @@ public class EAConnectorTagContainerImpl extends EAContainerImpl implements EACo
 {
     protected final ConnectorTag eaConnectorTag;
 
-    protected EAConnectorTagContainerImpl(EAInstance eaInstance, ConnectorTag eaConnectorTag)
+    protected EAConnectorTagContainerImpl(final EAInstance eaInstance, final ConnectorTag eaConnectorTag)
     {
         super(eaInstance, eaInstance.getRepository().getEAObjectId(eaConnectorTag));
 
@@ -42,11 +42,27 @@ public class EAConnectorTagContainerImpl extends EAContainerImpl implements EACo
         return (String) getOrCreateCachedValue(CACHED_NAME, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaConnectorTag.GetName();
             }
         });
+    }
+
+    @Override
+    public void setName(final String name)
+    {
+        clearCachedValue(CACHED_NAME, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaConnectorTag.SetName((String) arguments[0]);
+                eaConnectorTag.Update();
+
+                return null;
+            }
+        }, name);
     }
 
     @Override
@@ -55,11 +71,27 @@ public class EAConnectorTagContainerImpl extends EAContainerImpl implements EACo
         return (String) getOrCreateCachedValue(CACHED_NOTES, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaConnectorTag.GetNotes();
             }
         });
+    }
+
+    @Override
+    public void setNotes(final String notes)
+    {
+        clearCachedValue(CACHED_NOTES, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaConnectorTag.SetNotes((String) arguments[0]);
+                eaConnectorTag.Update();
+
+                return null;
+            }
+        }, notes);
     }
 
     @Override
@@ -70,11 +102,22 @@ public class EAConnectorTagContainerImpl extends EAContainerImpl implements EACo
         return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaConnectorTag.Update();
             }
         });
+    }
+
+    @Override
+    public void delete()
+    {
+        final EAConnectorContainer connector = getConnector();
+
+        if (null != connector)
+        {
+            connector.deleteTaggedValue(this);
+        }
     }
 
     // END Implementation of interface EAContainer //
@@ -87,7 +130,7 @@ public class EAConnectorTagContainerImpl extends EAContainerImpl implements EACo
         return (String) getOrCreateCachedValue(CACHED_VALUE, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaConnectorTag.GetValue();
             }
@@ -95,12 +138,28 @@ public class EAConnectorTagContainerImpl extends EAContainerImpl implements EACo
     }
 
     @Override
-    public EAConnectorContainer getConnector()
+    public void setValue(final String value)
     {
-        int connectorId = (Integer) getOrCreateCachedValue(CACHED_CONNECTOR_ID, new IRunnableWithArguments()
+        clearCachedValue(CACHED_VALUE, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
+            {
+                eaConnectorTag.SetValue((String) arguments[0]);
+                eaConnectorTag.Update();
+
+                return null;
+            }
+        }, value);
+    }
+
+    @Override
+    public EAConnectorContainer getConnector()
+    {
+        final int connectorId = (Integer) getOrCreateCachedValue(CACHED_CONNECTOR_ID, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
             {
                 return eaConnectorTag.GetConnectorID();
             }

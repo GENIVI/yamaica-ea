@@ -1,0 +1,41 @@
+package test_cases.test_3_interfaces.test_case_318_specialmethodswithattr
+
+<**
+    @author : Max Mustermann
+**>
+
+interface specialMethods {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : fireandforget method
+    **>
+    method m1 fireAndForget {
+    }
+
+    <**
+        @description : broadcast
+    **>
+    broadcast m5 {
+        out {
+            Int32 myInt32
+        }
+    }
+
+    <**
+        @description : My myAttribute attribute of type String.
+    **>
+	attribute String myAttribute
+
+    <**
+        @description : selective broadcast
+    **>
+    broadcast m6 selective {
+        out {
+            Double myDouble
+        }
+    }
+}

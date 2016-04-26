@@ -1,0 +1,25 @@
+package test_cases.test_2_datatypes.test_case_219_typecollectiondeprecatednaming
+
+<**
+    @author : Max Mustermann
+    @description : Name of the typeCollection must not be named equals to the fidl file name.
+**>
+typeCollection Test_Case_219_TypeCollectionDeprecatedNaming {
+    enumeration MyEnumeration {
+        VALID_TYPE_COLLECTION
+    }
+}
+
+typeCollection myType {
+    enumeration MyEnumeration {
+        INVALID_TYPE_COLLECTION
+    }
+
+    struct myType {
+        String myType
+    }
+
+    struct myType2 {
+        myType myType
+    }
+}

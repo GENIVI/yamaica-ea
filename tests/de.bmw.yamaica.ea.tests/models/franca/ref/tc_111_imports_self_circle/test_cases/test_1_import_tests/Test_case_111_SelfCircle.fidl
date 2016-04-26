@@ -1,0 +1,12 @@
+package test_cases.test_1_import_tests
+
+<**
+    @description : Self import should be ignored by EA2Franca transformation.
+    @author : Max Mustermann
+**>
+typeCollection Test_case_111_SelfCircle {
+    enumeration MyEnum {
+        VALUE = 0
+    }
+
+}

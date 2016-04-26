@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -13,4 +13,6 @@ public interface EAContainerWithStereotypes extends EAContainer
     public List<String> getStereotypes();
 
     public boolean hasStereotype(String stereotype);
+
+    public void setStereotypes(String... stereotypes);
 }

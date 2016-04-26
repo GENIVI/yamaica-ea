@@ -1,0 +1,18 @@
+package Test_Cases.Test_1_Import_Tests.Test_Case_112_ImportOfEmptyAnonymousTypeCollection
+import Test_Cases.Test_1_Import_Tests.TC_112_Datatypes.* from
+"TC_112_Datatypes.fidl"
+
+<**
+    @author : Max Mustermann
+    @description : Imports an empty anonymous typeCollection.
+**>
+typeCollection {
+    version {
+        major 255
+        minor 256
+    }
+
+    enumeration MyEnum {
+        VALUE
+    }
+}

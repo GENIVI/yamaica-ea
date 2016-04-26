@@ -1,0 +1,31 @@
+package
+test_cases.test_2_datatypes.test_case_220_anonymtypecollectandinterfacetaggedvalueset
+
+<**
+    @author : Max Mustermann
+**>
+
+interface MyInterface {
+    version {
+        major 1
+        minor 0
+    }
+    method MyMethod {
+        out {
+            String result
+        }
+    }
+}
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection {
+    enumeration MyEnumeration {
+        VALUE1 = 0
+        VALUE2 = 7
+        VALUE3 = 255
+        VALUE4 = 65535
+    }
+
+}

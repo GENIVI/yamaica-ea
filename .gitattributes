@@ -13,8 +13,6 @@
 *.h text
 *.hpp text
 
-*.fidl text
-*.fdepl text
 *.java text
 *.xtend text
 
@@ -47,3 +45,7 @@ README text
 # Denote all files that are truly binary and should not be modified.
 *.png binary
 *.jpg binary
+
+# To avoid encoding problems Franca files classified as binary
+*.fidl binary
+*.fdepl binary

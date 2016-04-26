@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>yamaica</groupId>
+  <artifactId>de.bmw.yamaica.ea.tests</artifactId>
+  <version>0.16.0-SNAPSHOT</version>
+  <packaging>eclipse-test-plugin</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-surefire-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <product>de.bmw.yamaica.ea.tests.product</product>
+          <includes>
+            <include>**/*AllTests.class</include>
+          </includes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <parent>
+    <groupId>yamaica</groupId>
+    <artifactId>de.bmw.yamaica.config.releng</artifactId>
+    <version>0.14.0-SNAPSHOT</version>
+    <relativePath>../../../ascgit048.yamaica-config/de.bmw.yamaica.config.releng</relativePath>
+  </parent>
+
+</project>

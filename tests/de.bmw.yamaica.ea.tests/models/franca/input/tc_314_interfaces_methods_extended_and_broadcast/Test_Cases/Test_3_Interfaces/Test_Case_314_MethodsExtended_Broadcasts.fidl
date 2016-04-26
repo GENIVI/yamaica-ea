@@ -1,0 +1,29 @@
+package Test_Cases.Test_3_Interfaces.Test_Case_314_MethodsExtended_Broadcasts
+
+<**
+    @author : Max Mustermann
+**>
+
+interface i1 extends i2 {
+    version {
+        major 1
+        minor 0
+    }
+    method m1 {
+    }
+}
+
+<**
+    @author : Max Mustermann
+**>
+
+interface i2 {
+    version {
+        major 1
+        minor 0
+    }
+    method m2 {
+    }
+    broadcast b2 {
+    }
+}

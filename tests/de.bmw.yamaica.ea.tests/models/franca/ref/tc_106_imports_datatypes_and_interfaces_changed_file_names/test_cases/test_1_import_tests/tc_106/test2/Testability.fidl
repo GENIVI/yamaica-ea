@@ -1,0 +1,122 @@
+package test_cases.test_1_import_tests.tc_106.test2.testability
+import test_cases.test_1_import_tests.tc_106.test2.testabilitytypes.* from
+"Testabilitytypes.fidl"
+import test_cases.test_1_import_tests.tc_106.test1.common.* from
+"../test1/Common.fidl"
+
+<**
+    @description : MyInterface (test2).
+    @author : Max Mustermann
+**>
+
+interface MyInterface {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : Broadcast
+    **>
+    broadcast myBroadcast {
+        out {
+
+            <**
+                @description : x
+            **>
+            TestabilityTypes.MyArray [ ] x
+
+            <**
+                @description : y
+            **>
+            TestabilityTypes.MyArray [ ] y
+        }
+    }
+
+    <**
+        @description : check (out only)
+    **>
+    method check {
+        out {
+
+            <**
+                @description : result
+            **>
+            String result
+        }
+        error extends MyEnumInterface.ErrorEnumExtended {
+            CHECK
+        }
+    }
+
+    <**
+        @description : check (in and out)
+    **>
+    method check {
+        in {
+
+            <**
+                @description : parameter
+            **>
+            TestabilityTypes.MyUnion parameter
+        }
+        out {
+
+            <**
+                @description : result
+            **>
+            TestabilityTypes.MyUnion result
+        }
+        error extends MyInterface.ErrorEnum {
+            CHECK
+        }
+    }
+
+    <**
+        @description : activate
+    **>
+    method activate {
+        in {
+
+            <**
+                @description : start
+            **>
+            TestabilityTypes.MyStruct start
+
+            <**
+                @description : end
+            **>
+            TestabilityTypes.MyStruct end
+        }
+        error extends TestabilityTypes.EnumPlus {
+            ACTIVATE
+        }
+    }
+
+    <**
+        @description : reset
+    **>
+    method reset fireAndForget {
+    }
+
+    <**
+        @description : suspend
+    **>
+    method suspend fireAndForget {
+        in {
+            TestabilityTypes.UnsignedInt32 start
+            TestabilityTypes.UnsignedInt32 end
+        }
+    }
+
+    <**
+        @description : VersionAttribute1
+    **>
+    attribute TestabilityTypes.VersionType [ ] VersionAttribute1 readonly
+
+    <**
+        @description : VersionAttribute2
+    **>
+    attribute TestabilityTypes.VersionType [ ] VersionAttribute2 readonly
+
+}

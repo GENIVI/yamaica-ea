@@ -1,0 +1,47 @@
+package test_cases.test_4_comments.test_case_401_datatypes_comments
+
+<**
+@description : 
+    MyComment: types
+    Author: Max Mustermann
+    @author : Max Mustermann
+**>
+typeCollection types {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : typedef for Boolean
+    **>
+    typedef MyBoolean is Boolean
+
+    <**
+        @description : ComplexType MyMap
+    **>
+    map MyMap {
+        UInt32 to Double
+    }
+
+    <**
+    @description : 
+        MyComment Type MyUnion
+        Filled with:
+        myBool
+        myInt32
+    **>
+    union MyUnion {
+
+        <**
+            @description : MyComment: myBool
+        **>
+        Boolean myBool
+
+        <**
+            @description : MyComment: myInt32
+        **>
+        Int32 myInt32
+    }
+
+}

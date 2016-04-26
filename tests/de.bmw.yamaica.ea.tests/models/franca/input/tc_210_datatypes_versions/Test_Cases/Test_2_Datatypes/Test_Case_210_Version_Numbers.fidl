@@ -1,0 +1,65 @@
+package Test_Cases.Test_2_Datatypes.Test_Case_210_Version_Numbers
+
+<**
+    @description : Version: 42.23
+    @author : Max Mustermann
+**>
+typeCollection {
+    version {
+        major 42
+        minor 23
+    }
+    typedef MyBooleanDummy is Boolean
+
+    typedef MyByteBufferDummy is ByteBuffer
+
+    typedef MyDoubleDummy is Double
+
+}
+
+<**
+    @description : Version: empty
+    @author : Max Mustermann
+**>
+typeCollection typesVersion1 {
+    typedef MyBooleanDummy is Boolean
+
+    typedef MyByteBufferDummy is ByteBuffer
+
+    typedef MyDoubleDummy is Double
+
+}
+
+<**
+    @description : Version: 42
+    @author : Max Mustermann
+**>
+typeCollection typesVersion2 {
+    version {
+        major 42
+        minor 0
+    }
+    typedef MyBooleanDummy is Boolean
+
+    typedef MyByteBufferDummy is ByteBuffer
+
+    typedef MyDoubleDummy is Double
+
+}
+
+<**
+    @description : Version: 42.23
+    @author : Max Mustermann
+**>
+typeCollection typesVersion3 {
+    version {
+        major 42
+        minor 23
+    }
+    typedef MyBooleanDummy is Boolean
+
+    typedef MyByteBufferDummy is ByteBuffer
+
+    typedef MyDoubleDummy is Double
+
+}

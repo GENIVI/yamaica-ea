@@ -1,0 +1,140 @@
+package test_cases.test_1_import_tests.tc_106.test5.common
+import test_cases.test_1_import_tests.tc_106.test5.* from "Commontypesone.fidl"
+import test_cases.test_1_import_tests.tc_106.test5.* from "Commontypestwo.fidl"
+
+<**
+    @description : MyInterface (test5).
+    @author : Max Mustermann
+**>
+
+interface MyInterface {
+    version {
+        major 1
+        minor 0
+    }
+    enumeration ErrorEnum {
+        NOT_FOUND
+        INTERNAL_ERROR
+    }
+
+    <**
+        @description : Broadcast
+    **>
+    broadcast myBroadcast {
+        out {
+
+            <**
+                @description : x
+            **>
+            Commontypesone.MyArray [ ] x
+
+            <**
+                @description : y
+            **>
+            Commontypestwo.MyArray [ ] y
+        }
+    }
+
+    <**
+        @description : check (out only)
+    **>
+    method check {
+        out {
+
+            <**
+                @description : result
+            **>
+            String result
+        }
+        error extends ErrorEnum {
+            CHECK
+        }
+    }
+
+    <**
+        @description : check (in and out)
+    **>
+    method check {
+        in {
+
+            <**
+                @description : parameter
+            **>
+            Commontypesone.MyUnion parameter
+        }
+        out {
+
+            <**
+                @description : result
+            **>
+            Commontypestwo.MyUnion result
+        }
+        error extends Commontypesone.BaseEnumeration {
+            CHECK
+        }
+    }
+
+    <**
+        @description : activate
+    **>
+    method activate {
+        in {
+
+            <**
+                @description : start
+            **>
+            Commontypesone.MyStruct start
+
+            <**
+                @description : end
+            **>
+            Commontypestwo.MyStruct end
+        }
+        error extends Commontypestwo.BaseEnumeration {
+            ACTIVATE
+        }
+    }
+
+    <**
+        @description : reset
+    **>
+    method reset fireAndForget {
+    }
+
+    <**
+        @description : suspend
+    **>
+    method suspend fireAndForget {
+        in {
+            Commontypesone.UnsignedInt32 start
+            Commontypestwo.UnsignedInt32 end
+        }
+    }
+
+    <**
+        @description : VersionAttribute1
+    **>
+    attribute Commontypesone.VersionType [ ] VersionAttribute1 readonly
+
+    <**
+        @description : VersionAttribute2
+    **>
+    attribute Commontypestwo.VersionType [ ] VersionAttribute2 readonly
+
+}
+
+<**
+    @description : MyEnumInterface (test5).
+    @author : Max Mustermann
+**>
+
+interface MyEnumInterface extends MyInterface {
+    version {
+        major 1
+        minor 0
+    }
+    enumeration ErrorEnumExtended extends MyInterface.ErrorEnum {
+        EXTENDED_ERROR
+    }
+
+}

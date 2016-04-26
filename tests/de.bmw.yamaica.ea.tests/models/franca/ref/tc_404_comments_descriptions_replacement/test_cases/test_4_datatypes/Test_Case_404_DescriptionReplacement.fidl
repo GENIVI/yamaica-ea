@@ -1,0 +1,16 @@
+package test_cases.test_4_datatypes
+
+<**
+    @description : Hello (star)World(star)! email: Mustermann, Max <max.mustermann(at)bmw.de>
+    @author : Max Mustermann
+**>
+typeCollection Test_Case_404_DescriptionReplacement {
+    enumeration myEnum {
+        VALUE = 0
+    }
+
+    struct myStruct {
+        myEnum myEnum
+    }
+
+}

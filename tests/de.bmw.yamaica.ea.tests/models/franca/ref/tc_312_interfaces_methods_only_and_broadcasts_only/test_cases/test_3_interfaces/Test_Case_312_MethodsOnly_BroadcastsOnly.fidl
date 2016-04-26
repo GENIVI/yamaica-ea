@@ -1,0 +1,31 @@
+package test_cases.test_3_interfaces.test_case_312_methodsonly_broadcastsonly
+
+<**
+    @author : Max Mustermann
+**>
+
+interface broadcastOnly {
+    version {
+        major 1
+        minor 0
+    }
+    broadcast b1 {
+    }
+    broadcast b2 selective {
+    }
+}
+
+<**
+    @author : Max Mustermann
+**>
+
+interface methodsOnly {
+    version {
+        major 1
+        minor 0
+    }
+    method m1 {
+    }
+    method m2 fireAndForget {
+    }
+}

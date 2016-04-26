@@ -1,0 +1,10 @@
+package test_case.test_1_import_tests.tc_108.test_case_108_g
+
+typeCollection typeG {
+
+    typedef TypeG is String
+
+    struct MyStruct {
+        Int32 nothing
+    }
+}

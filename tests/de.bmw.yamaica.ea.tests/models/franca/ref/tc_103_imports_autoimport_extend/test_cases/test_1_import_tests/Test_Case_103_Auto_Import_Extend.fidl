@@ -1,0 +1,15 @@
+package test_cases.test_1_import_tests.test_case_103_auto_import_extend
+import test_cases.test_1_import_tests.* from "TC_103_Datatypes.fidl"
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection enhancedUnion {
+    version {
+        major 1
+        minor 0
+    }
+    union MyExtendedUnion extends TC_103_Datatypes.MyUnion {
+    }
+
+}

@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -8,8 +8,6 @@ package de.bmw.yamaica.ea.core.containers;
 
 import java.util.List;
 
-import org.sparx.Collection;
-
 public interface EARepositoryContainer extends EAContainer
 {
     public void exit();
@@ -18,17 +16,31 @@ public interface EARepositoryContainer extends EAContainer
 
     public void closeFile();
 
+    public boolean createFile(String filename);
+
     public List<EAPackageContainer> getModels();
+
+    public EAPackageContainer createModel(String name);
+
+    public EAPackageContainer getOrCreateModel(String name);
+
+    public void deleteModel(String name);
+
+    public void deleteModel(EAPackageContainer package_);
+
+    public void deleteAllModels();
 
     public int getEAObjectId(Object eaObject);
 
-    public void disposeContainer(EAContainer eaContainer);
+    public void disposeContainer(EAContainer container);
 
     public void disposeContainers();
 
-    public <T extends EAContainer> List<T> getOrCreateEAObjectContainers(Collection<?> eaObjects, Class<T> type);
+    public void registerStereotypes(String... stereotypes);
 
     public <T extends EAContainer> T getOrCreateEAObjectContainer(Object eaObject, Class<T> type);
+
+    public <T extends EAContainer> T getEAObjectContainer(Object eaObject, Class<T> type);
 
     public <T extends EAContainer> T getOrCreateEAObjectContainerById(int id, Class<T> type);
 }

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="de.bmw.yamaica.common.console.commands">
+      <command
+            class="de.bmw.yamaica.ea.core.internal.EA2FrancaCommandHandler"
+            id="de.bmw.yamaica.ea.core.commands.ea2franca"
+            name="EA to Franca transformation">
+         <options>
+            <optionId
+                  optionId="de.bmw.yamaica.ea.core.options.e">
+            </optionId>
+            <option
+                  argCount="1"
+                  description="path to save franca models"
+                  hasOptionalArg="true"
+                  id="de.bmw.yamaica.ea.core.options.edp"
+                  longName="ea-dest-path"
+                  required="true"
+                  shortName="edp">
+            </option>
+            <optionGroup
+                  id="de.bmw.yamaica.ea.core.optionGroups.path"
+                  required="false">
+               <option
+                     argCount="1"
+                     description="paths to &lt;&lt;fidl&gt;&gt; packages for import, separated by &apos;,&apos;"
+                     hasOptionalArg="true"
+                     id="de.bmw.yamaica.ea.core.options.eip"
+                     longName="ea-import-path"
+                     required="false"
+                     shortName="eip">
+               </option>
+               <option
+                     argCount="1"
+                     description="path to package with &lt;&lt;Catalog Master&gt;&gt; element"
+                     hasOptionalArg="true"
+                     id="de.bmw.yamaica.ea.core.options.enp"
+                     longName="ea-node-path"
+                     required="false"
+                     shortName="enp">
+               </option>
+            </optionGroup>
+         </options>
+      </command>
+      <command
+            class="de.bmw.yamaica.ea.core.internal.Franca2EACommandHandler"
+            id="de.bmw.yamaica.ea.core.commands.franca2ea"
+            name="Franca to EA transformation">
+         <options>
+            <optionId
+                  optionId="de.bmw.yamaica.ea.core.options.e">
+            </optionId>
+            <option
+                  argCount="1"
+                  description="ea root package to store imported franca models"
+                  hasOptionalArg="true"
+                  id="de.bmw.yamaica.ea.core.options.erp"
+                  longName="ea-root-package"
+                  required="true"
+                  shortName="erp">
+            </option>
+            <optionGroup
+                  id="de.bmw.yamaica.ea.core.optionGroups.input"
+                  required="true">
+               <option
+                     argCount="1"
+                     description="main path to find franca models"
+                     hasOptionalArg="true"
+                     id="de.bmw.yamaica.ea.core.options.efp"
+                     longName="ea-franca-path"
+                     required="false"
+                     shortName="efp">
+               </option>
+               <option
+                     argCount="1"
+                     description="list of franca models to load, separated by &apos;,&apos;"
+                     hasOptionalArg="true"
+                     id="de.bmw.yamaica.ea.core.options.efm"
+                     longName="ea-franca-files"
+                     required="false"
+                     shortName="efm">
+               </option>
+            </optionGroup>
+            <option
+                  argCount="0"
+                  description="No validation of input files"
+                  hasOptionalArg="false"
+                  id="de.bmw.yamaica.ea.core.options.nv"
+                  longName="no-validation"
+                  required="false"
+                  shortName="nv">
+            </option>
+         </options>
+      </command>
+   </extension>
+   <extension
+         point="de.bmw.yamaica.common.console.options">
+      <option
+            argCount="1"
+            description="path of enterprise architect project (.eap)"
+            hasOptionalArg="true"
+            id="de.bmw.yamaica.ea.core.options.e"
+            longName="ea-project-path"
+            required="true"
+            shortName="e">
+      </option>
+   </extension>
+
+</plugin>
+

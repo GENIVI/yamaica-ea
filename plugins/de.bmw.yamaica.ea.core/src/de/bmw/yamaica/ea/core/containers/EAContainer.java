@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -17,7 +17,11 @@ public interface EAContainer
 
     public String getName();
 
+    public void setName(String name);
+
     public String getNotes();
+
+    public void setNotes(String notes);
 
     public Object getEAObject();
 
@@ -27,7 +31,13 @@ public interface EAContainer
 
     public boolean update();
 
+    public void delete();
+
     public void dispose();
 
     public boolean isDisposed();
+
+    public void clearCache();
+
+    public void clearCachedValues(final Object... keys);
 }

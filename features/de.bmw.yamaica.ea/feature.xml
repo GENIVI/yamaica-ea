@@ -2,7 +2,7 @@
 <feature
       id="de.bmw.yamaica.ea"
       label="yamaica Enterprise Architect"
-      version="0.9.1.qualifier"
+      version="0.16.0.qualifier"
       provider-name="BMW Group"
       plugin="de.bmw.yamaica.ea.ui"
       os="win32"
@@ -14,16 +14,12 @@
    </description>
 
    <copyright>
-      Copyright © 2010-2013 BMW Group.
+      Copyright © 2010, 2015 BMW Group.
 All rights reserved.
    </copyright>
 
-   <includes
-         id="de.bmw.emf.eaxmi.feature"
-         version="0.0.0"/>
-
    <requires>
-      <import feature="de.bmw.yamaica.common" version="0.9.0" match="equivalent"/>
+      <import feature="de.bmw.yamaica.common" version="0.16.0" match="equivalent"/>
    </requires>
 
    <plugin

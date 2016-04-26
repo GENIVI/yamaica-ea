@@ -1,0 +1,40 @@
+package Test_Cases.Test_2_Datatypes.Test_Case_204_EnuMerations
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : complexType enumeration
+    **>
+    enumeration MyEnum {
+        A = 1
+        B = 2
+        C = 3
+        D = 4
+    }
+
+    <**
+        @description : complexType enumeration without types
+    **>
+    enumeration MyEnumWithoutTypes {
+        VALUE_1
+        VALUE_0
+        VALUE_31
+    }
+
+    <**
+        @description : complexType enumeration with types
+    **>
+    enumeration MyEnumWithTypes {
+        VALUE_0 = 0
+        VALUE_01 = 01
+        VALUE_255 = 255
+    }
+
+}

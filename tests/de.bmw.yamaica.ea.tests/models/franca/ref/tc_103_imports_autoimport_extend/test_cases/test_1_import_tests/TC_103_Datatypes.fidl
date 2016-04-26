@@ -1,0 +1,18 @@
+package test_cases.test_1_import_tests
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection TC_103_Datatypes {
+    version {
+        major 1
+        minor 0
+    }
+    union MyUnion {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+}

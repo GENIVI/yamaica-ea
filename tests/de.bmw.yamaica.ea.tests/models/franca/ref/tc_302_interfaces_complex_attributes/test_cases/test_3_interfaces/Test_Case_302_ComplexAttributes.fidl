@@ -1,0 +1,78 @@
+package test_cases.test_3_interfaces.test_case_302_complexattributes
+
+<**
+    @author : Max Mustermann
+**>
+
+interface complexAttributes {
+    version {
+        major 1
+        minor 0
+    }
+
+    attribute MyUnion myUnionAttribute
+
+    attribute MyArray2 myTwoDimArray
+
+    attribute MyStructArray myStructArrayAttribute
+
+    attribute MyArray3 myThreeDimArrary
+
+    attribute MyStringArray myStringArrayAttribute
+
+    attribute MyEnum myEnumAttribute
+
+    attribute MyMap myMapAttribute
+
+    attribute MyStruct myStructAttribute
+
+    attribute MyUnionDerived myUnionDerivatedAttribute
+
+    attribute MyUnionExtended myUnionDoubleDerivatedAttribute
+
+    attribute MyEnumDerived myEnumDerivatedAttribute
+
+    array MyStringArray of String
+
+    array MyStructArray of MyStruct
+
+    array MyArray2 of MyStructArray
+
+    array MyArray3 of MyArray2
+
+    struct MyStruct {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    map MyMap {
+        UInt32 to Double
+    }
+
+    union MyUnion {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    union MyUnionDerived extends MyUnion {
+    }
+
+    union MyUnionExtended extends MyUnionDerived {
+    }
+
+    enumeration MyEnum {
+        A = 1
+        B = 2
+        C = 3
+        D = 4
+    }
+
+    enumeration MyEnumDerived extends MyEnum {
+        E = 0
+    }
+
+}

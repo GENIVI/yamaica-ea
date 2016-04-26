@@ -1,0 +1,16 @@
+package Test_Cases.Test_3_Interfaces.Test_Case_313_Methods_Broadcasts
+
+<**
+    @author : Max Mustermann
+**>
+
+interface i1 {
+    version {
+        major 1
+        minor 0
+    }
+    method m1 {
+    }
+    broadcast b1 {
+    }
+}

@@ -1,0 +1,14 @@
+package test_cases.test_2_datatypes
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection Test_Case_217_AnonymTypeCollectDefault {
+    enumeration MyEnumeration {
+        VALUE1 = 0
+        VALUE2 = 1
+        VALUE3 = 2
+        VALUE4 = 3
+    }
+
+}

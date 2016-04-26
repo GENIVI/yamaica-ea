@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -19,7 +19,7 @@ public class EAMethodTagContainerImpl extends EAContainerImpl implements EAMetho
 {
     protected final MethodTag eaMethodTag;
 
-    protected EAMethodTagContainerImpl(EAInstance eaInstance, MethodTag eaMethodTag)
+    protected EAMethodTagContainerImpl(final EAInstance eaInstance, final MethodTag eaMethodTag)
     {
         super(eaInstance, eaInstance.getRepository().getEAObjectId(eaMethodTag));
 
@@ -42,11 +42,27 @@ public class EAMethodTagContainerImpl extends EAContainerImpl implements EAMetho
         return (String) getOrCreateCachedValue(CACHED_NAME, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaMethodTag.GetName();
             }
         });
+    }
+
+    @Override
+    public void setName(final String name)
+    {
+        clearCachedValue(CACHED_NAME, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaMethodTag.SetName((String) arguments[0]);
+                eaMethodTag.Update();
+
+                return null;
+            }
+        }, name);
     }
 
     @Override
@@ -55,11 +71,27 @@ public class EAMethodTagContainerImpl extends EAContainerImpl implements EAMetho
         return (String) getOrCreateCachedValue(CACHED_NOTES, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaMethodTag.GetNotes();
             }
         });
+    }
+
+    @Override
+    public void setNotes(final String notes)
+    {
+        clearCachedValue(CACHED_NOTES, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaMethodTag.SetNotes((String) arguments[0]);
+                eaMethodTag.Update();
+
+                return null;
+            }
+        }, notes);
     }
 
     @Override
@@ -70,11 +102,22 @@ public class EAMethodTagContainerImpl extends EAContainerImpl implements EAMetho
         return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaMethodTag.Update();
             }
         });
+    }
+
+    @Override
+    public void delete()
+    {
+        final EAMethodContainer method = getMethod();
+
+        if (null != method)
+        {
+            method.deleteTaggedValue(this);
+        }
     }
 
     // END Implementation of interface EAContainer //
@@ -87,7 +130,7 @@ public class EAMethodTagContainerImpl extends EAContainerImpl implements EAMetho
         return (String) getOrCreateCachedValue(CACHED_VALUE, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaMethodTag.GetValue();
             }
@@ -95,12 +138,28 @@ public class EAMethodTagContainerImpl extends EAContainerImpl implements EAMetho
     }
 
     @Override
-    public EAMethodContainer getMethod()
+    public void setValue(final String value)
     {
-        int methodId = (Integer) getOrCreateCachedValue(CACHED_METHOD_ID, new IRunnableWithArguments()
+        clearCachedValue(CACHED_VALUE, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
+            {
+                eaMethodTag.SetValue((String) arguments[0]);
+                eaMethodTag.Update();
+
+                return null;
+            }
+        }, value);
+    }
+
+    @Override
+    public EAMethodContainer getMethod()
+    {
+        final int methodId = (Integer) getOrCreateCachedValue(CACHED_METHOD_ID, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
             {
                 return eaMethodTag.GetMethodID();
             }

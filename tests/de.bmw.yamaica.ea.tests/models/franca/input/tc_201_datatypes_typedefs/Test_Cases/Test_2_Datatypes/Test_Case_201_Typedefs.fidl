@@ -1,0 +1,144 @@
+package Test_Cases.Test_2_Datatypes.Test_Case_201_Typedefs
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection types {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : typedef for Boolean
+    **>
+    typedef MyBoolean is Boolean
+
+    <**
+        @description : typedef for ByteBuffer
+    **>
+    typedef MyByteBuffer is ByteBuffer
+
+    <**
+        @description : typedef for Double
+    **>
+    typedef MyDouble is Double
+
+    <**
+        @description : typedef for Float
+    **>
+    typedef MyFloat is Float
+
+    <**
+        @description : typedef for Int16
+    **>
+    typedef MyInt16 is Int16
+
+    <**
+        @description : typedef for Int32
+    **>
+    typedef MyInt32 is Int32
+
+    <**
+        @description : typedef for Int64
+    **>
+    typedef MyInt64 is Int64
+
+    <**
+        @description : typedef for Int8
+    **>
+    typedef MyInt8 is Int8
+
+    <**
+        @description : typedef for String
+    **>
+    typedef MyString is String
+
+    <**
+        @description : typedef for UInt16
+    **>
+    typedef MyUInt16 is UInt16
+
+    <**
+        @description : typedef for UInt32
+    **>
+    typedef MyUInt32 is UInt32
+
+    <**
+        @description : typedef for UInt64
+    **>
+    typedef MyUInt64 is UInt64
+
+    <**
+        @description : typedef for UInt8
+    **>
+    typedef MyUInt8 is UInt8
+
+    <**
+        @description : typedef for Struct
+    **>
+    typedef MyStruct is Struct
+
+    <**
+        @description : typedef for Union
+    **>
+    typedef MyUnion is Union
+
+    <**
+        @description : typedef for Enumeration
+    **>
+    typedef MyEnumeration is Enumeration
+
+    <**
+        @description : typedef for Map
+    **>
+    typedef MyMap is Map
+
+    <**
+        @description : typedef for Array
+    **>
+    typedef MyArray is Array
+
+    <**
+        @description : empty struct
+    **>
+    struct Struct {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    <**
+        @description : empty union
+    **>
+    union Union {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    <**
+        @description : enumeration
+    **>
+    enumeration Enumeration {
+        A = 1
+        B = 2
+        C = 3
+        D = 4
+    }
+
+    <**
+        @description : map
+    **>
+    map Map {
+        UInt32 to String
+    }
+
+    <**
+        @description : array
+    **>
+    array Array of UInt8
+
+}

@@ -1,0 +1,62 @@
+package test_cases.test_3_interfaces.test_case_321_broadcasts
+
+interface broadcastOnly {
+    version {
+        major 1
+        minor 0
+    }
+    broadcast b1 {
+        out {
+            Boolean MyOutputBoolean
+            Double MyOutputDouble
+        }
+    }
+    broadcast b2 selective {
+    }
+}
+
+interface broadcastOnlyExtended extends broadcastOnly {
+    version {
+        major 1
+        minor 0
+    }
+    broadcast b3 {
+    }
+    broadcast b4 selective {
+    }
+}
+
+interface i1 extends broadcastOnly {
+    version {
+        major 1
+        minor 0
+    }
+    broadcast b5 {
+    }
+    broadcast b6 selective {
+    }
+    method m1 {
+    }
+
+    attribute String str noSubscriptions
+
+}
+
+interface i2 extends broadcastOnlyExtended {
+    version {
+        major 1
+        minor 0
+    }
+    broadcast b5 {
+    }
+    broadcast b6 selective {
+        out {
+            Double myDouble
+        }
+    }
+    method m1 {
+    }
+
+    attribute String str
+
+}

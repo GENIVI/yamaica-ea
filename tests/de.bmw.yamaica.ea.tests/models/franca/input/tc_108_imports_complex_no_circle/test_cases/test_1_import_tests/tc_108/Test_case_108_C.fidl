@@ -1,0 +1,14 @@
+package test_case.test_1_import_tests.tc_108.test_case_108_c
+
+import test_case.test_1_import_tests.tc_108.test_case_108_d.* from "Test_case_108_D.fidl"
+import test_case.test_1_import_tests.tc_108.test_case_108_g.* from "Test_case_108_G.fidl"
+
+typeCollection typeC {
+
+    typedef TypeC is String
+
+    struct MyStruct {
+        typeD.TypeD d
+        typeG.TypeG g
+    }
+}

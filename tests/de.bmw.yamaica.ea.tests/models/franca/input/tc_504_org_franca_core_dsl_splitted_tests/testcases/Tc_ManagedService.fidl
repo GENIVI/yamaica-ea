@@ -1,0 +1,15 @@
+// several testcases of interfaces managing others
+package testcases.Tc_ManagedService
+
+import testcases.Tc37_StructPolymorphic.* from "Tc37_StructPolymorphic.fidl"
+
+<** @description : Another interface which manages several other interfaces. **>
+interface RootInterface2 manages MyInterface1, MyInterface2, MyInterface3 {
+    method test {
+        in {
+            MyTypes.MyStruct1 input1
+            MyTypes.MyStruct2 input2
+            MyTypes.MyStruct3 input3
+        }
+    }
+}

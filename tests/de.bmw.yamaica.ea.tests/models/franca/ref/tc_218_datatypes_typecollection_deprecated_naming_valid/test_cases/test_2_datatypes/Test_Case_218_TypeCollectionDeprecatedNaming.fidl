@@ -1,0 +1,13 @@
+package test_cases.test_2_datatypes.test_case_218_typecollectiondeprecatednaming
+
+<**
+    @description : The name of the typeCollection is not equals to the fidl file name (lower cased the first letter).
+    @author : Max Mustermann
+**>
+typeCollection Test_Case_218_TypeCollectionDeprecatedNaming {
+    enumeration MyEnumeration {
+        MyEnumeration
+        VALID_TEST
+    }
+
+}

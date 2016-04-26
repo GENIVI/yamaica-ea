@@ -1,0 +1,29 @@
+package test_cases.test_1_import_tests.test_case_113_extends
+import test_cases.test_1_import_tests.tc_113_interfaces.* from
+"TC_113_Interfaces.fidl"
+
+interface RootInterface1 extends MyInterface1 {
+    version {
+        major 1
+        minor 0
+    }
+}
+
+interface RootInterface2 extends MyInterface2 {
+    version {
+        major 1
+        minor 0
+    }
+}
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection {
+    version {
+        major 2
+        minor 5
+    }
+    array ArrayOfMyUnion of MyUnion
+
+}

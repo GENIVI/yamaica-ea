@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -12,5 +12,15 @@ public interface EAContainerWithTaggedValues extends EAContainerWithStereotypes
 {
     public List<EATagContainer> getTaggedValues();
 
+    public EATagContainer createTaggedValue(String name);
+
+    public EATagContainer getOrCreateTaggedValue(String name);
+
     public EATagContainer getTaggedValueByName(String name);
+
+    public void deleteTaggedValue(String name);
+
+    public void deleteTaggedValue(EATagContainer taggedValue);
+
+    public void deleteAllTaggedValues();
 }

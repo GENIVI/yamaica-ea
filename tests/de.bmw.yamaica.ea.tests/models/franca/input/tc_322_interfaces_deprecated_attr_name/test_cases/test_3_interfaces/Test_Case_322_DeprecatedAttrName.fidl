@@ -1,0 +1,11 @@
+package test_cases.test_3_interfaces.test_case_322_deprecatedattrname
+
+<**
+    @author : Max Mustermann
+    @description : The attribute name 'InterfaceVersion' is forbidden/deprecated.
+**>
+interface inf {
+
+    attribute String InterfaceVersion
+
+}

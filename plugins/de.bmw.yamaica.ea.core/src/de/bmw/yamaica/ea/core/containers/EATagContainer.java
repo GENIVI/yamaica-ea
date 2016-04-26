@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -9,4 +9,6 @@ package de.bmw.yamaica.ea.core.containers;
 public interface EATagContainer extends EAContainer
 {
     public String getValue();
+
+    public void setValue(String value);
 }

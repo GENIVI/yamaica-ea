@@ -1,0 +1,38 @@
+package test_cases.test_1_import_tests.test3.testabilitytypes
+
+import test_cases.test_1_import_tests.test1.commontypes.* from "../test1/CommonTypes.fidl"
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection {
+
+    <**
+        @description : Unsigned int32 example.
+    **>
+    typedef UnsignedInt32 is UInt32
+
+    enumeration EnumPlus extends MyTypes.ExtendedEnumeration {
+        EMPTY
+    }
+
+    struct MyStruct {
+        <**
+            @description : TODO
+        **>
+        UnsignedInt32 x
+        UnsignedInt32 y
+        VersionType ^version
+    }
+
+    struct VersionType {
+        MyArray[] arrayOfArray
+    }
+
+    union MyUnion {
+        MyArray arr
+        String UTF8
+    }
+
+    array MyArray of UInt8
+}

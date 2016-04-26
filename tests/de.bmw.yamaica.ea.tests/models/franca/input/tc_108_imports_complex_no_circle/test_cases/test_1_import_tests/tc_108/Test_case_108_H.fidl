@@ -1,0 +1,12 @@
+package test_case.test_1_import_tests.tc_108.test_case_108_h
+
+import test_case.test_1_import_tests.tc_108.test_case_108_g.* from "Test_case_108_G.fidl"
+
+typeCollection typeH {
+
+    typedef TypeH is String
+
+    struct MyStruct {
+        typeG.TypeG g
+    }
+}

@@ -1,0 +1,53 @@
+package test_cases.test_2_datatypes
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection Test_Case_211_Enumeration {
+    enumeration EnumerationUnique {
+        VALUE1 = -2147483648
+        VALUE2 = -1
+        VALUE3 = 0
+    }
+
+    enumeration EnumerationOne {
+        VALUE1 = 1
+        VALUE2 = 1
+    }
+
+    enumeration EnumerationMaxInteger {
+        VALUE1 = 2147483647
+        VALUE2 = 2147483647
+    }
+
+    enumeration EnumerationMinus255 {
+        VALUE1 = -255
+        VALUE2 = -255
+        VALUE3 = -255
+        VALUE4 = -255
+    }
+
+    enumeration EnumerationPlus255 {
+        VALUE1 = 255
+        VALUE2 = 255
+        VALUE3 = 255
+        VALUE4 = 255
+        VALUE5 = 255
+        VALUE6 = 255
+        VALUE7 = 255
+        VALUE8 = 255
+    }
+
+    enumeration EnumerationMinusOctalValues {
+        VALUE1 = -2000000000
+        VALUE2 = -2000000000
+    }
+
+    enumeration EnumerationPlusOctalValues {
+        VALUE1 = 1777777777
+        VALUE2 = 1777777777
+        VALUE3 = 1777777777
+        VALUE4 = 1777777777
+    }
+
+}

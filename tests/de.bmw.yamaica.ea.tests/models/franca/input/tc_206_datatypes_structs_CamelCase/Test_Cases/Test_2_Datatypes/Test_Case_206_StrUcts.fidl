@@ -1,0 +1,35 @@
+package Test_Cases.Test_2_Datatypes.Test_Case_206_StrUcts
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection types {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : dummy struct
+    **>
+    struct MyStruct {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    <**
+        @description : Complex Type MyStructFilled
+
+Filled with:
+myUnion
+myBool
+myStruct
+    **>
+    struct MyStructFilled {
+        Boolean myBool
+        MyStruct myStruct
+    }
+
+}

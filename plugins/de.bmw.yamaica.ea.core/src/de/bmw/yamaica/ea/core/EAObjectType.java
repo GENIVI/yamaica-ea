@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -10,6 +10,8 @@ import org.sparx.Attribute;
 import org.sparx.AttributeTag;
 import org.sparx.Connector;
 import org.sparx.ConnectorTag;
+import org.sparx.Diagram;
+import org.sparx.DiagramObject;
 import org.sparx.Element;
 import org.sparx.Method;
 import org.sparx.MethodTag;
@@ -23,6 +25,8 @@ import de.bmw.yamaica.ea.core.containers.EAAttributeTagContainer;
 import de.bmw.yamaica.ea.core.containers.EAConnectorContainer;
 import de.bmw.yamaica.ea.core.containers.EAConnectorTagContainer;
 import de.bmw.yamaica.ea.core.containers.EAContainer;
+import de.bmw.yamaica.ea.core.containers.EADiagramContainer;
+import de.bmw.yamaica.ea.core.containers.EADiagramObjectContainer;
 import de.bmw.yamaica.ea.core.containers.EAElementContainer;
 import de.bmw.yamaica.ea.core.containers.EAMethodContainer;
 import de.bmw.yamaica.ea.core.containers.EAMethodTagContainer;
@@ -33,9 +37,20 @@ import de.bmw.yamaica.ea.core.containers.EATagContainer;
 
 public enum EAObjectType
 {
-    ATTRIBUTE("Attribute"), ATTRIBUTE_TAG("Attribute Tag"), CONNECTOR("Connector"), CONNECTOR_TAG("Connector Tag"), ELEMENT("Element"), METHOD(
-            "Method"), METHOD_TAG("Method Tag"), PACKAGE("Package"), PARAMETER("Parameter"), REPOSITORY("Repository"), TAGGED_VALUE(
-            "Tagged Value"), UNDEFINED("Undefined");
+    ATTRIBUTE("Attribute"),
+    ATTRIBUTE_TAG("Attribute Tag"),
+    CONNECTOR("Connector"),
+    CONNECTOR_TAG("Connector Tag"),
+    DIAGRAM("Diagram"),
+    DIAGRAM_OBJECT("Digram Object"),
+    ELEMENT("Element"),
+    METHOD("Method"),
+    METHOD_TAG("Method Tag"),
+    PACKAGE("Package"),
+    PARAMETER("Parameter"),
+    REPOSITORY("Repository"),
+    TAGGED_VALUE("Tagged Value"),
+    UNDEFINED("Undefined");
 
     private final String name;
 
@@ -75,6 +90,16 @@ public enum EAObjectType
         if (ConnectorTag.class.isAssignableFrom(eaObjectClass))
         {
             return CONNECTOR_TAG;
+        }
+
+        if (Diagram.class.isAssignableFrom(eaObjectClass))
+        {
+            return DIAGRAM;
+        }
+
+        if (DiagramObject.class.isAssignableFrom(eaObjectClass))
+        {
+            return DIAGRAM_OBJECT;
         }
 
         if (Element.class.isAssignableFrom(eaObjectClass))
@@ -135,6 +160,16 @@ public enum EAObjectType
         if (EAConnectorTagContainer.class.isAssignableFrom(eaContainerClass))
         {
             return CONNECTOR_TAG;
+        }
+
+        if (EADiagramContainer.class.isAssignableFrom(eaContainerClass))
+        {
+            return DIAGRAM;
+        }
+
+        if (EADiagramObjectContainer.class.isAssignableFrom(eaContainerClass))
+        {
+            return DIAGRAM_OBJECT;
         }
 
         if (EAElementContainer.class.isAssignableFrom(eaContainerClass))

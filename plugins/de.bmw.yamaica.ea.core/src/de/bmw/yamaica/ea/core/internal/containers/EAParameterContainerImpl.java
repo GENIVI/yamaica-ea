@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -25,7 +25,7 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
 {
     protected final Parameter eaParameter;
 
-    protected EAParameterContainerImpl(EAInstance eaInstance, Parameter eaParameter)
+    protected EAParameterContainerImpl(final EAInstance eaInstance, final Parameter eaParameter)
     {
         super(eaInstance, eaInstance.getRepository().getEAObjectId(eaParameter));
 
@@ -48,11 +48,27 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
         return (String) getOrCreateCachedValue(CACHED_NAME, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaParameter.GetName();
             }
         });
+    }
+
+    @Override
+    public void setName(final String name)
+    {
+        clearCachedValue(CACHED_NAME, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaParameter.SetName((String) arguments[0]);
+                eaParameter.Update();
+
+                return null;
+            }
+        }, name);
     }
 
     @Override
@@ -61,11 +77,27 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
         return (String) getOrCreateCachedValue(CACHED_NOTES, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaParameter.GetNotes();
             }
         });
+    }
+
+    @Override
+    public void setNotes(final String notes)
+    {
+        clearCachedValue(CACHED_NOTES, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaParameter.SetNotes((String) arguments[0]);
+                eaParameter.Update();
+
+                return null;
+            }
+        }, notes);
     }
 
     @Override
@@ -76,11 +108,22 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
         return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaParameter.Update();
             }
         });
+    }
+
+    @Override
+    public void delete()
+    {
+        final EAContainerWithNamespace parent = getParent();
+
+        if (parent instanceof EAMethodContainer)
+        {
+            ((EAMethodContainer) parent).deleteParameter(this);
+        }
     }
 
     // END Implementation of interface EAContainer //
@@ -90,10 +133,10 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
     @Override
     public List<String> getStereotypes()
     {
-        String stereotype = (String) getOrCreateCachedValue(CACHED_STEREOTYPE, new IRunnableWithArguments()
+        final String stereotype = (String) getOrCreateCachedValue(CACHED_STEREOTYPE, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaParameter.GetStereotypeEx();
             }
@@ -103,9 +146,27 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
     }
 
     @Override
-    public boolean hasStereotype(String stereotype)
+    public boolean hasStereotype(final String stereotype)
     {
         return super.hasStereotype(stereotype, getStereotypes());
+    }
+
+    @Override
+    public void setStereotypes(final String... stereotypes)
+    {
+        getRepository().registerStereotypes(stereotypes);
+
+        clearCachedValue(CACHED_STEREOTYPE, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaParameter.SetStereotypeEx((String) arguments[0]);
+                eaParameter.Update();
+
+                return null;
+            }
+        }, getStereotypeEx(stereotypes));
     }
 
     // END Implementation of interface EAContainerWithStereotypes //
@@ -115,10 +176,10 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
     @Override
     public EAContainerWithNamespace getParent()
     {
-        int parentId = (Integer) getOrCreateCachedValue(CACHED_PARENT_ID, new IRunnableWithArguments()
+        final int parentId = (Integer) getOrCreateCachedValue(CACHED_PARENT_ID, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaParameter.GetOperationID();
             }
@@ -137,7 +198,7 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
     @Override
     public EAElementContainer getElement()
     {
-        EAMethodContainer method = (EAMethodContainer) getParent();
+        final EAMethodContainer method = (EAMethodContainer) getParent();
 
         return (null != method) ? method.getElement() : null;
     }
@@ -145,7 +206,7 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
     @Override
     public EAPackageContainer getPackage()
     {
-        EAElementContainer element = getElement();
+        final EAElementContainer element = getElement();
 
         return (null != element) ? element.getPackage() : null;
     }
@@ -168,11 +229,27 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
         return (Integer) getOrCreateCachedValue(CACHED_POSITION, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaParameter.GetPosition();
             }
         });
+    }
+
+    @Override
+    public void setPosition(int position)
+    {
+        clearCachedValue(CACHED_POSITION, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaParameter.SetPosition((Integer) arguments[0]);
+                eaParameter.Update();
+
+                return null;
+            }
+        }, position);
     }
 
     // END Implementation of interface EAContainerWithNamespace //
@@ -180,16 +257,34 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
     // BEGIN Implementation of interface EAParameterContainer //
 
     @Override
-    public String getKind()
+    public Kind getKind()
     {
-        return (String) getOrCreateCachedValue(CACHED_KIND, new IRunnableWithArguments()
+        final String kindString = (String) getOrCreateCachedValue(CACHED_KIND, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaParameter.GetKind();
             }
         });
+
+        return Kind.getByName(kindString);
+    }
+
+    @Override
+    public void setKind(final Kind kind)
+    {
+        clearCachedValue(CACHED_KIND, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaParameter.SetKind((String) arguments[0]);
+                eaParameter.Update();
+
+                return null;
+            }
+        }, kind.getName());
     }
 
     @Override
@@ -198,7 +293,7 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
         return (String) getOrCreateCachedValue(CACHED_TYPE, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaParameter.GetType();
             }
@@ -206,14 +301,37 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
     }
 
     @Override
-    public EAElementContainer getTypeElement()
+    public void setType(final String type)
     {
-        int typeElementId = (Integer) getOrCreateCachedValue(CACHED_TYPE_ELEMENT_ID, new IRunnableWithArguments()
+        clearCachedValue(CACHED_TYPE, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
-                return Integer.parseInt(eaParameter.GetClassifierID());
+                eaParameter.SetType((String) arguments[0]);
+                eaParameter.Update();
+
+                return null;
+            }
+        }, type);
+    }
+
+    @Override
+    public EAElementContainer getTypeElement()
+    {
+        final int typeElementId = (Integer) getOrCreateCachedValue(CACHED_TYPE_ELEMENT_ID, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                try
+                {
+                    return Integer.parseInt(eaParameter.GetClassifierID());
+                }
+                catch (NumberFormatException e)
+                {
+                    return 0;
+                }
             }
         });
 
@@ -228,16 +346,50 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
     }
 
     @Override
+    public void setTypeElement(final EAElementContainer typeElement)
+    {
+        String id = (null == typeElement) ? "0" : new Integer(typeElement.getEAObjectId()).toString();
+
+        clearCachedValue(CACHED_TYPE_ELEMENT_ID, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaParameter.SetClassifierID((String) arguments[0]);
+                eaParameter.Update();
+
+                return null;
+            }
+        }, id);
+    }
+
+    @Override
     public String getDefault()
     {
         return (String) getOrCreateCachedValue(CACHED_DEFAULT, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaParameter.GetDefault();
             }
         });
+    }
+
+    @Override
+    public void setDefault(final String default_)
+    {
+        clearCachedValue(CACHED_DEFAULT, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaParameter.SetDefault((String) arguments[0]);
+                eaParameter.Update();
+
+                return null;
+            }
+        }, default_);
     }
 
     // END Implementation of interface EAParameterContainer //
@@ -245,11 +397,11 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
     // The equals implementation of EAContainerImpl uses the ID of the EA object. Since parameters do not have an ID
     // we have to overwrite this method. Elsewhere every parameter would be equal any other parameter.
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(final Object obj)
     {
         if (obj instanceof EAParameterContainer)
         {
-            EAParameterContainer parameter = (EAParameterContainer) obj;
+            final EAParameterContainer parameter = (EAParameterContainer) obj;
 
             // true if both parameters belong to the same method and have the same name
             if (parameter.getParent().equals(getParent()) && parameter.getName().equals(getName()))

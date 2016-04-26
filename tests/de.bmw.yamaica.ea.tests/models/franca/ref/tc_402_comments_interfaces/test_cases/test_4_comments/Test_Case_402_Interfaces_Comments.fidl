@@ -1,0 +1,121 @@
+package test_cases.test_4_comments.test_case_402_interfaces_comments
+
+<**
+    @description : MyComment: MyInterface
+    @author : Max Mustermann
+**>
+
+interface MyInterface {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : MyComment: MyBool
+    **>
+    attribute Boolean myBool
+
+    <**
+        @description : MyComment: myStructAttribute
+    **>
+    attribute MyStruct myStructAttribute
+
+    <**
+        @description : MyComment: attribute nosubscriptions double
+    **>
+    attribute Double MyNoSubscriptionAttributeDouble noSubscriptions
+
+    <**
+        @description : MyComment: method m01
+    **>
+    method m01 {
+        in {
+
+            <**
+                @description : MyComment: E1
+            **>
+            ErrorEnum E1
+
+            <**
+                @description : MyComment: myParam2InBool
+            **>
+            Boolean myParam2InBool
+
+            <**
+                @description : MyComment: myParamInDouble
+            **>
+            Double myParamInDouble
+        }
+        out {
+
+            <**
+                @description : MyComment: myParamOut2Int32
+            **>
+            Int32 myParamOut2Int32
+
+            <**
+                @description : MyComment myParam2OutString
+            **>
+            String myParamOutString
+        }
+        error extends ErrorEnum {
+
+            <**
+                @description : MyComment: E2 = 2
+            **>
+            E2 = 2
+
+            <**
+                @description : MyComment MyError2 = 3
+            **>
+            MY_ERROR_2 = 3
+        }
+    }
+
+    <**
+        @description : MyComment: m02
+    **>
+    method m02 {
+    }
+
+    <**
+        @description : MyComment: broadcast b1
+    **>
+    broadcast b1 {
+        out {
+
+            <**
+                @description : MyComment: MyOutputDoubleParameter
+            **>
+            Boolean MyOutputBoolean
+
+            <**
+                @description : MyComment MyInputDouble
+            **>
+            Double MyOutputDouble
+        }
+    }
+
+    <**
+        @description : MyComment: MyStruct
+    **>
+    struct MyStruct {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    <**
+        @description : MyComment: ErrorEnums
+    **>
+    enumeration ErrorEnum {
+
+        <**
+            @description : MyComment: E1 = 1
+        **>
+        E1 = 1
+    }
+
+}

@@ -1,0 +1,58 @@
+package Test_Cases.Test_3_Interfaces.Test_Case_310_Errors
+
+<**
+    @author : Max Mustermann
+**>
+
+interface Errors {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : Error Param:
+E1 = 1
+    **>
+    method m1 {
+        error {
+            E1 = 1
+        }
+    }
+
+    <**
+        @description : Extends ErrorEnums
+    **>
+    method m2 {
+        error ErrorsEnums.ErrorEnums
+    }
+
+    <**
+        @description : ErrorParameter:
+E4 = 4
+Extends ErrorEnums
+    **>
+    method m3 {
+        error extends ErrorsEnums.ErrorEnums {
+            E4 = 4
+        }
+    }
+
+}
+
+<**
+    @author : Max Mustermann
+**>
+
+typeCollection ErrorsEnums {
+    version {
+        major 1
+        minor 0
+    }
+    enumeration ErrorEnums {
+        ERROR_CODE_1 = 1
+        error_code_2 = 2
+        Error_Code_3 = 3
+    }
+
+}

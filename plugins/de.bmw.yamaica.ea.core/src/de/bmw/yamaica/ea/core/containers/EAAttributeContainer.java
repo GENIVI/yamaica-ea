@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -10,9 +10,17 @@ public interface EAAttributeContainer extends EAContainerWithNamespace, EAContai
 {
     public String getDefault();
 
+    public void setDefault(String default_);
+
     public String getType();
+
+    public void setType(String type);
 
     public EAElementContainer getTypeElement();
 
+    public void setTypeElement(EAElementContainer typeElement);
+
     public boolean isCollection();
+
+    public void setIsCollection(boolean isCollection);
 }

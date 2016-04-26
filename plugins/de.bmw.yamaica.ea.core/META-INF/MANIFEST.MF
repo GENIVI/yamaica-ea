@@ -1,19 +1,22 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: yamaica Enterprise Architect Core
-Bundle-SymbolicName: de.bmw.yamaica.ea.core
-Bundle-Version: 0.9.1.qualifier
+Bundle-SymbolicName: de.bmw.yamaica.ea.core;singleton:=true
+Bundle-Version: 0.15.0.qualifier
 Bundle-Vendor: BMW Group
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.8.0,4.0.0)";visibility:=reexport,
- org.eclipse.xtend2.lib;bundle-version="[2.4.0,3.0.0)";visibility:=reexport,
- org.eclipse.xtext;bundle-version="[2.4.0,3.0.0)";visibility:=reexport,
- de.bmw.emf.eaxmi;bundle-version="[1.0.0,1.1.0)";visibility:=reexport,
- de.bmw.yamaica.franca.common.core;bundle-version="[0.9.0,0.10.0)";visibility:=reexport
-Export-Package: de.bmw.yamaica.ea.core,de.bmw.yamaica.ea.core.containe
- rs,de.bmw.yamaica.ea.core.exceptions,de.bmw.yamaica.ea.core.franca,de
- .bmw.yamaica.ea.core.franca.exceptions,de.bmw.yamaica.ea.core.interna
- l.containers;x-internal:=true,de.bmw.yamaica.ea.core.resources
+ org.eclipse.xtend.lib;bundle-version="[2.7.0,3.0.0)";visibility:=reexport,
+ de.bmw.yamaica.franca.common.core;bundle-version="[0.15.0,0.16.0)";visibility:=reexport,
+ de.bmw.yamaica.common.console;bundle-version="[0.13.0,0.14.0)";visibility:=reexport
+Export-Package: de.bmw.yamaica.ea.core,
+ de.bmw.yamaica.ea.core.containers,
+ de.bmw.yamaica.ea.core.exceptions,
+ de.bmw.yamaica.ea.core.franca,
+ de.bmw.yamaica.ea.core.franca.exceptions,
+ de.bmw.yamaica.ea.core.internal;x-internal:=true,
+ de.bmw.yamaica.ea.core.internal.containers;x-internal:=true,
+ de.bmw.yamaica.ea.core.resources
 Bundle-ClassPath: .,
  external:$java.home$/lib/ext/eaapi.jar
 Import-Package: org.sparx;resolution:=optional

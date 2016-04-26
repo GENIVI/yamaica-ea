@@ -1,0 +1,15 @@
+package Test_Cases.Test_1_Import_Tests.Test_Case_104_Auto_ImPort_ArrayOf
+import Test_Cases.Test_1_Import_Tests.Tc_104_DataTypes.* from
+"Tc_104_DataTypes.fidl"
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection {
+    version {
+        major 2
+        minor 5
+    }
+    array ArrayOfMyUnion of MyUnion
+
+}

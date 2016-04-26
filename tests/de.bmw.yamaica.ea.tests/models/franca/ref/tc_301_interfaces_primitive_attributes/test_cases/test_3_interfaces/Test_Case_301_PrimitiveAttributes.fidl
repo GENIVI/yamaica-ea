@@ -1,0 +1,39 @@
+package test_cases.test_3_interfaces.test_case_301_primitiveattributes
+
+<**
+    @author : Max Mustermann
+**>
+
+interface PrimitiveAttributes {
+    version {
+        major 42
+        minor 0
+    }
+
+    attribute Boolean myBool
+
+    attribute Double myDouble
+
+    attribute ByteBuffer myByteBuffer
+
+    attribute Float myFloat
+
+    attribute Int16 myInt16
+
+    attribute Int32 myInt32
+
+    attribute Int64 myInt64
+
+    attribute Int8 myInt8
+
+    attribute String myString
+
+    attribute UInt16 myUInt16
+
+    attribute UInt32 myUInt32
+
+    attribute UInt64 myUInt64
+
+    attribute UInt8 myUInt8
+
+}

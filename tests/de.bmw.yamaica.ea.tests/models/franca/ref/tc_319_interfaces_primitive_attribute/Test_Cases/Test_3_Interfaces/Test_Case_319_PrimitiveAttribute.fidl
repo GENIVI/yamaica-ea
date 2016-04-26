@@ -1,0 +1,15 @@
+package test_cases.test_3_interfaces.test_case_319_primitiveattribute
+
+<**
+    @author : Max Mustermann
+**>
+
+interface PrimitiveAttribute {
+    version {
+        major 42
+        minor 0
+    }
+
+    attribute String myString
+
+}

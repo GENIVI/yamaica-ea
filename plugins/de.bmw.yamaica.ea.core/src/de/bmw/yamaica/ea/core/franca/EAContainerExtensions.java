@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -14,6 +14,7 @@ import de.bmw.yamaica.ea.core.containers.EAContainerWithNamespace;
 import de.bmw.yamaica.ea.core.containers.EAContainerWithTaggedValues;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.containers.EATagContainer;
+import de.bmw.yamaica.ea.core.exceptions.UnsupportedOperationException;
 import de.bmw.yamaica.franca.common.core.FrancaUtils;
 
 public class EAContainerExtensions
@@ -22,8 +23,16 @@ public class EAContainerExtensions
     {
         if (container instanceof EAContainerWithTaggedValues)
         {
-            EATagContainer taggedValue = ((EAContainerWithTaggedValues) container)
-                    .getTaggedValueByName(EAFrancaConstants.TAGGED_VALUE_NAME);
+            EATagContainer taggedValue;
+
+            try
+            {
+                taggedValue = ((EAContainerWithTaggedValues) container).getTaggedValueByName(EAFrancaConstants.TAGGED_VALUE_NAME);
+            }
+            catch (UnsupportedOperationException e)
+            {
+                taggedValue = null;
+            }
 
             String virtualName = (null != taggedValue) ? taggedValue.getValue() : null;
 
@@ -55,11 +64,13 @@ public class EAContainerExtensions
         {
             if (null != virtualNamespacePrefix)
             {
+                // Common cases.
                 virtualNamespaceAsPath = getFidlNamespaceAsPath(container.getParent()).append(virtualNamespacePrefix).append(
                         getFidlName(container));
             }
             else
             {
+                // In case of typeCollections.
                 virtualNamespaceAsPath = getFidlNamespaceAsPath(container.getParent()).append(getFidlName(container));
             }
         }
@@ -94,7 +105,17 @@ public class EAContainerExtensions
         if (container instanceof EAPackageContainer)
         {
             EAPackageContainer p = (EAPackageContainer) container;
-            EATagContainer taggedValue = p.getTaggedValueByName(EAFrancaConstants.TAGGED_VALUE_NAMESPACE_PREFIX);
+
+            EATagContainer taggedValue;
+
+            try
+            {
+                taggedValue = p.getTaggedValueByName(EAFrancaConstants.TAGGED_VALUE_NAMESPACE_PREFIX);
+            }
+            catch (UnsupportedOperationException e)
+            {
+                taggedValue = null;
+            }
 
             return (null != taggedValue) ? taggedValue.getValue().replace('.', Path.SEPARATOR) : null;
         }
@@ -134,5 +155,17 @@ public class EAContainerExtensions
                 return getFidlPackage(container.getPackage());
             }
         }
+    }
+
+    public static boolean getIsFidlPackage(EAPackageContainer container)
+    {
+        return container.equals(getFidlPackage(container));
+    }
+
+    public static boolean getIsTypeCollectionPackage(EAPackageContainer container)
+    {
+        // Type collection packages must be a direct child of a fidl package,
+        // thus they also may not have a "FIDL-Namespace-Prefix" tagged value.
+        return (container.getParent().equals(getFidlPackage(container))) && (null == getNamespacePrefix(container));
     }
 }

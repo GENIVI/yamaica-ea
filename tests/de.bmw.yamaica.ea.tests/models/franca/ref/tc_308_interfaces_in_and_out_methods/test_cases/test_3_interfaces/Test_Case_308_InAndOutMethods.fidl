@@ -1,0 +1,107 @@
+package test_cases.test_3_interfaces.test_case_308_inandoutmethods
+
+<**
+    @author : Max Mustermann
+**>
+
+interface InOutReturns {
+    version {
+        major 1
+        minor 0
+    }
+    method m1 {
+        in {
+            Boolean myBoolIn
+            MyInt32Array myInt32ArrayIn
+            MyStructArray myStructArrayIn
+        }
+        out {
+            Int32 myInt32Out
+            MyEnum myEnumOut
+        }
+    }
+    method m2 {
+        in {
+            Int16 myInt16In
+        }
+        out {
+            Double myDoubleOut
+        }
+    }
+    method m3 {
+        in {
+            MyBooleanArray myBooleanArrayIn
+        }
+        out {
+            MyUnion myUnionOut
+        }
+    }
+    method m4 {
+        in {
+            MyMap myMapIn
+        }
+        out {
+            ByteBuffer myByteBufferOut
+        }
+    }
+    method m5 {
+        in {
+            String myStringIn
+        }
+        out {
+            MyUnion myUnionOut
+        }
+    }
+    method m6 {
+        in {
+            UInt64 myUInt64In
+        }
+        out {
+            MyStruct myStructOut
+            Int8 myUInt8Out
+        }
+    }
+    method m7 {
+        in {
+            MyMap myMapIn
+            Int32 myInt32In
+            MyEnum myEnumIn
+        }
+        out {
+            Double myDouble2Out
+            MyUnion myUnionOut
+            Double myDoubleOut
+        }
+    }
+    array MyBooleanArray of Boolean
+
+    array MyInt32Array of Int32
+
+    array MyStructArray of MyStruct
+
+    struct MyStruct {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    map MyMap {
+        UInt32 to Double
+    }
+
+    union MyUnion {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    enumeration MyEnum {
+        A = 1
+        B = 2
+        C = 3
+        D = 4
+    }
+
+}

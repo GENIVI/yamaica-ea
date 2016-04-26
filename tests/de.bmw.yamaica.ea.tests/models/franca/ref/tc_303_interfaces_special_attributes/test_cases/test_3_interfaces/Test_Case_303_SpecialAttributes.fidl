@@ -1,0 +1,49 @@
+package test_cases.test_3_interfaces.test_case_303_specialattributes
+
+<**
+    @author : Max Mustermann
+**>
+
+interface specialAttributes {
+    version {
+        major 1
+        minor 0
+    }
+
+    attribute Int64 myNormalAttribute
+
+    attribute MyStringArray MyArrayAttibute
+
+    attribute MyStruct MyStructAttibute
+
+    attribute Int64 MyNosubscriptionAttibute noSubscriptions
+
+    attribute MyStringArray MyNosubscriptionArrayAttibute noSubscriptions
+
+    attribute Double MyReadonlyAttribute readonly
+
+    attribute MyStringArray MyReadonlyArrayAttribute readonly
+
+    attribute MyEnum MyReadonlyNosubscriptionMyEnumAttribute readonly noSubscriptions
+
+    attribute MyStringArray MyReadonlyNosubscriptionArrayAttribute readonly noSubscriptions
+
+    attribute String[] myInlineArrayAttribute
+
+    array MyStringArray of String
+
+    struct MyStruct {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    enumeration MyEnum {
+        A = 1
+        B = 2
+        C = 3
+        D = 4
+    }
+
+}

@@ -1,0 +1,67 @@
+package Test_Cases.Test_4_Comments.Test_Case_403_Descriptions_Comments
+
+<**
+    @description : MyComment: types
+    Author: Max Mustermann
+    @author : Max Mustermann
+**>
+typeCollection types {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : typedef for Boolean
+    **>
+    typedef MyBoolean is Boolean
+
+    <**
+        @description : ComplexType MyMap
+    **>
+    map MyMap {
+        UInt32 to Double
+    }
+
+    <**
+        @description : MyComment Type MyUnion
+                       Filled with:
+                       myBool
+                       myInt32
+    **>
+    union MyUnion {
+
+        <**
+        @description : SIGNAL SHORTNAME = SU_ZV_KT_CKM
+        @description : SIGNAL LONG-NAME[de] = Konfiguration_ZV_Keytracking_CKM 
+        @description : SIGNAL LONG-NAME[en] = setup_ZV_keytracking_CKM 
+        @description : [de] = LogicalInterface:BMW.BODY.IDENTIFICATION.CarAccess[external](at)KuK;
+        Aktivieren/Deaktivieren des automatischen Ent- bzw. Verriegelns der Zentralverriegelung aufgrund Schlüsselerkennung bei Annäherung bzw. bei Entfernen.
+        @description : CODING SHORTNAME = ZV_KT_CKM
+        @description : CODING LONG-NAME[de] = ZV_Keytracking_CKM
+        @description : CODING LONG-NAME[en] = ZV_keytracking_CKM
+        @description : BIT-LENGTH = 4
+        @description : COMPU-METHOD CATEGORY = LINEAR
+        @description : SCALE-CONSTR = [0x4, 0xE]
+        @description : SCALE-CONSTR NOT-VALID = 0xF
+        @description : COMPU-INTERNAL-TO-PHYS = ( 0.0 + 1.0 ) / 1.0
+        @description : COMPU-METHOD CATEGORY = TEXTTABLE
+        @description : COMPU-SCALE = 0b 0--0 [CKT_entriegeln_nicht_aktiv] Automatisches Entriegeln nicht aktiv.
+        @description : COMPU-SCALE = 0b 0--1 [CKT_entriegeln_aktiv] Automatisches Entriegeln aktiv.
+        @description : COMPU-SCALE = 0b 0-0- [CKT_verriegeln_nicht_aktiv] Automatisches Verriegeln nicht aktiv.
+        @description : COMPU-SCALE = 0b 0-1- [CKT_verriegeln_aktiv] Automatisches Verriegeln aktiv.
+        @description : COMPU-SCALE = 0xF (Signal_unbefuellt) Sendefunktion nicht in Betrieb
+        **>
+        UInt8 setupZVKeytrackingCKM
+
+        <**
+            @description : MyComment: myBool
+        **>
+        Boolean myBool
+
+        <**
+            @description : MyComment: myInt32
+        **>
+        Int32 myInt32
+    }
+}

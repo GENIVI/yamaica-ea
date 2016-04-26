@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -12,28 +12,22 @@ import org.eclipse.core.runtime.Assert;
 import org.sparx.AttributeTag;
 import org.sparx.Collection;
 import org.sparx.Connector;
+import org.sparx.ConnectorTag;
 
 import de.bmw.yamaica.ea.core.EAConstants;
 import de.bmw.yamaica.ea.core.EAInstance;
 import de.bmw.yamaica.ea.core.IRunnableWithArguments;
 import de.bmw.yamaica.ea.core.containers.EAConnectorContainer;
+import de.bmw.yamaica.ea.core.containers.EAConnectorTagContainer;
 import de.bmw.yamaica.ea.core.containers.EAElementContainer;
 import de.bmw.yamaica.ea.core.containers.EATagContainer;
 import de.bmw.yamaica.ea.core.exceptions.EAException;
 
 public class EAConnectorContainerImpl extends EAContainerImpl implements EAConnectorContainer
 {
-    public static final int   UNKNOWN        = 0x1;
-    public static final int   ASSOCIATION    = 0x2;
-    public static final int   AGGREGATION    = 0x4;
-    public static final int   COMPOSITION    = 0x8;
-    public static final int   GENERALIZATION = 0x10;
-    public static final int   PACKAGE        = 0x20;
-    public static final int   ALL_TYPES      = 0xFFFFFFFF;
-
     protected final Connector eaConnector;
 
-    protected EAConnectorContainerImpl(EAInstance eaInstance, Connector eaConnector)
+    protected EAConnectorContainerImpl(final EAInstance eaInstance, final Connector eaConnector)
     {
         super(eaInstance, eaInstance.getRepository().getEAObjectId(eaConnector));
 
@@ -56,11 +50,27 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
         return (String) getOrCreateCachedValue(CACHED_NAME, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaConnector.GetName();
             }
         });
+    }
+
+    @Override
+    public void setName(final String name)
+    {
+        clearCachedValue(CACHED_NAME, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaConnector.SetName((String) arguments[0]);
+                eaConnector.Update();
+
+                return null;
+            }
+        }, name);
     }
 
     @Override
@@ -69,11 +79,27 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
         return (String) getOrCreateCachedValue(CACHED_NOTES, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaConnector.GetNotes();
             }
         });
+    }
+
+    @Override
+    public void setNotes(final String notes)
+    {
+        clearCachedValue(CACHED_NOTES, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaConnector.SetNotes((String) arguments[0]);
+                eaConnector.Update();
+
+                return null;
+            }
+        }, notes);
     }
 
     @Override
@@ -84,11 +110,22 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
         return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaConnector.Update();
             }
         });
+    }
+
+    @Override
+    public void delete()
+    {
+        final EAElementContainer element = getSupplier();
+
+        if (null != element)
+        {
+            element.deleteConnector(this);
+        }
     }
 
     // END Implementation of interface EAContainer //
@@ -98,10 +135,10 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     @Override
     public List<String> getStereotypes()
     {
-        String stereotype = (String) getOrCreateCachedValue(CACHED_STEREOTYPE, new IRunnableWithArguments()
+        final String stereotype = (String) getOrCreateCachedValue(CACHED_STEREOTYPE, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaConnector.GetStereotypeEx();
             }
@@ -111,9 +148,27 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     }
 
     @Override
-    public boolean hasStereotype(String stereotype)
+    public boolean hasStereotype(final String stereotype)
     {
         return super.hasStereotype(stereotype, getStereotypes());
+    }
+
+    @Override
+    public void setStereotypes(final String... stereotypes)
+    {
+        getRepository().registerStereotypes(stereotypes);
+
+        clearCachedValue(CACHED_STEREOTYPE, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaConnector.SetStereotypeEx((String) arguments[0]);
+                eaConnector.Update();
+
+                return null;
+            }
+        }, getStereotypeEx(stereotypes));
     }
 
     // END Implementation of interface EAContainerWithStereotypes //
@@ -124,23 +179,90 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     public List<EATagContainer> getTaggedValues()
     {
         @SuppressWarnings("unchecked")
-        Collection<AttributeTag> taggedValues = (Collection<AttributeTag>) getOrCreateCachedValue(CACHED_TAGGED_VALUES,
+        final Collection<AttributeTag> taggedValues = (Collection<AttributeTag>) getOrCreateCachedValue(CACHED_TAGGED_VALUES,
                 new IRunnableWithArguments()
                 {
                     @Override
-                    public Object run(Object... arguments)
+                    public Object run(final Object... arguments)
                     {
                         return eaConnector.GetTaggedValues();
                     }
                 });
 
-        return getRepository().getOrCreateEAObjectContainers(taggedValues, EATagContainer.class);
+        return getOrCreateEAObjectContainers(taggedValues, EATagContainer.class);
     }
 
     @Override
-    public EATagContainer getTaggedValueByName(String name)
+    public EATagContainer createTaggedValue(final String name)
+    {
+        return (EATagContainer) clearCachedValue(CACHED_TAGGED_VALUES, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                final Collection<ConnectorTag> eaConnectorTags = eaConnector.GetTaggedValues();
+                final ConnectorTag newEAConnectorTag = eaConnectorTags.AddNew((String) arguments[0], "");
+
+                if (!newEAConnectorTag.Update())
+                {
+                    return null;
+                }
+
+                eaConnectorTags.Refresh();
+
+                return getRepository().getOrCreateEAObjectContainer(newEAConnectorTag, EAConnectorTagContainer.class);
+            }
+        }, name);
+    }
+
+    @Override
+    public EATagContainer getOrCreateTaggedValue(final String name)
+    {
+        final EATagContainer eaTag = getTaggedValueByName(name);
+
+        return (null != eaTag) ? eaTag : createTaggedValue(name);
+    }
+
+    @Override
+    public EATagContainer getTaggedValueByName(final String name)
     {
         return getTaggedValueByName(name, getTaggedValues());
+    }
+
+    @Override
+    public void deleteTaggedValue(final String name)
+    {
+        deleteTaggedValue(getEAObjectContainerByName(getTaggedValues(), name, EATagContainer.class));
+    }
+
+    @Override
+    public void deleteTaggedValue(final EATagContainer taggedValue)
+    {
+        clearCachedValue(CACHED_TAGGED_VALUES, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                deleteEAObject(eaConnector.GetTaggedValues(), arguments[0]);
+
+                return null;
+            }
+        }, taggedValue.getEAObject());
+    }
+
+    @Override
+    public void deleteAllTaggedValues()
+    {
+        clearCachedValue(CACHED_TAGGED_VALUES, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                deleteEAObjects(eaConnector.GetTaggedValues());
+
+                return null;
+            }
+        });
     }
 
     // END Implementation of interface EAContainerWithTaggedValues //
@@ -148,61 +270,53 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     // BEGIN Implementation of interface EAConnectorContainer //
 
     @Override
-    public int getType()
+    public Type getType()
     {
-        int connectorType = UNKNOWN;
-        String typeString = (String) getOrCreateCachedValue(CACHED_TYPE_STRING, new IRunnableWithArguments()
+        final String typeString = (String) getOrCreateCachedValue(CACHED_TYPE_STRING, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaConnector.GetType();
             }
         });
 
-        if (typeString.equals(EAConstants.CONNECTOR_TYPE_ASSOCIATION))
+        final String subtypeString = (String) getOrCreateCachedValue(CACHED_SUB_TYPE_STRING, new IRunnableWithArguments()
         {
-            connectorType = EAConnectorContainer.ASSOCIATION;
-        }
-        else if (typeString.equals(EAConstants.CONNECTOR_TYPE_AGGREGATION))
-        {
-            String subtypeString = (String) getOrCreateCachedValue(CACHED_SUB_TYPE_STRING, new IRunnableWithArguments()
+            @Override
+            public Object run(final Object... arguments)
             {
-                @Override
-                public Object run(Object... arguments)
-                {
-                    return eaConnector.GetSubtype();
-                }
-            });
-
-            if (subtypeString.equals(EAConstants.CONNECTOR_SUBTYPE_WEAK))
-            {
-                connectorType = EAConnectorContainer.AGGREGATION;
+                return eaConnector.GetSubtype();
             }
-            else if (subtypeString.equals(EAConstants.CONNECTOR_SUBTYPE_STRONG))
-            {
-                connectorType = EAConnectorContainer.COMPOSITION;
-            }
-        }
-        else if (typeString.equals(EAConstants.CONNECTOR_TYPE_GENERALIZATION))
-        {
-            connectorType = EAConnectorContainer.GENERALIZATION;
-        }
-        else if (typeString.equals(EAConstants.CONNECTOR_TYPE_PACKAGE))
-        {
-            connectorType = EAConnectorContainer.PACKAGE;
-        }
+        });
 
-        return connectorType;
+        return Type.getByType(typeString, subtypeString);
+    }
+
+    @Override
+    public void setType(final Type type)
+    {
+        clearCachedValue(CACHED_TYPE_STRING, CACHED_SUB_TYPE_STRING, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaConnector.SetType((String) arguments[0]);
+                eaConnector.SetSubtype((String) arguments[1]);
+                eaConnector.Update();
+
+                return null;
+            }
+        }, type.getType(), type.getSubtype());
     }
 
     @Override
     public EAElementContainer getSupplier()
     {
-        int supplierId = (Integer) getOrCreateCachedValue(CACHED_SUPPLIER_ID, new IRunnableWithArguments()
+        final int supplierId = (Integer) getOrCreateCachedValue(CACHED_SUPPLIER_ID, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaConnector.GetSupplierID();
             }
@@ -219,12 +333,28 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     }
 
     @Override
-    public EAElementContainer getClient()
+    public void setSupplier(final EAElementContainer supplier)
     {
-        int clientId = (Integer) getOrCreateCachedValue(CACHED_CLIENT_ID, new IRunnableWithArguments()
+        clearCachedValue(CACHED_SUPPLIER_ID, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
+            {
+                eaConnector.SetSupplierID((Integer) arguments[0]);
+                eaConnector.Update();
+
+                return null;
+            }
+        }, supplier.getEAObjectId());
+    }
+
+    @Override
+    public EAElementContainer getClient()
+    {
+        final int clientId = (Integer) getOrCreateCachedValue(CACHED_CLIENT_ID, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
             {
                 return eaConnector.GetClientID();
             }
@@ -241,10 +371,26 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     }
 
     @Override
-    public EAElementContainer getOpposite(EAElementContainer reference)
+    public void setClient(final EAElementContainer client)
     {
-        EAElementContainer client = getClient();
-        EAElementContainer supplier = getSupplier();
+        clearCachedValue(CACHED_CLIENT_ID, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaConnector.SetClientID((Integer) arguments[0]);
+                eaConnector.Update();
+
+                return null;
+            }
+        }, client.getEAObjectId());
+    }
+
+    @Override
+    public EAElementContainer getOpposite(final EAElementContainer reference)
+    {
+        final EAElementContainer client = getClient();
+        final EAElementContainer supplier = getSupplier();
 
         if (reference.equals(supplier))
         {
@@ -261,12 +407,12 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     }
 
     @Override
-    public boolean isNavigable(EAElementContainer destination)
+    public boolean isNavigable(final EAElementContainer destination)
     {
-        String direction = (String) getOrCreateCachedValue(CACHED_DIRECTION, new IRunnableWithArguments()
+        final String direction = (String) getOrCreateCachedValue(CACHED_DIRECTION, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaConnector.GetDirection();
             }
@@ -293,16 +439,38 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
     @Override
     public boolean isDirected()
     {
-        String direction = (String) getOrCreateCachedValue(CACHED_DIRECTION, new IRunnableWithArguments()
+        return !getDirection().equals(EAConnectorContainer.Direction.UNSPECIFIED);
+    }
+
+    @Override
+    public Direction getDirection()
+    {
+        final String direction = (String) getOrCreateCachedValue(CACHED_DIRECTION, new IRunnableWithArguments()
         {
             @Override
-            public Object run(Object... arguments)
+            public Object run(final Object... arguments)
             {
                 return eaConnector.GetDirection();
             }
         });
 
-        return !direction.equals(EAConstants.CONNECTOR_DIRECTION_UNSPECIFIED);
+        return EAConnectorContainer.Direction.getByName(direction);
+    }
+
+    @Override
+    public void setDirection(final Direction direction)
+    {
+        clearCachedValue(CACHED_DIRECTION, new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                eaConnector.SetDirection((String) arguments[0]);
+                eaConnector.Update();
+
+                return null;
+            }
+        }, direction.getName());
     }
 
     // END Implementation of interface EAConnectorContainer //

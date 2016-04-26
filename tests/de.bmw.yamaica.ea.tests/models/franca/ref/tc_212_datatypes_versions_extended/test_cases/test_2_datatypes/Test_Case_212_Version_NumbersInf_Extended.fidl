@@ -1,0 +1,50 @@
+package test_cases.test_2_datatypes.test_case_212_version_numbersinf_extended
+import test_cases.test_2_datatypes.test_case_212_version_numbers_extended.*
+from "Test_Case_212_Version_Numbers_Extended.fidl"
+
+<**
+@description : 
+    Version: 1.0
+    Import line for each typeCollection and interface.
+    @author : Max Mustermann
+**>
+
+interface MyInterface1 extends MyBaseInterface1 {
+    version {
+        major 1
+        minor 0
+    }
+
+    attribute MyBooleanDummy0 myBoolDummy0
+
+    attribute typesVersion1.MyBooleanDummy1 myBoolDummy1
+
+    attribute typesVersion2.MyBooleanDummy2 myBoolDummy2
+
+    attribute typesVersion3.MyBooleanDummy3 myBoolDummy3
+
+}
+
+<**
+@description : 
+    Version: 1.0
+    Import line for each typeCollection and interface.
+    @author : Max Mustermann
+**>
+
+interface MyInterface2 extends MyBaseInterface2 {
+    version {
+        major 1
+        minor 0
+    }
+    method m2 {
+        in {
+            MyByteBufferDummy0 myBoolDummy0
+            typesVersion1.MyByteBufferDummy1 myBoolDummy1
+        }
+        out {
+            typesVersion2.MyByteBufferDummy2 myBoolDummy2
+            typesVersion3.MyByteBufferDummy3 myBoolDummy3
+        }
+    }
+}

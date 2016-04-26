@@ -1,0 +1,71 @@
+package test_cases.test_4_comments.test_case_403_descriptions_comments
+
+<**
+@description : 
+    MyComment: types
+    Author: Max Mustermann
+    @author : Max Mustermann
+**>
+typeCollection types {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : typedef for Boolean
+    **>
+    typedef MyBoolean is Boolean
+
+    <**
+        @description : ComplexType MyMap
+    **>
+    map MyMap {
+        UInt32 to Double
+    }
+
+    <**
+    @description : 
+        MyComment Type MyUnion
+        Filled with:
+        myBool
+        myInt32
+    **>
+    union MyUnion {
+
+        <**
+        @description : 
+            SIGNAL SHORTNAME = SU_ZV_KT_CKM
+            SIGNAL LONG-NAME[de] = Konfiguration_ZV_Keytracking_CKM
+            SIGNAL LONG-NAME[en] = setup_ZV_keytracking_CKM
+            [de] = LogicalInterface:BMW.BODY.IDENTIFICATION.CarAccess[external](at)KuK;
+            Aktivieren/Deaktivieren des automatischen Ent- bzw. Verriegelns der Zentralverriegelung aufgrund Schlüsselerkennung bei Annäherung bzw. bei Entfernen.
+            CODING SHORTNAME = ZV_KT_CKM
+            CODING LONG-NAME[de] = ZV_Keytracking_CKM
+            CODING LONG-NAME[en] = ZV_keytracking_CKM
+            BIT-LENGTH = 4
+            COMPU-METHOD CATEGORY = LINEAR
+            SCALE-CONSTR = [0x4, 0xE]
+            SCALE-CONSTR NOT-VALID = 0xF
+            COMPU-INTERNAL-TO-PHYS = ( 0.0 + 1.0 ) / 1.0
+            COMPU-METHOD CATEGORY = TEXTTABLE
+            COMPU-SCALE = 0b 0--0 [CKT_entriegeln_nicht_aktiv] Automatisches Entriegeln nicht aktiv.
+            COMPU-SCALE = 0b 0--1 [CKT_entriegeln_aktiv] Automatisches Entriegeln aktiv.
+            COMPU-SCALE = 0b 0-0- [CKT_verriegeln_nicht_aktiv] Automatisches Verriegeln nicht aktiv.
+            COMPU-SCALE = 0b 0-1- [CKT_verriegeln_aktiv] Automatisches Verriegeln aktiv.
+            COMPU-SCALE = 0xF (Signal_unbefuellt) Sendefunktion nicht in Betrieb
+        **>
+        UInt8 setupZVKeytrackingCKM
+
+        <**
+            @description : MyComment: myBool
+        **>
+        Boolean myBool
+
+        <**
+            @description : MyComment: myInt32
+        **>
+        Int32 myInt32
+    }
+
+}

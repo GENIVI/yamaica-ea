@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -19,17 +19,24 @@ import de.bmw.yamaica.ea.core.containers.EARepositoryContainer;
 
 public class EAProjectLoader implements Runnable, IRunnableWithProgress
 {
-    protected final File eaProject;
-    protected boolean    isDisposed             = false;
-    protected boolean    executionStarted       = false;
-    protected EAInstance eaInstance             = null;
-    protected boolean    fileOpenedSuccessfully = false;
+    protected final File    eaProject;
+    protected final boolean createFile;
+    protected boolean       isDisposed             = false;
+    protected boolean       executionStarted       = false;
+    protected EAInstance    eaInstance             = null;
+    protected boolean       fileOpenedSuccessfully = false;
 
     public EAProjectLoader(File eaProject)
+    {
+        this(eaProject, false);
+    }
+
+    public EAProjectLoader(File eaProject, boolean createFile)
     {
         Assert.isNotNull(eaProject);
 
         this.eaProject = eaProject;
+        this.createFile = createFile;
     }
 
     public File getFile()
@@ -47,7 +54,29 @@ public class EAProjectLoader implements Runnable, IRunnableWithProgress
     {
         if (null != eaInstance)
         {
-            fileOpenedSuccessfully = eaInstance.getRepository().openFile(eaProject.getAbsolutePath());
+            EARepositoryContainer repositoryContainer = eaInstance.getRepository();
+            String eaProjectFilePath = eaProject.getAbsolutePath();
+
+            boolean fileCreated = false;
+
+            if (!eaProject.exists() && createFile)
+            {
+                File eaProjectDirectory = eaProject.getParentFile();
+
+                if ((eaProjectDirectory.exists() || eaProjectDirectory.mkdirs()) && (eaProjectDirectory.isDirectory()))
+                {
+                    fileCreated = repositoryContainer.createFile(eaProjectFilePath);
+                }
+            }
+
+            boolean fileOpened = repositoryContainer.openFile(eaProjectFilePath);
+
+            if (fileOpened && fileCreated)
+            {
+                repositoryContainer.deleteAllModels();
+            }
+
+            fileOpenedSuccessfully = fileOpened;
         }
     }
 

@@ -1,0 +1,29 @@
+package test_cases.test_3_interfaces.test_case_311_extendedinterfaces
+
+<**
+    @author : Max Mustermann
+**>
+
+interface BaseInterface {
+}
+
+<**
+    @author : Max Mustermann
+**>
+
+interface ExtendedInterface extends BaseInterface {
+}
+
+<**
+    @author : Max Mustermann
+**>
+
+interface ExtendedInterface2 extends ExtendedInterface {
+}
+
+<**
+    @author : Max Mustermann
+**>
+
+interface ExtendedInterface3 extends BaseInterface {
+}

@@ -1,0 +1,19 @@
+package test_cases.test_2_datatypes.test_case_205_maps
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection types {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : ComplexType map
+    **>
+    map MyMap {
+        UInt32 to Double
+    }
+
+}

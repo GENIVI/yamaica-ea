@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package de.bmw.yamaica.ea.core.franca
 
-import de.bmw.yamaica.ea.core.EAConstants
 import de.bmw.yamaica.ea.core.containers.EAContainerWithElements
 import de.bmw.yamaica.ea.core.containers.EAElementContainer
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer
@@ -22,11 +21,13 @@ class EADependencyDiscoverer
 
     extension EAIssueLogger logger
     extension EA2FrancaUtils transformationUtils
+    extension EAModelValidator modelValidator
 
     new(EAIssueLogger logger, EA2FrancaUtils transformationUtils)
     {
         this.logger = logger
         this.transformationUtils = transformationUtils
+        this.modelValidator = new EAModelValidator(logger, transformationUtils)
     }
 
     /**
@@ -38,15 +39,20 @@ class EADependencyDiscoverer
     {
         val elements = new LinkedHashSet<EAElementContainer>
 
-        val container2ScanElements = container2Scan.elements.filter[!hasStereotype(EAFrancaConstants.STEREOTYPE_NO_FIDL)]
-        elements.addAll(container2ScanElements)
-        container2ScanElements.forEach[elements.addAll(packageElements)]
+        container2Scan.elements.filter [
+            !hasStereotype(EAFrancaConstants.STEREOTYPE_NO_FIDL) && isValidElement
+        ].forEach [
+            elements.add(it)
+            elements.addAll(packageElements)
+        ]
 
         if(container2Scan instanceof EAPackageContainer)
         {
-            val container2ScanPackages = (container2Scan as EAPackageContainer).packages.filter[
-                !hasStereotype(EAFrancaConstants.STEREOTYPE_NO_FIDL) && !hasStereotype(EAFrancaConstants.STEREOTYPE_FIDL)]
-            container2ScanPackages.forEach[elements.addAll(packageElements)]
+            container2Scan.packages.filter [
+                !hasStereotype(EAFrancaConstants.STEREOTYPE_NO_FIDL) && !hasStereotype(EAFrancaConstants.STEREOTYPE_FIDL)
+            ].forEach [
+                elements.addAll(packageElements)
+            ]
         }
         return elements
     }
@@ -62,9 +68,9 @@ class EADependencyDiscoverer
         fidlPackage2Scan.packageElements.forEach [ packageElement |
             switch packageElement
             {
-                case packageElement.type.equals(EAConstants.TYPE_CLASS):
+                case packageElement.type.equals(EAElementContainer.Type.CLASS):
                     externalElements.addExternalTypeElements(packageElement, fidlPackage2Scan)
-                case packageElement.type.equals(EAConstants.TYPE_INTERFACE):
+                case packageElement.type.equals(EAElementContainer.Type.INTERFACE):
                     externalElements.addExternalInterfaceElements(packageElement, fidlPackage2Scan)
             }
         ]
@@ -82,6 +88,7 @@ class EADependencyDiscoverer
             case EAFrancaDataType.STRUCT: externalElements.addExternalStructTypeElements(element2Scan, fidlPackage2Scan)
             case EAFrancaDataType.UNION: externalElements.addExternalUnionTypeElements(element2Scan, fidlPackage2Scan)
             case EAFrancaDataType.MAP: externalElements.addExternalMapTypeElements(element2Scan, fidlPackage2Scan)
+            case UNDEFINED: {}
         }
     }
 
@@ -181,7 +188,11 @@ class EADependencyDiscoverer
             {
                 addIssue(typeof(AutoImportException), fidlPackage2Scan, AUTO_IMPORT_MESSAGE, element2Add.namespace)
             }
-            externalElements.add(element2Add)
+
+            if(fidlPackage2Scan.equals(fidlPackageOfElement2Scan) == false)
+            {
+                externalElements.add(element2Add)
+            }
         }
     }
 }

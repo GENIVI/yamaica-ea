@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -10,9 +10,8 @@ import de.bmw.yamaica.common.ui.dialogs.YamaicaExportWizard;
 
 public class ExportWizard extends YamaicaExportWizard
 {
-
-    private static final String EXPORT_FRANCA_IDL_FILES  = "Export Franca IDL Files to Enterprise Architect XMI";
-    private static final String YAMAICA_EA_EXPORT_WIZARD = "YamaicaEAXMIExportWizard";
+    private static final String EXPORT_FRANCA_IDL_FILES  = "Export Franca Interface Definition Files To Enterprise Architect Project";
+    private static final String YAMAICA_EA_EXPORT_WIZARD = "YamaicaEAFrancaExportWizard";
 
     public ExportWizard()
     {
@@ -28,5 +27,4 @@ public class ExportWizard extends YamaicaExportWizard
 
         addPage(yamaicaWizardExportPage);
     }
-
 }

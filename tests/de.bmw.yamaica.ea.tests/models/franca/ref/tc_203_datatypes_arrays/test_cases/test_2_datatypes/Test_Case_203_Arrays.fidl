@@ -1,0 +1,144 @@
+package test_cases.test_2_datatypes
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection Test_Case_203_Arrays {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : complexType StructArray
+    **>
+    array My_StructArray of MyStruct
+
+    <**
+        @description : complexType ArrayOfArrays, 2 Dimensionales Array
+    **>
+    array MyArray2 of My_StructArray
+
+    <**
+        @description : complexType 3 Dimensionales Array
+    **>
+    array MyArray3 of MyArray2
+
+    <**
+        @description : complexType BooleanArray
+    **>
+    array MyBooleanArray of Boolean
+
+    <**
+        @description : complexType ByteBufferArray
+    **>
+    array MyByteBufferArray of ByteBuffer
+
+    <**
+        @description : complexType DoubleArray
+    **>
+    array MyDoubleArray of Double
+
+    <**
+        @description : complexType EnumArray
+    **>
+    array MyEnumArray of MyEnum
+
+    <**
+        @description : complexType FloatArray
+    **>
+    array MyFloatArray of Float
+
+    <**
+        @description : complexType Int16Array
+    **>
+    array MyInt16Array of Int16
+
+    <**
+        @description : complexType Int32Array
+    **>
+    array MyInt32Array of Int32
+
+    <**
+        @description : complexType Int64Array
+    **>
+    array MyInt64Array of Int64
+
+    <**
+        @description : complexType Int8Array
+    **>
+    array MyInt8Array of Int8
+
+    <**
+        @description : complexType MapArray
+    **>
+    array MyMapArray of MyMap
+
+    <**
+        @description : complexType StringArray
+    **>
+    array MyStringArray of String
+
+    <**
+        @description : complexType UInt16Array
+    **>
+    array MyUInt16Array of UInt16
+
+    <**
+        @description : complexType UInt32 Array
+    **>
+    array MyUInt32Array of UInt32
+
+    <**
+        @description : complexType UInt64Array
+    **>
+    array MyUInt64Array of UInt64
+
+    <**
+        @description : complexType UInt8Array
+    **>
+    array MyUInt8Array of UInt8
+
+    <**
+        @description : complexType UnionArray
+    **>
+    array MyUnionArray of MyUnion
+
+    <**
+        @description : dummy struct
+    **>
+    struct MyStruct {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    <**
+        @description : dummy union
+    **>
+    union MyUnion {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    <**
+        @description : dummy enumeration
+    **>
+    enumeration MyEnum {
+        A = 1
+        B = 2
+        C = 3
+        D = 4
+    }
+
+    <**
+        @description : dummy map
+    **>
+    map MyMap {
+        Int32 to String
+    }
+
+}

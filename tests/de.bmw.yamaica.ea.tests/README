@@ -1,4 +1,8 @@
-To start the JUnit Plug-in Test launch configuration "All EA Tests" you have to copy 
-the Enterprise Architect File "UML_HowTo_Example.eap" from 
-"https://collab.genivi.org/wiki/display/genivi/UML+Interface+Standardization+Guideline" 
-to the "models/ea/input" directory of this plug-in.
+To start the JUnit Plug-in Test launch configuration "Execute all EA Tests" the following
+prerequisites must be met:
+- The eaapi.jar file must be available within the /lib/ext folder of the executing JVM (32 Bit only)
+- The SSJavaCOM.dll file must bei available within the C:\Windows\SysWOW64 directory on 64 Bit or
+  within the C:\Windows\System32 directory on 32 Bit systems
+
+Alternatively the plug-ins de.bmw.yamaica.ea.core.proprietary.win32.x86 and
+de.bmw.yamaica.ea.core.proprietary must be available.

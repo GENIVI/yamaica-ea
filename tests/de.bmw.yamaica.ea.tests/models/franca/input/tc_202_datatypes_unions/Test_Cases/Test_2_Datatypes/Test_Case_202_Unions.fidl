@@ -1,0 +1,48 @@
+package Test_Cases.Test_2_Datatypes.Test_Case_202_Unions
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection types {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : complexType union
+    **>
+    union MyEmptyUnion {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    <**
+        @description : complexType MyOtherUnionFilled
+Filled with:
+myBool
+myInt32
+    **>
+    union MyOtherUnionFilled {
+        Boolean myBool
+        Int32 myInt32
+    }
+
+    <**
+        @description : complexType filled MyUnionFilled:
+
+Filled with:
+myBoolean
+myOtherUnion
+myString
+myArray2
+    **>
+    union MyUnionFilled {
+        Boolean myBoolean
+        MyEmptyUnion myOtherUnion
+        String myString
+    }
+
+}

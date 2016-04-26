@@ -1,0 +1,34 @@
+package test_cases.test_2_datatypes.test_case_207_unions_derived
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection types {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : complexType union
+    **>
+    union MyUnion {
+        UInt8 a
+        UInt16 b
+        UInt32 c
+        UInt64 d
+    }
+
+    <**
+        @description : complexType extended union
+    **>
+    union MyUnionDerived extends MyUnion {
+    }
+
+    <**
+        @description : complexType extended union
+    **>
+    union MyUnionExtended extends MyUnionDerived {
+    }
+
+}

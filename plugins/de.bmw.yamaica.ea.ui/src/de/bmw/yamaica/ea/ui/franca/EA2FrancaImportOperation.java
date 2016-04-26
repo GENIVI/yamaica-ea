@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 BMW Group
+/* Copyright (C) 2013-2015 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -18,13 +18,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
-import org.eclipse.xtext.resource.SynchronizedXtextResourceSet;
-import org.franca.core.dsl.FrancaIDLRuntimeModule;
 import org.franca.core.franca.FModel;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 
 import de.bmw.yamaica.ea.core.EAInstance;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
@@ -32,6 +28,7 @@ import de.bmw.yamaica.ea.core.exceptions.EAException;
 import de.bmw.yamaica.ea.core.franca.EA2FrancaTransformation;
 import de.bmw.yamaica.ea.core.franca.exceptions.EA2FrancaTransformationException;
 import de.bmw.yamaica.ea.ui.internal.Activator;
+import de.bmw.yamaica.franca.common.core.FrancaInjector;
 import de.bmw.yamaica.franca.common.core.FrancaResourceSetContainer;
 
 public class EA2FrancaImportOperation extends WorkspaceModifyOperation
@@ -39,7 +36,6 @@ public class EA2FrancaImportOperation extends WorkspaceModifyOperation
     protected IPath                    containerPath           = null;
     protected EAInstance               eaInstance              = null;
     protected List<EAPackageContainer> packages                = null;
-    protected Injector                 injector                = null;
     protected EA2FrancaTransformation  ea2FrancaTransformation = null;
 
     public EA2FrancaImportOperation(IPath containerPath, EAInstance eaInstance, List<EAPackageContainer> packages)
@@ -51,23 +47,25 @@ public class EA2FrancaImportOperation extends WorkspaceModifyOperation
         this.containerPath = containerPath;
         this.eaInstance = eaInstance;
         this.packages = packages;
-        this.injector = Guice.createInjector(new FrancaIDLRuntimeModule());
-        this.ea2FrancaTransformation = injector.getInstance(EA2FrancaTransformation.class);
+        this.ea2FrancaTransformation = FrancaInjector.INSTANCE.getInstance(EA2FrancaTransformation.class);
     }
 
     @Override
     protected void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException
     {
-        FrancaResourceSetContainer resourceSetContainer = new FrancaResourceSetContainer(new SynchronizedXtextResourceSet(), containerPath);
+        FrancaResourceSetContainer resourceSetContainer = new FrancaResourceSetContainer(
+                FrancaInjector.INSTANCE.getInstance(ResourceSet.class), containerPath);
 
-        monitor.beginTask("", 7);
-        monitor.setTaskName("Transforming EA project to Franca IDL");
+        monitor.beginTask("Transforming EA project to Franca IDL", 3);
 
         try
         {
             monitor.subTask("Analysing package dependencies");
 
             Collection<FModel> models = ea2FrancaTransformation.transformModels(packages);
+
+            // Add all origin file names.
+            resourceSetContainer.addOriginFileNames(ea2FrancaTransformation.getOriginFileNames());
 
             resourceSetContainer.addModels(models);
 
@@ -76,54 +74,18 @@ public class EA2FrancaImportOperation extends WorkspaceModifyOperation
             checkCancelState(monitor);
 
             monitor.worked(1);
-            monitor.subTask("Transforming imports");
+            monitor.subTask("Transforming data types");
 
-            ea2FrancaTransformation.transformImports((resourceSetContainer).getModelSavePaths());
-
-            checkCancelState(monitor);
-            resourceSetContainer.save();
-            checkCancelState(monitor);
-
-            monitor.worked(1);
-            monitor.subTask("Transforming types");
-
-            ea2FrancaTransformation.transformTypes();
+            ea2FrancaTransformation.transformDataTypes();
 
             checkCancelState(monitor);
             resourceSetContainer.save();
             checkCancelState(monitor);
 
             monitor.worked(1);
-            monitor.subTask("Transforming type cross references");
+            monitor.subTask("Transforming cross references");
 
-            ea2FrancaTransformation.transformTypeCrossReferences();
-
-            checkCancelState(monitor);
-            resourceSetContainer.save();
-            checkCancelState(monitor);
-
-            monitor.worked(1);
-            monitor.subTask("Transforming interfaces");
-
-            ea2FrancaTransformation.transformInterfaces();
-
-            checkCancelState(monitor);
-            resourceSetContainer.save();
-            checkCancelState(monitor);
-
-            monitor.worked(1);
-            monitor.subTask("Transforming interface contents");
-
-            ea2FrancaTransformation.transformInterfaceContents();
-
-            checkCancelState(monitor);
-            resourceSetContainer.save();
-            checkCancelState(monitor);
-
-            monitor.worked(1);
-            monitor.subTask("Transforming interface cross references");
-
-            ea2FrancaTransformation.transformInterfaceCrossReferences();
+            ea2FrancaTransformation.transformCrossReferences(resourceSetContainer.getModelSavePaths());
 
             checkCancelState(monitor);
             resourceSetContainer.save();

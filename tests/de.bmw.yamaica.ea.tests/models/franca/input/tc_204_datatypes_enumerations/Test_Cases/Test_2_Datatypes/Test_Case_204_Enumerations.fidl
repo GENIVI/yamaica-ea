@@ -1,0 +1,68 @@
+package Test_Cases.Test_2_Datatypes.Test_Case_204_Enumerations
+
+<**
+    @author : Max Mustermann
+**>
+typeCollection {
+    version {
+        major 1
+        minor 0
+    }
+
+    <**
+        @description : complexType enumeration
+    **>
+    enumeration MyEnum {
+        A = 1
+        B = 2
+        C = 3
+        D = 4
+    }
+
+    <**
+        @description : complexType enumeration without types
+    **>
+    enumeration MyEnumWithoutTypes {
+        VALUE_1
+        VALUE_0
+        VALUE_31
+    }
+
+    <**
+        @description : complexType enumeration with types
+    **>
+    enumeration MyEnumWithTypes {
+        VALUE_0 = 0
+        VALUE_01 = 01
+        VALUE_255 = 255
+    }
+
+    <**
+    @description :
+        Sample contains several diffent value types (octal, decimal and hex). GLIPCI-699 related.
+        Not allowed: "-0xFF", "-0xff", "#FF", "#ff", "-#FF", "-#ff"
+        Reduces MIN/MAX octal values by one digit (Franca2EA transformation does not handle octal values)
+    **>
+    enumeration MyEnumValuesSamples {
+        INT_MIN = -2147483648
+        INT_NEG = -1
+        INT_ZERO = 0
+        INT_POS = 1
+        INT_MAX = 2147483647
+        STRING_INT_MIN = "-2147483648"
+        STRING_INT_NEG = "-1"
+        STRING_INT_ZERO = "0"
+        STRING_INT_POS = "1"
+        STRING_INT_MAX = "2147483647"
+        STRING_HEX_UPPERCASE = "0xFF"
+        STRING_HEX_LOWERCASE = "0xff"
+        STRING_OCTAL_MIN_NEG1 = "-02000000000"
+        STRING_OCTAL_MAX_POS1 = "01777777777"
+        STRING_OCTAL_MIN_NEG2 = "-002000000000"
+        STRING_OCTAL_MAX_POS2 = "001777777777"
+        OCTAL_MIN_NEG1 = -02000000000
+        OCTAL_MAX_POS1 = 01777777777
+        OCTAL_MIN_NEG2 = -002000000000
+        OCTAL_MAX_POS2 = 001777777777
+    }
+}
