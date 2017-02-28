@@ -1,4 +1,4 @@
-/* Copyright (C) 2013-2015 BMW Group
+/* Copyright (C) 2013-2016 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -47,15 +47,16 @@ public class FrancaHandlerTransformationAdapter
 {
     private static final Logger LOGGER = Logger.getLogger(FrancaHandlerTransformationAdapter.class.getName());
 
-    public static EAProjectLoader createEAProjectLoader(String eaInputFile) throws Exception
+    public static EAProjectLoader createEAProjectLoader(String eaInputFile, String username, String password) throws Exception
     {
-        return createEAProjectLoader(eaInputFile, false);
+        return createEAProjectLoader(eaInputFile, false, username, password);
     }
 
-    public static EAProjectLoader createEAProjectLoader(String eaInputFile, boolean createFile) throws Exception
+    public static EAProjectLoader createEAProjectLoader(String eaInputFile, boolean createFile, String username, String password)
+            throws Exception
     {
         File eaFile = new File(eaInputFile);
-        EAProjectLoader eaProjectLoader = new EAProjectLoader(eaFile, createFile);
+        EAProjectLoader eaProjectLoader = new EAProjectLoader(eaFile, createFile, username, password);
         eaProjectLoader.run(new NullProgressMonitor());
 
         return eaProjectLoader;
@@ -306,9 +307,6 @@ public class FrancaHandlerTransformationAdapter
         ModelPersistenceHandler modelPersistenceHandler = new ModelPersistenceHandler(
                 FrancaInjector.INSTANCE.getInstance(ResourceSet.class));
 
-        // Holding origin file names mapped to its lower case version (last segment of the package name).
-        final Map<String, String> fileNamesCache = new HashMap<>();
-
         for (File francaFidlFile : francaFidlFiles)
         {
 
@@ -316,9 +314,6 @@ public class FrancaHandlerTransformationAdapter
             URI fidlRootUri = URI.createFileURI(francaFidlFile.getParent().toString());
             LOGGER.log(Level.INFO, "Franca file to load : " + francaFidlFile.getAbsolutePath());
             modelPersistenceHandler.loadModel(fidlFileUri, fidlRootUri);
-
-            final String fileNameWithoutFileExt = new Path(francaFidlFile.getAbsolutePath()).removeFileExtension().lastSegment();
-            fileNamesCache.put(fileNameWithoutFileExt.toLowerCase(), fileNameWithoutFileExt);
         }
 
         List<FModel> models = new ArrayList<>();
@@ -340,8 +335,7 @@ public class FrancaHandlerTransformationAdapter
                 throw new ValidationException("Failed to validate Franca model.");
         }
 
-        Franca2EATransformation franca2eaTransformation = new Franca2EATransformation(models, eaRepository, new Path(namespacePrefix),
-                fileNamesCache);
+        Franca2EATransformation franca2eaTransformation = new Franca2EATransformation(models, eaRepository, new Path(namespacePrefix));
         franca2eaTransformation.transformModels();
         franca2eaTransformation.transformDataTypes();
         franca2eaTransformation.transformCrossReferences();

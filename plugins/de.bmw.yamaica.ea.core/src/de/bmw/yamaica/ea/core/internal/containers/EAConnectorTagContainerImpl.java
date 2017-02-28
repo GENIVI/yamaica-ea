@@ -6,6 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package de.bmw.yamaica.ea.core.internal.containers;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.core.runtime.Assert;
 import org.sparx.ConnectorTag;
 
@@ -14,9 +17,12 @@ import de.bmw.yamaica.ea.core.IRunnableWithArguments;
 import de.bmw.yamaica.ea.core.containers.EAConnectorContainer;
 import de.bmw.yamaica.ea.core.containers.EAConnectorTagContainer;
 import de.bmw.yamaica.ea.core.exceptions.EAException;
+import de.bmw.yamaica.ea.core.exceptions.ReferencedElementNotFoundException;
 
 public class EAConnectorTagContainerImpl extends EAContainerImpl implements EAConnectorTagContainer
 {
+    private static final Logger LOGGER = Logger.getLogger(EAConnectorTagContainerImpl.class.getName());
+
     protected final ConnectorTag eaConnectorTag;
 
     protected EAConnectorTagContainerImpl(final EAInstance eaInstance, final ConnectorTag eaConnectorTag)
@@ -171,7 +177,9 @@ public class EAConnectorTagContainerImpl extends EAContainerImpl implements EACo
         }
         catch (EAException e)
         {
-            throw createReferencedElementNotFoundException(e, this);
+            final ReferencedElementNotFoundException referencedElementNotFoundException = createReferencedElementNotFoundException(e, this);
+            LOGGER.log(Level.SEVERE, referencedElementNotFoundException.getMessage());
+            throw referencedElementNotFoundException;
         }
     }
 

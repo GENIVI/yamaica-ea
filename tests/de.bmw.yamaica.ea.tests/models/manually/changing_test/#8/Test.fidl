@@ -1,0 +1,145 @@
+package a.b.c.test
+
+<**
+    @description : MyINterface description.
+**>
+
+interface MyInterface {
+    version {
+        major 2
+        minor 0
+    }
+    enumeration ERRORS {
+        <**
+            @description : Description of C (2.0).
+        **>
+        C
+        <**
+            @description : Description of D (2.0).
+        **>
+        D
+        E
+    }
+
+    typedef newType is Int32
+
+    typedef aNewType is UInt64
+
+    array newArray of aNewType
+
+    enumeration Extended extends ERRORS {
+        B
+    }
+
+    struct newStruct polymorphic {
+        newArray[] arrayArray
+        newArray[] arrayArray2
+    }
+
+    struct newExtendedStruct extends newStruct {
+        newArray myArray
+        newArray myArray2
+    }
+
+    union newUnion {
+        Boolean myBool
+        String myString
+    }
+
+    map newMap {
+        String to Boolean
+    }
+
+    enumeration MyEnum{
+        ABC
+    }
+
+    <**
+        @description : myMethod description (one input para).
+    **>
+    method myMethod {
+        in {
+
+            <**
+                @description : name monday String.
+            **>
+            String nameMonday
+        }
+    }
+
+    <**
+        @description : newMethod description (one output para: Int32).
+    **>
+    method newMethod {
+        out {
+
+            <**
+                @description : value monday Int32.
+            **>
+            Int32 valueMonday
+        }
+    }
+
+    <**
+        @description : myMethod empty description.
+    **>
+    method myMethod {
+    }
+
+    <**
+        @description : newMethod description (one output para: String).
+    **>
+    method newMethod {
+        out {
+
+            <**
+                @description : value monday String.
+            **>
+            String valueMonday
+        }
+    }
+
+    <**
+        @description : newMethod empty description.
+    **>
+    method newMethod {
+    } attribute Int16 newAttribute
+}
+
+interface AnotherInterface {
+    version {
+        major 20
+        minor 4
+    }
+
+    broadcast MyBroadcast {
+        out {
+           Boolean info1
+        }
+    }
+    broadcast MyBroadcastSelective selective {
+        out {
+            Boolean info2
+        }
+    }
+
+    attribute Int16 MyAttribute1 readonly
+
+    attribute Int16 MyAttribute2 readonly
+} typeCollection MyTypeCollection {
+    enumeration MyEnum {
+        XYZ
+    }
+    struct MyStruct {
+        Int32 field
+    }
+    map mymap {
+        Boolean to Int16
+    }
+    const String CONST = "Hello World"
+    union myunion {
+        Int8 header
+    }
+    typedef mytypedef is myunion
+    array myarray of mytypedef
+}

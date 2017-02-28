@@ -1,4 +1,4 @@
-/* Copyright (C) 2013-2015 BMW Group
+/* Copyright (C) 2013-2016 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -13,6 +13,8 @@ public interface EARepositoryContainer extends EAContainer
     public void exit();
 
     public boolean openFile(String filename);
+
+    public boolean openFile(String filename, String username, String password);
 
     public void closeFile();
 

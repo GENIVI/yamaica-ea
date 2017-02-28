@@ -1,4 +1,4 @@
-/* Copyright (C) 2013-2015 BMW Group
+/* Copyright (C) 2013-2016 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -57,6 +57,7 @@ import de.bmw.yamaica.common.core.utils.ResourceUtils;
 import de.bmw.yamaica.common.ui.dialogs.YamaicaCheckedTreeViewer;
 import de.bmw.yamaica.common.ui.dialogs.YamaicaWizardImportPage;
 import de.bmw.yamaica.common.ui.utils.ActionRunEvent;
+import de.bmw.yamaica.common.ui.utils.AutoBuildHelper;
 import de.bmw.yamaica.common.ui.utils.ViewerToolBar;
 import de.bmw.yamaica.ea.core.EAProjectLoader;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
@@ -96,12 +97,21 @@ public class ImportPage extends YamaicaWizardImportPage
     // dialog store id constants
     protected final static String    STORE_IMPORT_DEPENDENCIES_ID = "YamaicaWizardImportPage.STORE_IMPORT_DEPENDENCIES_ID";
 
+    /**
+     * See also GLIPCI-968: Using default username null.
+     */
+    private final String             username                     = null;
+    /**
+     * See also GLIPCI-968: Using default pasword null.
+     */
+    private final String             password                     = null;
+
     public ImportPage(IWorkbench workbench, IStructuredSelection structuredSelection)
     {
-        super(workbench, structuredSelection, "EA to Franca Interface Definition Importer");
+        super(workbench, structuredSelection, "EA to Franca IDL Importer");
 
-        setTitle("EA to Franca Interface Definition Importer");
-        setDescription("Converts Enterprise Architect packages to Franca interface definition files.");
+        setTitle("EA to Franca IDL Importer");
+        setDescription("Converts Enterprise Architect packages to Franca IDL files.");
 
         disposeEAProjectLoader();
     }
@@ -131,6 +141,7 @@ public class ImportPage extends YamaicaWizardImportPage
         sourceNameField.setFont(font);
         sourceNameField.addSelectionListener(new SelectionAdapter()
         {
+            @Override
             public void widgetSelected(SelectionEvent e)
             {
                 entryChanged = false;
@@ -140,6 +151,7 @@ public class ImportPage extends YamaicaWizardImportPage
         });
         sourceNameField.addKeyListener(new KeyAdapter()
         {
+            @Override
             public void keyPressed(KeyEvent e)
             {
                 if (e.character != SWT.CR && e.character != SWT.ESC)
@@ -150,6 +162,7 @@ public class ImportPage extends YamaicaWizardImportPage
         });
         sourceNameField.addFocusListener(new FocusAdapter()
         {
+            @Override
             public void focusLost(FocusEvent e)
             {
                 if (entryChanged)
@@ -243,7 +256,7 @@ public class ImportPage extends YamaicaWizardImportPage
 
             setMessage("Opening EA project...", INFORMATION);
 
-            eaProjectLoader = new EAProjectLoader(sourceDirectory);
+            eaProjectLoader = new EAProjectLoader(sourceDirectory, username, password);
 
             getContainer().run(true, true, eaProjectLoader);
 
@@ -395,6 +408,10 @@ public class ImportPage extends YamaicaWizardImportPage
 
         saveWidgetValues();
 
+        boolean autoBuild = AutoBuildHelper.isWorkspaceAutoBuilding();
+        if (autoBuild)
+            AutoBuildHelper.setWorkspaceAutoBuild(false);
+
         try
         {
             if (true == autoRefreshOnNextAttempt && null != eaProjectLoader)
@@ -441,6 +458,9 @@ public class ImportPage extends YamaicaWizardImportPage
             }
 
             autoRefreshOnNextAttempt = !success;
+
+            if (autoBuild)
+                AutoBuildHelper.setWorkspaceAutoBuild(autoBuild);
         }
 
         return success;

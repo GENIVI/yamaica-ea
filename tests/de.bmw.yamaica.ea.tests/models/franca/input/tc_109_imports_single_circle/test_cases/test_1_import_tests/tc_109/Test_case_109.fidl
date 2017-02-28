@@ -1,6 +1,6 @@
-package test_case.test_1_import_tests.tc_109.test_case_109
+package test_cases.test_1_import_tests.tc_109.test_case_109
 
-import test_case.test_1_import_tests.tc_109.test_case_109.* from "Test_case_109.fidl"
+import test_cases.test_1_import_tests.tc_109.test_case_109.* from "Test_case_109.fidl"
 
 typeCollection Type {
 

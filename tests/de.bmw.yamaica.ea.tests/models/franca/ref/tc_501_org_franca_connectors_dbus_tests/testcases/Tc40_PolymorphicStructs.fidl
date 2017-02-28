@@ -1,6 +1,10 @@
 package testcases.tc40_polymorphicstructs
 
 interface MyInterface {
+    version {
+        major 1
+        minor 0
+    }
     struct MyStruct1 {
         Int16 e
         Int16 f

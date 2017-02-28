@@ -1,4 +1,4 @@
-/* Copyright (C) 2013-2015 BMW Group
+/* Copyright (C) 2013-2016 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -8,6 +8,7 @@ package de.bmw.yamaica.ea.core.internal;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,25 +17,30 @@ import org.apache.commons.cli.CommandLine;
 
 import de.bmw.yamaica.common.console.AbstractCommandLineHandler;
 import de.bmw.yamaica.common.console.ICommandLineHandler;
+import de.bmw.yamaica.common.console.LogUtils;
 import de.bmw.yamaica.ea.core.EAProjectLoader;
 import de.bmw.yamaica.ea.core.containers.EARepositoryContainer;
 
 public class Franca2EACommandHandler extends AbstractCommandLineHandler implements ICommandLineHandler
 {
-    private final static String CLI_EA_PROJECT_PATH = "e";
-    private final static String CLI_EA_FRANCA_PATH  = "erp";
-    private final static String CLI_EA_ROOT_PACKAGE = "efp";
-    private final static String CLI_FRANCA_FILES    = "efm";
-    private final static String CLI_NO_VALIDATE     = "nv";
-    private String              eaProject           = null;
-    private String              rootPackage         = null;
-    private String              francaPath          = null;
-    private String              francaModels        = null;
-    private boolean             validateInput       = true;
-    private static Logger       jlog                = Logger.getLogger(Franca2EACommandHandler.class.getName());
+    private final static String           CLI_EA_PROJECT_PATH     = "e";
+    private final static String           CLI_EA_FRANCA_PATH      = "erp";
+    private final static String           CLI_EA_ROOT_PACKAGE     = "efp";
+    private final static String           CLI_FRANCA_FILES        = "efm";
+    private final static String           CLI_NO_VALIDATE         = "nv";
+
+    private String                        eaProject               = null;
+    private String                        rootPackage             = null;
+    private String                        francaPath              = null;
+    private String                        francaModels            = null;
+    private boolean                       validateInput           = true;
+    private static final Logger           LOGGER                  = Logger.getLogger(Franca2EACommandHandler.class.getName());
+
+    private final EAAuthenticationHandler eaAuthenticationHandler = new EAAuthenticationHandler();
 
     public Franca2EACommandHandler()
     {
+        LogUtils.setupConsoleLogger();
     }
 
     private void setOptionValues(CommandLine line)
@@ -52,7 +58,7 @@ public class Franca2EACommandHandler extends AbstractCommandLineHandler implemen
             francaPath = line.getOptionValue(CLI_EA_ROOT_PACKAGE);
             if (!FileHelper.isFilenameValid(francaPath))
             {
-                jlog.log(Level.INFO, String.format("Specified %s [%s] is not valid", CLI_EA_ROOT_PACKAGE, francaPath));
+                LOGGER.log(Level.INFO, String.format("Specified %s [%s] is not valid", CLI_EA_ROOT_PACKAGE, francaPath));
                 francaPath = null;
             }
         }
@@ -66,13 +72,16 @@ public class Franca2EACommandHandler extends AbstractCommandLineHandler implemen
         {
             validateInput = false;
         }
+
+        // Sets username and password.
+        eaAuthenticationHandler.setOptionValues(line);
     }
 
     public OperationStatus doImport()
     {
         OperationStatus opStatus = new OperationStatus(true);
         // Read the runtime configuration parameter
-        if (eaProject != null && rootPackage != null && (francaPath != null || francaModels != null))
+        if (eaProject != null && rootPackage != null && (francaPath != null || francaModels != null) && eaAuthenticationHandler.validate())
         {
             opStatus = runFranca2EATransformation();
         }
@@ -92,9 +101,10 @@ public class Franca2EACommandHandler extends AbstractCommandLineHandler implemen
         EAProjectLoader eaProjectLoader = null;
         try
         {
-            jlog.log(Level.INFO, "EA project file : " + eaProject);
+            LOGGER.log(Level.INFO, "EA project file : " + eaProject);
 
-            eaProjectLoader = FrancaHandlerTransformationAdapter.createEAProjectLoader(eaProject, true);
+            eaProjectLoader = FrancaHandlerTransformationAdapter.createEAProjectLoader(eaProject, true,
+                    eaAuthenticationHandler.getUsername(), eaAuthenticationHandler.getPassword());
             EARepositoryContainer eaRepository = eaProjectLoader.getRepository();
 
             List<File> francaFidlFiles = new ArrayList<File>();
@@ -107,13 +117,21 @@ public class Franca2EACommandHandler extends AbstractCommandLineHandler implemen
                 francaFidlFiles = FileHelper.getFilesFromList(francaModels);
             }
 
+            Collections.sort(francaFidlFiles, new java.util.Comparator<File>() {
+                @Override
+                public int compare(File file1, File file2)
+                {
+                    return file1.getAbsolutePath().compareTo(file2.getAbsolutePath());
+                }
+            });
+
             if (francaFidlFiles.size() > 0)
             {
                 FrancaHandlerTransformationAdapter.transformFranca2EA(eaRepository, rootPackage, francaFidlFiles, validateInput);
             }
             else
             {
-                jlog.log(Level.INFO, "Files for export could not be found");
+                LOGGER.log(Level.INFO, "Files for export could not be found");
             }
 
             opStatus.setMessage("Export is finished");
@@ -150,11 +168,11 @@ public class Franca2EACommandHandler extends AbstractCommandLineHandler implemen
         {
             if (result.getStatus())
             {
-                jlog.log(Level.INFO, result.getMessage());
+                LOGGER.log(Level.INFO, result.getMessage());
             }
             else
             {
-                jlog.log(Level.SEVERE, result.getMessage());
+                LOGGER.log(Level.SEVERE, result.getMessage());
             }
         }
         return result.getExitResult();

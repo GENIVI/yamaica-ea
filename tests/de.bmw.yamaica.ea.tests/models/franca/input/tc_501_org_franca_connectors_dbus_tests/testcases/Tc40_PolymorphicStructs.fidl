@@ -2,6 +2,11 @@
 package testcases.Tc40_PolymorphicStructs
 
 interface MyInterface {
+    version {
+        major 1
+        minor 0
+    }
+
     method doNonPolymorphic {
         in {
             <** @description: signature of arg1 should be 'nn'. **>

@@ -1,4 +1,4 @@
-/* Copyright (C) 2013-2015 BMW Group
+/* Copyright (C) 2013-2016 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -65,6 +65,15 @@ public class EAElementSelectionDialog extends TrayDialog implements Runnable, Mo
     private State               state;
     private EAProjectLoader     eaProjectLoader;
     private IPath               eaPath;
+
+    /**
+     * See also GLIPCI-968: Using default username null.
+     */
+    private final String        username                   = null;
+    /**
+     * See also GLIPCI-968: Using default pasword null.
+     */
+    private final String        password                   = null;
 
     public EAElementSelectionDialog(Shell parentShell, File eaFile, IPath initialSelection, boolean allowNotExistingPath)
     {
@@ -195,7 +204,7 @@ public class EAElementSelectionDialog extends TrayDialog implements Runnable, Mo
                 return;
             }
 
-            eaProjectLoader = new EAProjectLoader(eaFile);
+            eaProjectLoader = new EAProjectLoader(eaFile, username, password);
 
             ModalContext.run(eaProjectLoader, true, progressMonitorPart, getShell().getDisplay());
 

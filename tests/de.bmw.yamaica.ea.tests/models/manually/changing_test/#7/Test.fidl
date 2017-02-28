@@ -1,0 +1,73 @@
+package a.b.c.test
+
+interface MyInterface {
+    version {
+        major 1
+        minor 6
+    }
+    enumeration ERRORS {
+        A
+
+        <**
+            @description : Description of B (1.6).
+        **>
+        B
+
+        <**
+            @description : Description of C (1.6).
+        **>
+        C
+    }
+
+    typedef newType is String
+
+    array newArray of newType
+
+    enumeration Extended extends ERRORS {
+        D
+    }
+
+    struct newStruct polymorphic {
+        newArray myArray
+    }
+
+    struct newExtendedStruct extends newStruct {
+        newArray [ ] arrayArray
+    }
+
+    union newUnion {
+        Boolean bool
+    }
+
+    map newMap {
+        Boolean to String
+    }
+
+    <**
+        @description : Brodcast myMethod: isActivated.
+    **>
+    broadcast myMethod {
+        out {
+            Boolean isActivated
+        }
+    }
+    method myMethod {
+        in {
+            String name7a
+        }
+    }
+    method newMethod {
+        out {
+            String value7b
+        }
+        error extends ERRORS {
+            FILE_NOT_FOUND
+        }
+    }
+    method newMethod {
+        out {
+            Int32 value7c
+        }
+    } attribute String newAttribute
+
+}

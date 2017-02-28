@@ -7,6 +7,8 @@
 package de.bmw.yamaica.ea.core.internal.containers;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Assert;
 import org.sparx.AttributeTag;
@@ -22,9 +24,12 @@ import de.bmw.yamaica.ea.core.containers.EAConnectorTagContainer;
 import de.bmw.yamaica.ea.core.containers.EAElementContainer;
 import de.bmw.yamaica.ea.core.containers.EATagContainer;
 import de.bmw.yamaica.ea.core.exceptions.EAException;
+import de.bmw.yamaica.ea.core.exceptions.ReferencedElementNotFoundException;
 
 public class EAConnectorContainerImpl extends EAContainerImpl implements EAConnectorContainer
 {
+    private static final Logger LOGGER = Logger.getLogger(EAConnectorContainerImpl.class.getName());
+
     protected final Connector eaConnector;
 
     protected EAConnectorContainerImpl(final EAInstance eaInstance, final Connector eaConnector)
@@ -328,7 +333,9 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
         }
         catch (EAException e)
         {
-            throw createReferencedElementNotFoundException(e, this);
+            final ReferencedElementNotFoundException referencedElementNotFoundException = createReferencedElementNotFoundException(e, this);
+            LOGGER.log(Level.SEVERE, referencedElementNotFoundException.getMessage());
+            throw referencedElementNotFoundException;
         }
     }
 
@@ -366,7 +373,9 @@ public class EAConnectorContainerImpl extends EAContainerImpl implements EAConne
         }
         catch (EAException e)
         {
-            throw createReferencedElementNotFoundException(e, this);
+            final ReferencedElementNotFoundException referencedElementNotFoundException = createReferencedElementNotFoundException(e, this);
+            LOGGER.log(Level.SEVERE, referencedElementNotFoundException.getMessage());
+            throw referencedElementNotFoundException;
         }
     }
 

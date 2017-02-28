@@ -7,6 +7,8 @@
 package de.bmw.yamaica.ea.core.internal.containers;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IPath;
@@ -26,9 +28,13 @@ import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.containers.EAParameterContainer;
 import de.bmw.yamaica.ea.core.containers.EATagContainer;
 import de.bmw.yamaica.ea.core.exceptions.EAException;
+import de.bmw.yamaica.ea.core.exceptions.ParentElementNotFoundException;
+import de.bmw.yamaica.ea.core.exceptions.ReferencedElementNotFoundException;
 
 public class EAMethodContainerImpl extends EAContainerImpl implements EAMethodContainer
 {
+    private static final Logger LOGGER = Logger.getLogger(EAMethodContainerImpl.class.getName());
+
     protected final Method eaMethod;
 
     protected EAMethodContainerImpl(final EAInstance eaInstance, final Method eaMethod)
@@ -203,7 +209,9 @@ public class EAMethodContainerImpl extends EAContainerImpl implements EAMethodCo
         }
         catch (EAException e)
         {
-            throw createParentElementNotFoundException(e, this);
+            final ParentElementNotFoundException parentElementNotFoundException = createParentElementNotFoundException(e, this);
+            LOGGER.log(Level.SEVERE, parentElementNotFoundException.getMessage());
+            throw parentElementNotFoundException;
         }
     }
 
@@ -408,7 +416,9 @@ public class EAMethodContainerImpl extends EAContainerImpl implements EAMethodCo
         }
         catch (EAException e)
         {
-            throw createReferencedElementNotFoundException(e, this);
+            final ReferencedElementNotFoundException referencedElementNotFoundException = createReferencedElementNotFoundException(e, this);
+            LOGGER.log(Level.SEVERE, referencedElementNotFoundException.getMessage());
+            throw referencedElementNotFoundException;
         }
     }
 

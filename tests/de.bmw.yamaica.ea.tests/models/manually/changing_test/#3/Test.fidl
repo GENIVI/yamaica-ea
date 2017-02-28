@@ -1,0 +1,20 @@
+package a.b.c.test
+
+interface MyInterface{
+    version {
+        major 1
+        minor 2
+    }
+
+    method myMethod{
+        in {
+            String name
+        }
+    }
+
+    method newMethod {
+        out {
+            String value
+        }
+    }
+}

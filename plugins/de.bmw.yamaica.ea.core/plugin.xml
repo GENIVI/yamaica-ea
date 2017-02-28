@@ -42,6 +42,24 @@
                      shortName="enp">
                </option>
             </optionGroup>
+            <option
+                  argCount="1"
+                  description="username for authentication"
+                  hasOptionalArg="false"
+                  id="de.bmw.yamaica.ea.core.commands.ea2franca.user"
+                  longName="user"
+                  required="false"
+                  shortName="u">
+            </option>
+            <option
+                  argCount="1"
+                  description="password for authentication"
+                  hasOptionalArg="false"
+                  id="de.bmw.yamaica.ea.core.commands.ea2franca.password"
+                  longName="password"
+                  required="false"
+                  shortName="pw">
+            </option>
          </options>
       </command>
       <command
@@ -92,6 +110,24 @@
                   required="false"
                   shortName="nv">
             </option>
+            <option
+                  argCount="1"
+                  description="username for authentication"
+                  hasOptionalArg="false"
+                  id="de.bmw.yamaica.ea.core.commands.franca2ea.user"
+                  longName="user"
+                  required="false"
+                  shortName="u">
+            </option>
+            <option
+                  argCount="1"
+                  description="password for authentication"
+                  hasOptionalArg="false"
+                  id="de.bmw.yamaica.ea.core.commands.franca2ea.password"
+                  longName="password"
+                  required="false"
+                  shortName="pw">
+            </option>
          </options>
       </command>
    </extension>
@@ -107,6 +143,5 @@
             shortName="e">
       </option>
    </extension>
-
 </plugin>
 

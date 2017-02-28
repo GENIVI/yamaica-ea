@@ -740,6 +740,12 @@ public class Franca2EATransformationTests
     }
 
     @Test
+    public void datatypeInteger() throws Exception
+    {
+        TestCase.TC_221_DATATYPES_INTEGER.runFranca2EATransformation(eaRepository);
+    }
+
+    @Test
     public void primitiveAttributes() throws Exception
     {
         TestCase.TC_301_INTERFACES_PRIMITIVE_ATTRIBUTES.runFranca2EATransformation(eaRepository);
@@ -869,6 +875,12 @@ public class Franca2EATransformationTests
     public void deprecatedAttributeNaming() throws Exception
     {
         TestCase.TC_322_INTERFACES_DEPRECATED_ATTR_NAME.runFranca2EATransformation(eaRepository);
+    }
+
+    @Test
+    public void interfaceMethodsAndBroadcastsOverloading() throws Exception
+    {
+        TestCase.TC_323_INTERFACES_METHODS_AND_BROADCASTS_OVERLOADING.runFranca2EATransformation(eaRepository);
     }
 
     @Test

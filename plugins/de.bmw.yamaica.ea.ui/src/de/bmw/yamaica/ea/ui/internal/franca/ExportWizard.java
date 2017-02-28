@@ -10,21 +10,16 @@ import de.bmw.yamaica.common.ui.dialogs.YamaicaExportWizard;
 
 public class ExportWizard extends YamaicaExportWizard
 {
-    private static final String EXPORT_FRANCA_IDL_FILES  = "Export Franca Interface Definition Files To Enterprise Architect Project";
-    private static final String YAMAICA_EA_EXPORT_WIZARD = "YamaicaEAFrancaExportWizard";
-
     public ExportWizard()
     {
-        super(YAMAICA_EA_EXPORT_WIZARD);
-
-        setWindowTitle(EXPORT_FRANCA_IDL_FILES);
+        super("YamaicaEAFrancaExportWizard");
+        setWindowTitle("Export Franca IDL Files to Enterprise Architect Project");
     }
 
     @Override
     public void addPages()
     {
         yamaicaWizardExportPage = new ExportPage(workbench, structuredSelection);
-
         addPage(yamaicaWizardExportPage);
     }
 }

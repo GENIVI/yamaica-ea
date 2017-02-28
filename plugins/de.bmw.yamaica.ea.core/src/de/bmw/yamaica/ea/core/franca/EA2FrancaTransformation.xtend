@@ -115,7 +115,9 @@ class EA2FrancaTransformation
     val interfaces = new LinkedHashMap<EAElementContainer, FInterface>
 
     val modelDependencies = new LinkedHashMap<FModel, Collection<EAContainerWithNamespace>>
-    val fullyQualifiedNames = new LinkedHashMap<String, EAContainerWithNamespace>
+
+    // Local usage only to detect fully qualified name collision.
+    private val fullyQualifiedNames = new LinkedHashMap<String, EAContainerWithNamespace>
 
     /**
      * Holding all origin file names needed for recovery (due to lower case package path).
@@ -953,6 +955,29 @@ class EA2FrancaTransformation
         return 1
     }
 
+    private def String fullyQualifiedName(EObject francaObject, EAContainerWithNamespace containerWithNamespace) {
+        val fqnPrefix = francaObject.namespacePrefix + ":"
+        val fidlFqn = containerWithNamespace.fidlNamespaceAsPath.normalizeNamespacePath(containerWithNamespace).path2Namespace
+        val fqnParams = if(containerWithNamespace instanceof EAMethodContainer)
+            {
+                // Format: <direction>:<datatype> for each parameter.
+                // TODO: kind can be null! Shall not happen!?
+                "(" + containerWithNamespace.parameters.filter[!hasStereotype(EAFrancaConstants.STEREOTYPE_ERROR)].map[
+                        if(kind != null) {
+                            kind.getName + ":" + transformArgument.typeAsString
+                        } else {
+                            // TODO: FIX ME!
+                            ""
+                        }
+                    ].join(",") + ")"
+            }
+            else
+            {
+                ""
+            }
+        fqnPrefix + fidlFqn + fqnParams
+    }
+
     //
     // Internal helper methods.
     //
@@ -971,21 +996,7 @@ class EA2FrancaTransformation
             (francaObject instanceof FTypeCollection && container instanceof EAPackageContainer))
         {
             val containerWithNamespace = container as EAContainerWithNamespace
-
-            val fqnPrefix = francaObject.namespacePrefix + ":"
-            val fidlFqn = containerWithNamespace.fidlNamespaceAsPath.normalizeNamespacePath(containerWithNamespace).path2Namespace
-            val fqnParams = if(container instanceof EAMethodContainer)
-                {
-                    "(" + container.parameters.filter[!hasStereotype(EAFrancaConstants.STEREOTYPE_ERROR)].map[
-                        transformArgument.typeAsString].join(",") + ")"
-                }
-                else
-                {
-                    ""
-                }
-
-            val completeFidlFqn = fqnPrefix + fidlFqn + fqnParams
-
+            val completeFidlFqn = francaObject.fullyQualifiedName(containerWithNamespace)
             if(fullyQualifiedNames.containsKey(completeFidlFqn))
             {
                 val collisionContainer = fullyQualifiedNames.get(completeFidlFqn)

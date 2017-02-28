@@ -7,6 +7,8 @@
 package de.bmw.yamaica.ea.core.internal.containers;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IPath;
@@ -23,10 +25,14 @@ import de.bmw.yamaica.ea.core.containers.EADiagramObjectContainer;
 import de.bmw.yamaica.ea.core.containers.EAElementContainer;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.exceptions.EAException;
+import de.bmw.yamaica.ea.core.exceptions.ParentElementNotFoundException;
+import de.bmw.yamaica.ea.core.exceptions.ReferencedElementNotFoundException;
 import de.bmw.yamaica.ea.core.exceptions.UnsupportedOperationException;
 
 public class EADiagramContainerImpl extends EAContainerImpl implements EADiagramContainer
 {
+    private static final Logger LOGGER = Logger.getLogger(EADiagramContainerImpl.class.getName());
+
     protected final Diagram eaDiagram;
 
     protected EADiagramContainerImpl(final EAInstance eaInstance, final Diagram eaDiagram)
@@ -196,7 +202,9 @@ public class EADiagramContainerImpl extends EAContainerImpl implements EADiagram
         }
         catch (final EAException e)
         {
-            throw createParentElementNotFoundException(e, this);
+            final ParentElementNotFoundException parentElementNotFoundException = createParentElementNotFoundException(e, this);
+            LOGGER.log(Level.SEVERE, parentElementNotFoundException.getMessage());
+            throw parentElementNotFoundException;
         }
     }
 
@@ -224,7 +232,9 @@ public class EADiagramContainerImpl extends EAContainerImpl implements EADiagram
         }
         catch (final EAException e)
         {
-            throw createReferencedElementNotFoundException(e, this);
+            final ReferencedElementNotFoundException referencedElementNotFoundException = createReferencedElementNotFoundException(e, this);
+            LOGGER.log(Level.SEVERE, referencedElementNotFoundException.getMessage());
+            throw referencedElementNotFoundException;
         }
     }
 

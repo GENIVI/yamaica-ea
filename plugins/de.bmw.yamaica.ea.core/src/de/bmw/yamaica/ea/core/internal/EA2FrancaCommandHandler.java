@@ -1,4 +1,4 @@
-/* Copyright (C) 2013-2015 BMW Group
+/* Copyright (C) 2013-2016 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -12,23 +12,27 @@ import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 
 import de.bmw.yamaica.common.console.AbstractCommandLineHandler;
+import de.bmw.yamaica.common.console.LogUtils;
 import de.bmw.yamaica.ea.core.EAProjectLoader;
 import de.bmw.yamaica.ea.core.containers.EARepositoryContainer;
 
 public class EA2FrancaCommandHandler extends AbstractCommandLineHandler
 {
-    private final static String CLI_EA_PROJECT_PATH = "e";
-    private final static String CLI_EA_IMPORT_PATH  = "eip";
-    private final static String CLI_EA_DEST_PATH    = "edp";
-    private final static String CLI_EA_NODE_PATH    = "enp";
-    private String              eaProject           = null;
-    private String              rootPackage         = null;
-    private String              francaPath          = null;
-    private String              nodePath            = null;
-    private static Logger       jlog                = Logger.getLogger(EA2FrancaCommandHandler.class.getName());
+    private final static String           CLI_EA_PROJECT_PATH     = "e";
+    private final static String           CLI_EA_IMPORT_PATH      = "eip";
+    private final static String           CLI_EA_DEST_PATH        = "edp";
+    private final static String           CLI_EA_NODE_PATH        = "enp";
+    private String                        eaProject               = null;
+    private String                        rootPackage             = null;
+    private String                        francaPath              = null;
+    private String                        nodePath                = null;
+    private static final Logger           LOGGER                  = Logger.getLogger(EA2FrancaCommandHandler.class.getName());
+
+    private final EAAuthenticationHandler eaAuthenticationHandler = new EAAuthenticationHandler();
 
     public EA2FrancaCommandHandler()
     {
+        LogUtils.setupConsoleLogger();
     }
 
     /*
@@ -50,7 +54,7 @@ public class EA2FrancaCommandHandler extends AbstractCommandLineHandler
             francaPath = line.getOptionValue(CLI_EA_DEST_PATH);
             if (!FileHelper.isFilenameValid(francaPath))
             {
-                jlog.log(Level.INFO, String.format("Specified %s [%s] is not valid", CLI_EA_DEST_PATH, francaPath));
+                LOGGER.log(Level.INFO, String.format("Specified %s [%s] is not valid", CLI_EA_DEST_PATH, francaPath));
                 francaPath = null;
             }
 
@@ -59,13 +63,16 @@ public class EA2FrancaCommandHandler extends AbstractCommandLineHandler
         {
             nodePath = line.getOptionValue(CLI_EA_NODE_PATH);
         }
+
+        // Sets username and password.
+        eaAuthenticationHandler.setOptionValues(line);
     }
 
     public OperationStatus doImport()
     {
         OperationStatus opStatus = new OperationStatus(true);
         // Read the runtime configuration parameter
-        if (eaProject != null && francaPath != null)
+        if (eaProject != null && francaPath != null && eaAuthenticationHandler.validate())
         {
             opStatus = runEA2FrancaTransformation();
         }
@@ -85,9 +92,10 @@ public class EA2FrancaCommandHandler extends AbstractCommandLineHandler
         EAProjectLoader eaProjectLoader = null;
         try
         {
-            jlog.log(Level.INFO, "EA project file : " + eaProject);
+            LOGGER.log(Level.INFO, "EA project file : " + eaProject);
 
-            eaProjectLoader = FrancaHandlerTransformationAdapter.createEAProjectLoader(eaProject);
+            eaProjectLoader = FrancaHandlerTransformationAdapter.createEAProjectLoader(eaProject, eaAuthenticationHandler.getUsername(),
+                    eaAuthenticationHandler.getPassword());
             EARepositoryContainer eaRepository = eaProjectLoader.getRepository();
 
             if (rootPackage != null)
@@ -127,12 +135,12 @@ public class EA2FrancaCommandHandler extends AbstractCommandLineHandler
         {
             if (result.getStatus())
             {
-                jlog.log(Level.INFO, result.getMessage());
+                LOGGER.log(Level.INFO, result.getMessage());
 
             }
             else
             {
-                jlog.log(Level.SEVERE, result.getMessage());
+                LOGGER.log(Level.SEVERE, result.getMessage());
             }
         }
         return result.getExitResult();

@@ -9,6 +9,8 @@ package de.bmw.yamaica.ea.core;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Assert;
 import org.sparx.Repository;
@@ -19,6 +21,8 @@ import de.bmw.yamaica.ea.core.internal.containers.EARepositoryContainerImpl;
 
 public class EAInstance implements Runnable
 {
+    private static final Logger LOGGER = Logger.getLogger(EAInstance.class.getName());
+
     private final String          DLL_NOT_FOUND_MESSAGE = "No SSJavaCOM DLL in \"java.library.path\".";
     private final String          EA_NOT_FOUND_MESSAGE  = "No Enterpise Architect installation was found.";
 
@@ -121,12 +125,13 @@ public class EAInstance implements Runnable
                 }
                 catch (InterruptedException e)
                 {
+                    LOGGER.log(Level.SEVERE, "InterruptedException occured! " + e.getMessage());
                     syncClose();
-
                     e.printStackTrace();
                 }
                 catch (Exception e)
                 {
+                    LOGGER.log(Level.SEVERE, "Exception occured! " + e.getMessage());
                     runData.setException(e);
                 }
                 finally
@@ -143,6 +148,7 @@ public class EAInstance implements Runnable
             e.printStackTrace();
 
             errorMessage = DLL_NOT_FOUND_MESSAGE;
+            LOGGER.log(Level.SEVERE, errorMessage + " " + e.getMessage());
         }
         catch (NoClassDefFoundError e)
         {
@@ -150,6 +156,7 @@ public class EAInstance implements Runnable
             e.printStackTrace();
 
             errorMessage = DLL_NOT_FOUND_MESSAGE;
+            LOGGER.log(Level.SEVERE, errorMessage + " " + e.getMessage());
         }
         catch (Exception e)
         {
@@ -157,6 +164,7 @@ public class EAInstance implements Runnable
             e.printStackTrace();
 
             errorMessage = EA_NOT_FOUND_MESSAGE;
+            LOGGER.log(Level.SEVERE, errorMessage + " " + e.getMessage());
         }
         finally
         {
@@ -210,7 +218,8 @@ public class EAInstance implements Runnable
     {
         if (null == thread || State.STARTED != state)
         {
-            throw new IllegalStateException();
+            LOGGER.log(Level.SEVERE,String.format("Illegal state: %s", null == thread? "Thread is null!" : "State 'STARTED' expected!") );
+            throw  new IllegalStateException();
         }
 
         // Directly run runnable if our thread calls syncExecution
@@ -229,7 +238,7 @@ public class EAInstance implements Runnable
         }
         catch (InterruptedException e)
         {
-
+            LOGGER.log(Level.FINE, "InterruptedException occured! " + e.getMessage());
         }
         finally
         {
@@ -243,7 +252,9 @@ public class EAInstance implements Runnable
         {
             if (null != exception)
             {
-                throw new EAException(exception);
+                final EAException eaException = new EAException(exception);
+                LOGGER.log(Level.SEVERE, eaException.getMessage());
+                throw eaException;
             }
         }
         finally

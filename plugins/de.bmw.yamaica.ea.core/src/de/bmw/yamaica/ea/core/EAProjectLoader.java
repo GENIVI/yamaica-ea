@@ -1,4 +1,4 @@
-/* Copyright (C) 2013-2015 BMW Group
+/* Copyright (C) 2013-2016 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -26,17 +26,22 @@ public class EAProjectLoader implements Runnable, IRunnableWithProgress
     protected EAInstance    eaInstance             = null;
     protected boolean       fileOpenedSuccessfully = false;
 
-    public EAProjectLoader(File eaProject)
+    protected final String  username;
+    protected final String  password;
+
+    public EAProjectLoader(File eaProject, String username, String password)
     {
-        this(eaProject, false);
+        this(eaProject, false, username, password);
     }
 
-    public EAProjectLoader(File eaProject, boolean createFile)
+    public EAProjectLoader(File eaProject, boolean createFile, String username, String password)
     {
         Assert.isNotNull(eaProject);
 
         this.eaProject = eaProject;
         this.createFile = createFile;
+        this.username = username;
+        this.password = password;
     }
 
     public File getFile()
@@ -69,7 +74,7 @@ public class EAProjectLoader implements Runnable, IRunnableWithProgress
                 }
             }
 
-            boolean fileOpened = repositoryContainer.openFile(eaProjectFilePath);
+            boolean fileOpened = repositoryContainer.openFile(eaProjectFilePath, username, password);
 
             if (fileOpened && fileCreated)
             {

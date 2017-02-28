@@ -1,7 +1,7 @@
-package test_case.test_1_import_tests.tc_107.test_case_107_f
+package test_cases.test_1_import_tests.tc_107.test_case_107_f
 
-import test_case.test_1_import_tests.tc_107.test_case_107_g.* from "Test_case_107_G.fidl"
-import test_case.test_1_import_tests.tc_107.test_case_107_h.* from "Test_case_107_H.fidl"
+import test_cases.test_1_import_tests.tc_107.test_case_107_g.* from "Test_case_107_G.fidl"
+import test_cases.test_1_import_tests.tc_107.test_case_107_h.* from "Test_case_107_H.fidl"
 
 typeCollection typeF {
 

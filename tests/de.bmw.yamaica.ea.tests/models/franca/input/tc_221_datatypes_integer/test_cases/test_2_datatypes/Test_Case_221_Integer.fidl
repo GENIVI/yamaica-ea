@@ -1,0 +1,50 @@
+package test_cases.test_2_datatypes.test_case_221_integer
+
+<**
+    @description : GLIPCI-930: Franca2EA transformation: Type 'Integer' leads to 'undefined'
+    @author : Max Mustermann
+ **>
+interface IntegerTest {
+    version {
+        major 2
+        minor 3
+    }
+
+    method simpleMethod {
+        in {
+            Integer inputValue
+        }
+    }
+
+    method simpleMethod {
+        out {
+            Integer inputValue
+        }
+    }
+
+    struct SimpleStruct {
+        Integer value
+    }
+
+    broadcast simpleBroadcast {
+        out {
+            Integer value
+        }
+    }
+
+    array IntegerArr of Integer
+
+    attribute Integer IntegerAttribute
+
+    const Integer LIMIT = 42
+
+    typedef NewInteger is Integer
+
+    map IntegerMap {
+        Integer to Integer
+    }
+
+    union SimpleUnion {
+        IntegerArr intArr
+    }
+}

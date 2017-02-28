@@ -1,0 +1,446 @@
+package Test_Cases.Test_3_Interfaces.Test_Case_323_MethodsAndBroadcastsOverloading
+
+<**
+    @author : Max Mustermann
+    @description : Containing methods / broadcast overloading definitions.
+**>
+interface MyInterface {
+    version {
+        major 1
+        minor 0
+    }
+
+    array StringArray of String
+
+    array StringArr of String
+
+    attribute String StringAttribute
+
+    enumeration BaseErrors {
+        BASE
+    }
+
+    enumeration MiddleErrors extends BaseErrors {
+        MIDDLE
+    }
+
+    enumeration Errors extends MiddleErrors {
+        TOP
+    }
+
+    // Method overloading below
+
+    <**
+        @description : empty method m (nr 1).
+    **>
+    method m {
+    }
+
+    <**
+        @description : method m containing exact one input-para (in1 : StringArray) (nr 2).
+    **>
+    method m {
+        in {
+            StringArray in1
+        }
+    }
+
+    <**
+        @description : method m containing exact one input-para (in1 : String[]) (nr 3).
+    **>
+    method m {
+        in {
+            String[] in1
+        }
+    }
+
+    <**
+        @description : method m containing exact one output-para (out1 : StringArray) (nr 4).
+    **>
+    method m {
+        out {
+            StringArray out1
+        }
+    }
+
+    <**
+        @description : method m containing exact one output-para (out1 : String[]) (nr 5).
+    **>
+    method m {
+        out {
+            String[] out1
+        }
+    }
+
+    <**
+        @description : method m containing exact one input-para (in1 : StringArray) and one output-para (out1 : StringArray) (nr 6).
+    **>
+    method m {
+        in {
+            StringArray in1
+        }
+        out {
+            StringArray out1
+        }
+    }
+
+    <**
+        @description : method m containing exact one input-para (in1 : String[]) and one output-para (out1 : String[]) (nr 7).
+    **>
+    method m {
+        in {
+            String[] in1
+        }
+        out {
+            String[] out1
+        }
+    }
+
+    // Methods with errors
+
+    <**
+        @description : method m containing exact two input-para (in1 : StringArray and in2 : StringArray) and Errors (nr 8).
+    **>
+    method m {
+        in {
+            StringArray in1
+            StringArray in2
+        }
+        error Errors
+    }
+
+    <**
+        @description : method m containing exact two input-para (in1 : String[] and in2 : String[]) and Errors (nr 9).
+    **>
+    method m {
+        in {
+            String[] in1
+            String[] in2
+        }
+        error Errors
+    }
+
+    <**
+        @description : method m containing exact two output-para (out1 : StringArray and out2 : StringArray) and extended BaseErrors (nr 10).
+    **>
+    method m {
+        out {
+            StringArray out1
+            StringArray out2
+        }
+        error extends BaseErrors {
+            ERROR
+        }
+    }
+
+    <**
+        @description : method m containing exact two output-para (out1 : String[] and out2 : String[]) and extended BaseErrors (nr 11).
+    **>
+    method m {
+        out {
+            String[] out1
+            String[] out2
+        }
+        error extends BaseErrors {
+            ERROR
+        }
+    }
+
+    <**
+        @description : method m containing exact two input-para (in1 : StringArray and in2 : StringArray) and extended MiddleErrors (nr 12).
+    **>
+    method m {
+        in {
+            StringArray in1
+            StringArray in2
+        }
+        out {
+            StringArray out1
+        }
+        error extends MiddleErrors {
+            ERROR
+        }
+    }
+
+    <**
+        @description : method m containing exact two input-para (in1 : String[] and in2 : String[]), one output-para (out1 : StringArray) and extended MiddleErrors (nr 13).
+    **>
+    method m {
+        in {
+            String[] in1
+            String[] in2
+        }
+        out {
+            StringArray out1
+        }
+        error extends MiddleErrors {
+            ERROR
+        }
+    }
+
+    <**
+        @description : method m containing exact one input-para (in1 : StringArray), two output-para (out1 : StringArray and out2 : StringArray) and extended Errors (nr 14).
+    **>
+    method m {
+        in {
+            StringArray in1
+        }
+        out {
+            StringArray out1
+            StringArray out2
+        }
+        error extends Errors {
+            ERROR
+        }
+    }
+
+    <**
+        @description : method m containing exact one input-para (in1 : String[]), two output-para (out1 : StringArray and out2 : StringArray) and extended Errors (nr 15).
+    **>
+    method m {
+        in {
+            String[] in1
+        }
+        out {
+            StringArray out1
+            StringArray out2
+        }
+        error extends Errors {
+            ERROR
+        }
+    }
+
+    <**
+        @description : method m containing exact two input-para (in1 : StringArray and in2 : StringArray), two output-para (out1 : StringArray and out2 : StringArray) and Errors (nr 16).
+    **>
+    method m {
+        in {
+            StringArray in1
+            StringArray in2
+        }
+        out {
+            StringArray out1
+            StringArray out2
+        }
+        error {
+            ERROR
+        }
+    }
+
+    <**
+        @description : method m containing exact two input-para (in1 : String[] and in2 : String[]), two output-para (out1 : StringArray and out2 : StringArray) and Errors (nr 17).
+    **>
+    method m {
+        in {
+            String[] in1
+            String[] in2
+        }
+        out {
+            StringArray out1
+            StringArray out2
+        }
+        error {
+            ERROR
+        }
+    }
+
+    // FireAndFoget methods
+
+    <**
+        @description : m1 empty fireAndForget (nr 18).
+    **>
+    method m1 fireAndForget {
+    }
+
+    <**
+        @description : m fireAndForget containing exact one para (in1) (nr 19).
+    **>
+    method m fireAndForget {
+        in {
+            StringArr in1
+        }
+    }
+
+    <**
+        @description : m fireAndForget containing exact two paras (in1 and in2) (nr 20).
+    **>
+    method m fireAndForget {
+        in {
+            StringArr in1
+            StringArr in2
+        }
+    }
+
+    // Broadcasts below (inclusive method overloading).
+
+    <**
+        @description : Empty broadcast (nr 21).
+    **>
+    broadcast b {
+    }
+
+    <**
+        @description : Broadcast (nr 22).
+    **>
+    broadcast b {
+        out {
+            StringArray out1
+        }
+    }
+
+    <**
+        @description : Broadcast (nr 23).
+    **>
+    broadcast b {
+        out {
+            String[] out1
+        }
+    }
+
+    <**
+        @description : Broadcast (nr 24).
+    **>
+    broadcast b {
+        out {
+            StringArray out1
+            String[] out2
+        }
+    }
+
+    <**
+        @description : Broadcast (nr 25).
+    **>
+    broadcast b {
+        out {
+            String[] out1
+            StringArray out2
+        }
+    }
+
+    <**
+        @description : Broadcast (nr 26).
+    **>
+    broadcast b {
+        out {
+            StringArray out1
+            StringArray out2
+        }
+    }
+
+    <**
+        @description : Broadcast (nr 27).
+    **>
+    broadcast b {
+        out {
+            String[] out1
+            String[] out2
+        }
+    }
+
+    // Selective broadcasts below (inclusive method overloading).
+
+    <**
+        @description : b2 selective (nr 28).
+    **>
+    broadcast b2 selective {
+    }
+
+    <**
+        @description : b2 selective (nr 29).
+    **>
+    broadcast b2 selective {
+        out {
+            StringArray out1
+        }
+    }
+
+    <**
+        @description : b2 selective (nr 30).
+    **>
+    broadcast b2 selective {
+        out {
+            String[] out1
+        }
+    }
+
+    <**
+        @description : b2 selective (nr 31).
+    **>
+    broadcast b2 selective {
+        out {
+            StringArray out1
+            String[] out2
+        }
+    }
+
+    <**
+        @description : b2 selective (nr 32).
+    **>
+    broadcast b2 selective {
+        out {
+            String[] out1
+            StringArray out2
+        }
+    }
+
+    <**
+        @description : b2 selective (nr 33).
+    **>
+    broadcast b2 selective {
+        out {
+            String[] out1
+            String[] out2
+        }
+    }
+
+    <**
+        @description : b2 selective (nr 34).
+    **>
+    broadcast b2 selective {
+        out {
+            StringArray out1
+            StringArray out2
+        }
+    }
+    
+    
+    <**
+        @description : method m containing exact two input-para (in1 : StringArray and in2 : String[]) (nr 35).
+    **>
+    method m {
+        in {
+            StringArray in1
+            String[] in2
+        }
+    }
+    
+    <**
+        @description : method m containing exact two input-para (in1 : String[] and in2 : StringArray) (nr 36).
+    **>
+    method m {
+        in {
+            String[] in1
+            StringArray in2
+        }
+    }
+ 
+     <**
+        @description : method m containing exact two output-para (out1 : StringArray and out2 : String[]) (nr 37).
+    **>
+    method m {
+        out {
+            StringArray out1
+            String[] out2
+        }
+    }
+    
+    <**
+        @description : method m containing exact two output-para (out1 : String[] and out2 : StringArray) (nr 38).
+    **>
+    method m {
+        out {
+            String[] out1
+            StringArray out2
+        }
+    }   
+}

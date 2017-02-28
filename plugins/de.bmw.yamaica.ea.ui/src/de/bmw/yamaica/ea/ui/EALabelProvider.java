@@ -111,10 +111,6 @@ public class EALabelProvider extends ColumnLabelProvider
 
         EAPackageContainer p = (EAPackageContainer) element;
 
-        // System.out.println(p.GetName() + " - Stereotype " + p.GetStereotypeEx() + " Flags=" + p.GetFlags() + " Notes="
-        // + p.GetNotes() + " XMLPath=" + p.GetXMLPath() + " Owner=" + p.GetOwner() + " type=" + p.GetObjectType().toString()
-        // + " isModel=" + p.GetIsModel() + " isNS=" + p.GetIsNamespace());
-
         List<String> stereotypes = p.getStereotypes();
         String joinedStereotype = "";
 

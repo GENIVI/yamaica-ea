@@ -64,6 +64,8 @@ public class ModelComparisonTests
         // Keep in mind: Name of output/ref files differs from input files:
         // e.g. /input/[..]/common.fidl vs /ref/[..]/Common.fidl
         TestCase.TC_105_IMPORTS_DATATYPES_AND_INTERFACES.runModelComparison(true);
+        // May run it twice! GLIPCI-307/ GLIPCI-417 related. Probably output content order has changed!
+        // TestCase.TC_105_IMPORTS_DATATYPES_AND_INTERFACES.runModelComparison(true);
     }
 
     @Test
@@ -72,6 +74,8 @@ public class ModelComparisonTests
         // Keep in mind: Name of output/ref files differs from input files:
         // e.g. /input/[..]/tc_106_1_interfaces.fidl vs /ref/[..]/Common.fidl
         TestCase.TC_106_IMPORTS_DATATYPES_AND_INTERFACES_CHANGED_FILE_NAMES.runModelComparison(true);
+        // May run it twice! GLIPCI-307/ GLIPCI-417 related. Probably output content order has changed!
+        // TestCase.TC_106_IMPORTS_DATATYPES_AND_INTERFACES_CHANGED_FILE_NAMES.runModelComparison(true);
     }
 
     @Test
@@ -273,6 +277,12 @@ public class ModelComparisonTests
     }
 
     @Test
+    public void datatypeInteger() throws Exception
+    {
+        TestCase.TC_221_DATATYPES_INTEGER.runModelComparison();
+    }
+
+    @Test
     public void primitiveAttributes() throws Exception
     {
         TestCase.TC_301_INTERFACES_PRIMITIVE_ATTRIBUTES.runModelComparison();
@@ -396,6 +406,14 @@ public class ModelComparisonTests
     public void methodsBroadcastsAttributes() throws Exception
     {
         TestCase.TC_321_INTERFACES_METHODS_BROADCASTS_ATTRIBUTES.runModelComparison();
+    }
+
+    @Test
+    public void interfaceMethodsAndBroadcastsOverloading() throws Exception
+    {
+        TestCase.TC_323_INTERFACES_METHODS_AND_BROADCASTS_OVERLOADING.runModelComparison();
+        // May run it twice! GLIPCI-307/ GLIPCI-417 related. Probably output content order has changed!
+        // TestCase.TC_323_INTERFACES_METHODS_AND_BROADCASTS_OVERLOADING.runModelComparison();
     }
 
     @Test

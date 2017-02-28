@@ -7,6 +7,8 @@
 package de.bmw.yamaica.ea.core.internal.containers;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IPath;
@@ -20,9 +22,13 @@ import de.bmw.yamaica.ea.core.containers.EAMethodContainer;
 import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.containers.EAParameterContainer;
 import de.bmw.yamaica.ea.core.exceptions.EAException;
+import de.bmw.yamaica.ea.core.exceptions.ParentElementNotFoundException;
+import de.bmw.yamaica.ea.core.exceptions.ReferencedElementNotFoundException;
 
 public class EAParameterContainerImpl extends EAContainerImpl implements EAParameterContainer
 {
+    private static final Logger LOGGER = Logger.getLogger(EAParameterContainerImpl.class.getName());
+
     protected final Parameter eaParameter;
 
     protected EAParameterContainerImpl(final EAInstance eaInstance, final Parameter eaParameter)
@@ -191,7 +197,9 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
         }
         catch (EAException e)
         {
-            throw createParentElementNotFoundException(e, this);
+            final ParentElementNotFoundException parentElementNotFoundException = createParentElementNotFoundException(e, this);
+            LOGGER.log(Level.SEVERE, parentElementNotFoundException.getMessage());
+            throw parentElementNotFoundException;
         }
     }
 
@@ -341,7 +349,9 @@ public class EAParameterContainerImpl extends EAContainerImpl implements EAParam
         }
         catch (EAException e)
         {
-            throw createReferencedElementNotFoundException(e, this);
+            final ReferencedElementNotFoundException referencedElementNotFoundException = createReferencedElementNotFoundException(e, this);
+            LOGGER.log(Level.SEVERE, referencedElementNotFoundException.getMessage());
+            throw referencedElementNotFoundException;
         }
     }
 

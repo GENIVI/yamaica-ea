@@ -17,7 +17,7 @@ interface MyInterface1 {
 
     attribute String myString readonly
 
-    attribute undefined myValue readonly
+    attribute Int32 myValue readonly
 
 }
 

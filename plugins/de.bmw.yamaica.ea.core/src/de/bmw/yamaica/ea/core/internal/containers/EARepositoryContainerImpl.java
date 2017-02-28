@@ -1,4 +1,4 @@
-/* Copyright (C) 2013-2015 BMW Group
+/* Copyright (C) 2013-2016 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -127,6 +127,20 @@ public class EARepositoryContainerImpl extends EAContainerImpl implements EARepo
                 return eaRepository.OpenFile((String) arguments[0]);
             }
         }, filename);
+    }
+
+    @Override
+    public boolean openFile(final String filename, final String username, final String password)
+    {
+        return (Boolean) eaInstance.syncExecution(new IRunnableWithArguments()
+        {
+            @Override
+            public Object run(final Object... arguments)
+            {
+                int index = 0;
+                return eaRepository.OpenFile2((String) arguments[index++], (String) arguments[index++], (String) arguments[index++]);
+            }
+        }, filename, username, password);
     }
 
     @Override

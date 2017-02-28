@@ -7,6 +7,8 @@
 package de.bmw.yamaica.ea.core.internal.containers;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IPath;
@@ -31,9 +33,13 @@ import de.bmw.yamaica.ea.core.containers.EAPackageContainer;
 import de.bmw.yamaica.ea.core.containers.EATagContainer;
 import de.bmw.yamaica.ea.core.containers.EATaggedValueContainer;
 import de.bmw.yamaica.ea.core.exceptions.EAException;
+import de.bmw.yamaica.ea.core.exceptions.ParentElementNotFoundException;
+import de.bmw.yamaica.ea.core.exceptions.ReferencedElementNotFoundException;
 
 public class EAElementContainerImpl extends EAContainerImpl implements EAElementContainer
 {
+    private static final Logger LOGGER = Logger.getLogger(EAElementContainerImpl.class.getName());
+
     protected final Element eaElement;
 
     protected EAElementContainerImpl(final EAInstance eaInstance, final Element eaElement)
@@ -232,7 +238,9 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
         }
         catch (EAException e)
         {
-            throw createParentElementNotFoundException(e, this);
+            final ParentElementNotFoundException parentElementNotFoundException = createParentElementNotFoundException(e, this);
+            LOGGER.log(Level.SEVERE, parentElementNotFoundException.getMessage());
+            throw parentElementNotFoundException;
         }
     }
 
@@ -260,7 +268,9 @@ public class EAElementContainerImpl extends EAContainerImpl implements EAElement
         }
         catch (EAException e)
         {
-            throw createReferencedElementNotFoundException(e, this);
+            final ReferencedElementNotFoundException referencedElementNotFoundException = createReferencedElementNotFoundException(e, this);
+            LOGGER.log(Level.SEVERE, referencedElementNotFoundException.getMessage());
+            throw referencedElementNotFoundException;
         }
     }
 

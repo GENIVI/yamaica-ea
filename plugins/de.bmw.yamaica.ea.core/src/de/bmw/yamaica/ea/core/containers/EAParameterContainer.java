@@ -9,6 +9,8 @@ package de.bmw.yamaica.ea.core.containers;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.bmw.yamaica.ea.core.EAConstants;
 import de.bmw.yamaica.ea.core.YamaicaEAConstants;
@@ -43,7 +45,8 @@ public interface EAParameterContainer extends EAContainerWithNamespace
                     return kind;
                 }
             }
-
+            LOGGER.log(Level.SEVERE, String.format("Couldn't find kind by name '%s'!", name));
+            // TODO: Shall Kind.UNKOWN be returned instead!?
             return null;
         }
 
@@ -78,6 +81,8 @@ public interface EAParameterContainer extends EAContainerWithNamespace
         {
             return id;
         }
+
+        private static final Logger LOGGER = Logger.getLogger(Kind.class.getName());
     }
 
     public Kind getKind();

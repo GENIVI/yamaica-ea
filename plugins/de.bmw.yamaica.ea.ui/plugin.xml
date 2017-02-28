@@ -12,9 +12,9 @@
             class="de.bmw.yamaica.ea.ui.internal.franca.ExportWizard"
             icon="platform:/plugin/org.eclipse.ui/icons/full/obj16/elements_obj.gif"
             id="de.bmw.yamaica.ea.ui.exportWizard"
-            name="Franca Interface Definition Files To Enterprise Architect Project">
+            name="Franca IDL files to Enterprise Architect Project">
          <description>
-            Converts Franca interface definition files to Enterprise Architect projects.
+            Converts Franca IDL files to Enterprise Architect Projects.
          </description>
       </wizard>
    </extension>
@@ -29,16 +29,16 @@
             class="de.bmw.yamaica.ea.ui.internal.franca.ImportWizard"
             icon="platform:/plugin/org.eclipse.ui/icons/full/obj16/elements_obj.gif"
             id="de.bmw.yamaica.ea.ui.importWizard"
-            name="Franca Interface Definition Files from Enterprise Architect Project">
+            name="Franca IDL files from Enterprise Architect Project">
          <description>
-            Converts Enterprise Architect packages to Franca interface definition files.
+            Converts Enterprise Architect packages to Franca IDL files.
          </description>
       </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.navigator.navigatorContent">
       <commonWizard
-            menuGroupId="de.bmw.yamaica.ea.ui"
+            menuGroupId="de.bmw.yamaica.francaIDLExportGroup"
             type="export"
             wizardId="de.bmw.yamaica.ea.ui.exportWizard">
          <enablement>
@@ -67,7 +67,7 @@
          </enablement>
       </commonWizard>
       <commonWizard
-            menuGroupId="de.bmw.yamaica.ea.ui"
+            menuGroupId="de.bmw.yamaica.eaImportGroup"
             type="import"
             wizardId="de.bmw.yamaica.ea.ui.importWizard">
          <enablement>

@@ -27,7 +27,7 @@ interface MyInterface1 {
 
     attribute String myString readonly
 
-    attribute Integer myValue readonly
+    attribute Int32 myValue readonly
 
     method myMethod {
         out {

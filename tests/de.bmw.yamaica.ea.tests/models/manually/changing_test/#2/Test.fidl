@@ -1,0 +1,14 @@
+package a.b.c.test
+
+interface MyInterface{
+    version {
+        major 1
+        minor 1
+    }
+
+    method myMethod{
+    }
+
+    method newMethod {
+    }
+}

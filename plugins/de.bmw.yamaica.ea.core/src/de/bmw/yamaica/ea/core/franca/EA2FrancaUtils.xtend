@@ -274,7 +274,7 @@ class EA2FrancaUtils
         // First segment of the namespace (namespace will be truncated in front each call).
         val firstSegment = namespace.segment(0)
 
-        if(namespace.lastSegment.equals(firstSegment) && fileNameCache.containsKey(firstSegment))
+        if(namespace.lastSegment.equals(firstSegment) && namespace.segmentCount == 1  && fileNameCache.containsKey(firstSegment))
         {
             return fileNameCache.get(firstSegment)
         }

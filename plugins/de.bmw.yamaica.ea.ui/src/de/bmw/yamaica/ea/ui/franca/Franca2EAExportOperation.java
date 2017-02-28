@@ -1,4 +1,4 @@
-/* Copyright (C) 2013-2015 BMW Group
+/* Copyright (C) 2013-2016 BMW Group
  * Author: Manfred Bathelt (manfred.bathelt@bmw.de)
  * Author: Juergen Gehring (juergen.gehring@bmw.de)
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -8,9 +8,8 @@ package de.bmw.yamaica.ea.ui.franca;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
@@ -18,7 +17,6 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -50,6 +48,15 @@ public class Franca2EAExportOperation extends WorkspaceModifyOperation
     protected List<IResource> resources;
     protected boolean         validateInput;
 
+    /**
+     * See also GLIPCI-968: Using default username null.
+     */
+    private final String      username = null;
+    /**
+     * See also GLIPCI-968: Using default pasword null.
+     */
+    private final String      password = null;
+
     public Franca2EAExportOperation(IPath directoryPath, IPath namespacePrefix, IContainer source, IOverwriteQuery overwriteImplementor,
             List<IResource> resources)
     {
@@ -71,6 +78,14 @@ public class Franca2EAExportOperation extends WorkspaceModifyOperation
         this.overwriteImplementor = overwriteImplementor;
         this.resources = resources;
         this.validateInput = validateInput;
+
+        Collections.sort(resources, new java.util.Comparator<IResource>() {
+            @Override
+            public int compare(IResource file1, IResource file2)
+            {
+                return file1.getFullPath().toString().compareTo(file2.getFullPath().toString());
+            }
+        });
     }
 
     @Override
@@ -94,9 +109,6 @@ public class Franca2EAExportOperation extends WorkspaceModifyOperation
 
         final List<FModel> models = new ArrayList<>();
 
-        // Holding origin file names mapped to the lower case version of it (should correlates to the last package name).
-        final Map<String, String> fileNamesCache = new HashMap<>();
-
         for (Resource resource : modelPersistenceHandler.getResourceSet().getResources())
         {
             for (EObject eObject : resource.getContents())
@@ -105,13 +117,6 @@ public class Franca2EAExportOperation extends WorkspaceModifyOperation
                 {
                     final FModel fmodel = (FModel) eObject;
                     models.add(fmodel);
-
-                    // Example of resource.getURI().toString():
-                    // platform:/resource/FdeplGenTest/work/EA2Franca_MGU/de/bmw/environmentalmodel/Common.fidl
-                    final String originFileName = new Path(resource.getURI().toString()).removeFileExtension().lastSegment();
-
-                    // Cache all origin file names.
-                    fileNamesCache.put(originFileName.toLowerCase(), originFileName);
                 }
             }
         }
@@ -134,15 +139,13 @@ public class Franca2EAExportOperation extends WorkspaceModifyOperation
 
         try
         {
-            EAProjectLoader eaProjectLoader = new EAProjectLoader(directoryPath.toFile(), true);
+            EAProjectLoader eaProjectLoader = new EAProjectLoader(directoryPath.toFile(), true, username, password);
             eaProjectLoader.run(new SubProgressMonitor(monitor, 1, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK));
             repositoryContainer = eaProjectLoader.getRepository();
 
             checkCancelState(monitor);
 
-
-            Franca2EATransformation transformation = new Franca2EATransformation(models, repositoryContainer, namespacePrefix,
-                    fileNamesCache);
+            Franca2EATransformation transformation = new Franca2EATransformation(models, repositoryContainer, namespacePrefix);
 
             monitor.subTask("Transforming root packages");
 

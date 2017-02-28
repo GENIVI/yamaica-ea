@@ -48,7 +48,16 @@ import de.bmw.yamaica.franca.common.core.FrancaUtils;
 
 public class TransformationAdapter
 {
-    private static final Logger LOGGER = Logger.getLogger(TransformationAdapter.class.getName());
+    private static final Logger LOGGER   = Logger.getLogger(TransformationAdapter.class.getName());
+
+    /**
+     * See also GLIPCI-968: Using default username null.
+     */
+    private static final String username = null;
+    /**
+     * See also GLIPCI-968: Using default pasword null.
+     */
+    private static final String password = null;
 
     private TransformationAdapter()
     {
@@ -57,7 +66,7 @@ public class TransformationAdapter
     public static EAProjectLoader createEAProjectLoader(String pluginId, String eaInputFile) throws Exception
     {
         File eaFile = new File(PathHelper.getFileUriFromBundleRelativePath(pluginId, eaInputFile).toFileString());
-        EAProjectLoader eaProjectLoader = new EAProjectLoader(eaFile, true);
+        EAProjectLoader eaProjectLoader = new EAProjectLoader(eaFile, true, username, password);
         eaProjectLoader.run(new NullProgressMonitor());
 
         return eaProjectLoader;
@@ -71,17 +80,11 @@ public class TransformationAdapter
         ModelPersistenceHandler.registerFileExtensionHandler(FrancaUtils.INTERFACE_DEFINITION_FILE_EXTENSION, new FrancaImportsProvider());
         ModelPersistenceHandler modelPersistenceHandler = new ModelPersistenceHandler(new SynchronizedXtextResourceSet());
 
-        // Holding origin file names mapped to its lower case version (last segment of the package name).
-        final Map<String, String> fileNamesCache = new HashMap<>();
-
         for (File francaFidlFile : francaFidlFiles)
         {
             URI fidlFileUri = URI.createFileURI(francaFidlFile.toString());
             URI fidlRootUri = URI.createFileURI(francaFidlFile.getParent().toString());
             modelPersistenceHandler.loadModel(fidlFileUri, fidlRootUri);
-
-            final String fileNameWithoutFileExt = new Path(francaFidlFile.getAbsolutePath()).removeFileExtension().lastSegment();
-            fileNamesCache.put(fileNameWithoutFileExt.toLowerCase(), fileNameWithoutFileExt);
         }
 
         List<FModel> models = new ArrayList<>();
@@ -97,8 +100,7 @@ public class TransformationAdapter
             }
         }
 
-        Franca2EATransformation franca2eaTransformation = new Franca2EATransformation(models, eaRepository, new Path(namespacePrefix),
-                fileNamesCache);
+        Franca2EATransformation franca2eaTransformation = new Franca2EATransformation(models, eaRepository, new Path(namespacePrefix));
         franca2eaTransformation.transformModels();
         franca2eaTransformation.transformDataTypes();
         franca2eaTransformation.transformCrossReferences();

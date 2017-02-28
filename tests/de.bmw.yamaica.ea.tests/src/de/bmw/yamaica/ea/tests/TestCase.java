@@ -116,6 +116,7 @@ public enum TestCase
     TC_218_DATATYPES_TYPECOLLECTION_DEPRECATED_NAMING_VALID,
     TC_219_DATATYPES_TYPECOLLECTION_DEPRECATED_NAMING_INVALID,
     TC_220_DATATYPES_ANONYM_TYPE_COLLECT_INF_TAGGED_VALUE_SET("Test_Cases/Test_2_Datatypes/Test_Case_220_AnonymTypeCollectAndInterfaceTaggedValueSet"),
+    TC_221_DATATYPES_INTEGER,
 
     TC_301_INTERFACES_PRIMITIVE_ATTRIBUTES,
     TC_302_INTERFACES_COMPLEX_ATTRIBUTES,
@@ -139,6 +140,7 @@ public enum TestCase
     TC_320_INTERFACES_NOSUB_ATTRIBUTE,
     TC_321_INTERFACES_METHODS_BROADCASTS_ATTRIBUTES,
     TC_322_INTERFACES_DEPRECATED_ATTR_NAME,
+    TC_323_INTERFACES_METHODS_AND_BROADCASTS_OVERLOADING,
 
     TC_401_COMMENTS_DATATYPES,
     TC_402_COMMENTS_INTERFACES,
@@ -221,6 +223,10 @@ public enum TestCase
 
     public void runFranca2EATransformation(EARepositoryContainer eaRepository) throws Exception
     {
+        // GLIPCI-307/GLIPCI-417 related: May run it triple times for each test case (takes a while; probably output content order has
+        // changed)!
+        // for (int i = 0; i < 3; i++)
+        // {
         if (francaFidlFiles.size() > 0)
         {
             transformFranca2EA(eaRepository, getNamespacePrefix(), francaFidlFiles);
@@ -233,6 +239,7 @@ public enum TestCase
 
             transformFranca2EA(eaRepository, getNamespacePrefix(), testCaseInputFiles);
         }
+        // }
     }
 
     public void runEA2FrancaTransformation(EARepositoryContainer eaRepository) throws Exception

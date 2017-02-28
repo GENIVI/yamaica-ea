@@ -17,8 +17,7 @@ public class ImportWizard extends YamaicaImportWizard
     public ImportWizard()
     {
         super("YamaicaEAFrancaImportWizard");
-
-        setWindowTitle("Import Franca Interface Definition Files from Enterprise Architect Project");
+        setWindowTitle("Import Franca IDL Files from Enterprise Architect Project");
     }
 
     @Override
